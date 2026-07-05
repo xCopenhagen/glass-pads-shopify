@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gp-login": {
+      "type": "gp-login",
+      "settings": {}
+    }
+  },
+  "order": ["gp-login"]
+}

@@ -1,0 +1,97 @@
+{%- comment -%}
+  Customer Order Detail
+  Basic native order view — line items, shipping address, and a simple
+  status timeline (placed / paid / fulfilled) driven by the order object.
+{%- endcomment -%}
+
+<div class="gp-order gp-section gp-bg-secondary">
+  <div class="gp-container gp-order__container">
+    <a href="{{ routes.account_url }}" class="gp-article__back">
+      {% render 'gp-icon', icon: 'arrow-left' %}
+      <span>Back to Account</span>
+    </a>
+
+    <div class="gp-order__header">
+      <h1 class="gp-h2">Order {{ order.name }}</h1>
+      <p class="gp-body">Placed on {{ order.created_at | date: '%B %d, %Y' }}</p>
+    </div>
+
+    <div class="gp-order__timeline">
+      <div class="gp-order__timeline-step is-complete">
+        {% render 'gp-icon', icon: 'tick' %}
+        <span>Order Placed</span>
+      </div>
+      <div class="gp-order__timeline-step{% if order.financial_status == 'paid' %} is-complete{% endif %}">
+        {% render 'gp-icon', icon: 'tick' %}
+        <span>{{ order.financial_status_label }}</span>
+      </div>
+      <div class="gp-order__timeline-step{% if order.fulfillment_status == 'fulfilled' %} is-complete{% endif %}">
+        {% render 'gp-icon', icon: 'tick' %}
+        <span>{{ order.fulfillment_status_label }}</span>
+      </div>
+    </div>
+
+    <div class="gp-order__layout">
+      <div class="gp-order__items">
+        {%- for line_item in order.line_items -%}
+          <div class="gp-cart-item gp-order__item">
+            <a href="{{ line_item.product.url | default: '#' }}" class="gp-cart-item__image">
+              {%- if line_item.image -%}
+                <img src="{{ line_item.image | image_url: width: 200 }}" alt="{{ line_item.image.alt | default: line_item.title | escape }}" loading="lazy" width="72" height="72">
+              {%- endif -%}
+            </a>
+            <div class="gp-cart-item__details">
+              <span class="gp-cart-item__title">{{ line_item.title }}</span>
+              {%- if line_item.variant.title != 'Default Title' -%}
+                <p class="gp-cart-item__variant">{{ line_item.variant.title }}</p>
+              {%- endif -%}
+              <p class="gp-cart-item__variant">Qty: {{ line_item.quantity }}</p>
+              <p class="gp-cart-item__price">{{ line_item.final_price | money }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="gp-order__summary">
+        <div class="gp-order__summary-row">
+          <span>Subtotal</span>
+          <span>{{ order.subtotal_price | money }}</span>
+        </div>
+        <div class="gp-order__summary-row">
+          <span>Shipping</span>
+          <span>{{ order.total_shipping_price | money }}</span>
+        </div>
+        <div class="gp-order__summary-row">
+          <span>Tax</span>
+          <span>{{ order.tax_price | money }}</span>
+        </div>
+        <div class="gp-order__summary-row gp-order__summary-row--total">
+          <span>Total</span>
+          <span>{{ order.total_price | money }}</span>
+        </div>
+
+        {%- if order.shipping_address -%}
+          <div class="gp-order__address">
+            <p class="gp-order__address-label">Shipping Address</p>
+            <p>{{ order.shipping_address.name }}</p>
+            <p>{{ order.shipping_address.address1 }}{% if order.shipping_address.address2 != blank %}, {{ order.shipping_address.address2 }}{% endif %}</p>
+            <p>{{ order.shipping_address.city }}, {{ order.shipping_address.province_code }} {{ order.shipping_address.zip }}</p>
+            <p>{{ order.shipping_address.country }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Order",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Order"
+    }
+  ]
+}
+{% endschema %}

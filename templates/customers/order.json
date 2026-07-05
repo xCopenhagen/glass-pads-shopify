@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gp-order": {
+      "type": "gp-order",
+      "settings": {}
+    }
+  },
+  "order": ["gp-order"]
+}

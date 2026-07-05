@@ -1,0 +1,110 @@
+{%- comment -%}
+  Customer Account Dashboard
+  Uses the native customer object — order history and default address pull
+  directly from Shopify, no app required.
+{%- endcomment -%}
+
+<div class="gp-account gp-section gp-bg-secondary">
+  <div class="gp-container gp-account__layout">
+
+    <aside class="gp-account__sidebar">
+      <p class="gp-account__sidebar-title">{{ customer.first_name }} {{ customer.last_name }}</p>
+      <nav class="gp-account__nav" aria-label="Account">
+        <a href="{{ routes.account_url }}" class="gp-account__nav-link is-active">
+          {% render 'gp-icon', icon: 'package' %}
+          <span>Orders</span>
+        </a>
+        <a href="{{ routes.account_addresses_url }}" class="gp-account__nav-link">
+          {% render 'gp-icon', icon: 'map-pin' %}
+          <span>Addresses</span>
+        </a>
+        <a href="{{ routes.account_logout_url }}" class="gp-account__nav-link">
+          {% render 'gp-icon', icon: 'log-out' %}
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <div class="gp-account__main">
+      <h1 class="gp-h2 gp-account__welcome">Welcome back, {{ customer.first_name }}.</h1>
+
+      {%- if section.settings.show_order_history -%}
+        <div class="gp-account__section">
+          <h2 class="gp-h3">Order History</h2>
+
+          {%- if customer.orders.size == 0 -%}
+            <div class="gp-account__empty">
+              <p class="gp-body">No orders yet. Time to upgrade your desk.</p>
+              {% render 'gp-button', text: 'Shop Glass Pads', url: '/collections/all', style: 'primary' %}
+            </div>
+          {%- else -%}
+            <div class="gp-account__orders-table">
+              <div class="gp-account__orders-row gp-account__orders-row--header">
+                <span>Order</span>
+                <span>Date</span>
+                <span>Payment</span>
+                <span>Fulfillment</span>
+                <span>Total</span>
+              </div>
+              {%- for order in customer.orders -%}
+                <a href="{{ order.customer_url }}" class="gp-account__orders-row">
+                  <span data-label="Order">{{ order.name }}</span>
+                  <span data-label="Date">{{ order.created_at | date: '%B %d, %Y' }}</span>
+                  <span data-label="Payment">{{ order.financial_status_label }}</span>
+                  <span data-label="Fulfillment">{{ order.fulfillment_status_label }}</span>
+                  <span data-label="Total">{{ order.total_price | money }}</span>
+                </a>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_addresses -%}
+        <div class="gp-account__section">
+          <h2 class="gp-h3">Default Address</h2>
+          {%- if customer.default_address -%}
+            <div class="gp-account__address-card">
+              <p>{{ customer.default_address.name }}</p>
+              <p>{{ customer.default_address.address1 }}{% if customer.default_address.address2 != blank %}, {{ customer.default_address.address2 }}{% endif %}</p>
+              <p>{{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}</p>
+              <p>{{ customer.default_address.country }}</p>
+            </div>
+          {%- else -%}
+            <p class="gp-body">You don't have a saved address yet.</p>
+          {%- endif -%}
+          <a href="{{ routes.account_addresses_url }}" class="gp-account__manage-link">
+            Manage Addresses
+            {% render 'gp-icon', icon: 'chevron-right' %}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Account",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_order_history",
+      "label": "Show order history",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_addresses",
+      "label": "Show default address",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Account"
+    }
+  ]
+}
+{% endschema %}

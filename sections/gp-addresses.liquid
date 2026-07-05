@@ -1,0 +1,161 @@
+{%- comment -%}
+  Customer Address Management
+  Uses the native customer_address form tag for both edit and delete
+  (delete is a plain {% form %} with a hidden _method=delete field — no
+  app or custom endpoint required). Edit forms use <details> for the
+  reveal/collapse, matching the zero-JS accordion pattern used by gp-faq.
+{%- endcomment -%}
+
+<div class="gp-addresses gp-section gp-bg-secondary">
+  <div class="gp-container gp-addresses__container">
+    <a href="{{ routes.account_url }}" class="gp-article__back">
+      {% render 'gp-icon', icon: 'arrow-left' %}
+      <span>Back to Account</span>
+    </a>
+
+    <h1 class="gp-h2 gp-addresses__heading">Manage Addresses</h1>
+
+    <div class="gp-addresses__list">
+      {%- for address in customer.addresses -%}
+        <div class="gp-address-card">
+          <div class="gp-address-card__body">
+            {%- if address.id == customer.default_address.id -%}
+              <span class="gp-address-card__badge">Default</span>
+            {%- endif -%}
+            <p>{{ address.name }}</p>
+            <p>{{ address.address1 }}{% if address.address2 != blank %}, {{ address.address2 }}{% endif %}</p>
+            <p>{{ address.city }}, {{ address.province_code }} {{ address.zip }}</p>
+            <p>{{ address.country }}</p>
+            {%- if address.phone != blank -%}<p>{{ address.phone }}</p>{%- endif -%}
+          </div>
+
+          <div class="gp-address-card__actions">
+            <details class="gp-address-card__edit">
+              <summary class="gp-address-card__edit-toggle">Edit</summary>
+              {%- form 'customer_address', address, id: 'GpAddressForm-' | append: address.id -%}
+                <div class="gp-contact-form__field">
+                  <label for="AddressFirstName{{ address.id }}">First Name</label>
+                  <input type="text" id="AddressFirstName{{ address.id }}" name="address[first_name]" value="{{ form.first_name }}">
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressLastName{{ address.id }}">Last Name</label>
+                  <input type="text" id="AddressLastName{{ address.id }}" name="address[last_name]" value="{{ form.last_name }}">
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressCompany{{ address.id }}">Company (optional)</label>
+                  <input type="text" id="AddressCompany{{ address.id }}" name="address[company]" value="{{ form.company }}">
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="Address1-{{ address.id }}">Address</label>
+                  <input type="text" id="Address1-{{ address.id }}" name="address[address1]" value="{{ form.address1 }}" required>
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="Address2-{{ address.id }}">Apartment, suite, etc. (optional)</label>
+                  <input type="text" id="Address2-{{ address.id }}" name="address[address2]" value="{{ form.address2 }}">
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressCity{{ address.id }}">City</label>
+                  <input type="text" id="AddressCity{{ address.id }}" name="address[city]" value="{{ form.city }}" required>
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressCountry{{ address.id }}">Country</label>
+                  <input type="text" id="AddressCountry{{ address.id }}" name="address[country]" value="{{ form.country }}" required>
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressProvince{{ address.id }}">State / Province</label>
+                  <input type="text" id="AddressProvince{{ address.id }}" name="address[province]" value="{{ form.province }}">
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressZip{{ address.id }}">Postal / Zip Code</label>
+                  <input type="text" id="AddressZip{{ address.id }}" name="address[zip]" value="{{ form.zip }}" required>
+                </div>
+                <div class="gp-contact-form__field">
+                  <label for="AddressPhone{{ address.id }}">Phone</label>
+                  <input type="tel" id="AddressPhone{{ address.id }}" name="address[phone]" value="{{ form.phone }}">
+                </div>
+                <label class="gp-popup-checkbox gp-address-card__default-checkbox">
+                  <input type="checkbox" name="address[default]" value="1" {% if address.id == customer.default_address.id %}checked{% endif %}>
+                  <span>Set as default address</span>
+                </label>
+                <button type="submit" class="gp-btn gp-btn--primary">Save Address</button>
+              {%- endform -%}
+            </details>
+
+            {%- form 'customer_address', address, id: 'GpAddressDelete-' | append: address.id -%}
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="gp-address-card__delete" data-gp-confirm="Delete this address?">Delete</button>
+            {%- endform -%}
+          </div>
+        </div>
+      {%- else -%}
+        <p class="gp-body">You don't have any saved addresses yet.</p>
+      {%- endfor -%}
+    </div>
+
+    <details class="gp-address-card gp-address-card--new">
+      <summary class="gp-address-card__edit-toggle">
+        {% render 'gp-icon', icon: 'plus' %}
+        <span>Add New Address</span>
+      </summary>
+      {%- form 'customer_address', customer.new_address, id: 'GpAddressFormNew' -%}
+        <div class="gp-contact-form__field">
+          <label for="NewAddressFirstName">First Name</label>
+          <input type="text" id="NewAddressFirstName" name="address[first_name]">
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressLastName">Last Name</label>
+          <input type="text" id="NewAddressLastName" name="address[last_name]">
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressCompany">Company (optional)</label>
+          <input type="text" id="NewAddressCompany" name="address[company]">
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddress1">Address</label>
+          <input type="text" id="NewAddress1" name="address[address1]" required>
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddress2">Apartment, suite, etc. (optional)</label>
+          <input type="text" id="NewAddress2" name="address[address2]">
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressCity">City</label>
+          <input type="text" id="NewAddressCity" name="address[city]" required>
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressCountry">Country</label>
+          <input type="text" id="NewAddressCountry" name="address[country]" required>
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressProvince">State / Province</label>
+          <input type="text" id="NewAddressProvince" name="address[province]">
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressZip">Postal / Zip Code</label>
+          <input type="text" id="NewAddressZip" name="address[zip]" required>
+        </div>
+        <div class="gp-contact-form__field">
+          <label for="NewAddressPhone">Phone</label>
+          <input type="tel" id="NewAddressPhone" name="address[phone]">
+        </div>
+        <label class="gp-popup-checkbox gp-address-card__default-checkbox">
+          <input type="checkbox" name="address[default]" value="1">
+          <span>Set as default address</span>
+        </label>
+        <button type="submit" class="gp-btn gp-btn--primary">Add Address</button>
+      {%- endform -%}
+    </details>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Addresses"
+    }
+  ]
+}
+{% endschema %}

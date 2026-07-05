@@ -2870,3 +2870,239 @@ button { font-family: inherit; cursor: pointer; }
   text-underline-offset: 2px;
 }
 .gp-popup-dismiss:hover { color: var(--color-text-primary); }
+
+/* ---- Customer Login / Register (shared split layout) ---------------------------------- */
+.gp-auth-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 70vh;
+  background: var(--color-bg-secondary);
+}
+
+.gp-auth-page__form-col { display: flex; align-items: center; padding: clamp(3rem, 8vw, 5rem) 0; }
+.gp-auth-page__form-wrap { max-width: 460px; }
+
+.gp-auth-form { display: none; }
+.gp-auth-form.is-active { display: block; }
+.gp-auth-form form { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+.gp-auth-form__intro { margin-top: 0.75rem; }
+
+.gp-auth-form__link {
+  display: inline-block;
+  margin-top: 0.25rem;
+  color: var(--color-cyan);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.gp-auth-form__footer { margin-top: 1.75rem; color: var(--color-text-secondary); font-size: 0.9rem; }
+.gp-auth-form__footer a { color: var(--color-cyan); font-weight: 600; }
+
+.gp-auth-page__brand-col {
+  position: relative;
+  overflow: hidden;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-primary);
+  padding: clamp(3rem, 8vw, 5rem) 2rem;
+  text-align: center;
+}
+.gp-auth-page__brand-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(94, 230, 217, 0.3), transparent 60%), radial-gradient(circle at 70% 70%, rgba(139, 124, 246, 0.28), transparent 55%);
+  pointer-events: none;
+}
+.gp-auth-page__brand-content { position: relative; z-index: 1; max-width: 360px; }
+.gp-auth-page__brand-content .gp-h2 { margin-bottom: 0.75rem; }
+
+@media (min-width: 1024px) {
+  .gp-auth-page { grid-template-columns: 1fr 1fr; min-height: 80vh; }
+  .gp-auth-page__brand-col { display: flex; }
+}
+
+/* ---- Customer Account Dashboard --------------------------------------------------------- */
+.gp-account__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.gp-account__sidebar-title { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; margin: 0 0 1.25rem; }
+
+.gp-account__nav { display: flex; flex-direction: column; gap: 0.25rem; }
+.gp-account__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+.gp-account__nav-link:hover,
+.gp-account__nav-link.is-active { color: var(--color-cyan); }
+.gp-account__nav-link .gp-icon { width: 18px; height: 18px; }
+
+.gp-account__welcome { margin-bottom: 2rem; }
+.gp-account__section { margin-bottom: 2.5rem; }
+.gp-account__section h2 { margin-bottom: 1.25rem; }
+
+.gp-account__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.gp-account__orders-table { display: flex; flex-direction: column; gap: 0.5rem; }
+.gp-account__orders-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  transition: border-color var(--transition-fast);
+}
+a.gp-account__orders-row:hover { border-color: var(--color-cyan); }
+.gp-account__orders-row--header {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 1.25rem;
+  display: none;
+}
+.gp-account__orders-row span[data-label]::before { content: attr(data-label) ": "; color: var(--color-text-secondary); }
+
+.gp-account__address-card {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+}
+.gp-account__address-card p { margin: 0 0 0.35rem; }
+
+.gp-account__manage-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-cyan);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.gp-account__manage-link .gp-icon { width: 16px; height: 16px; }
+
+@media (min-width: 768px) {
+  .gp-account__orders-row { grid-template-columns: 1fr 1.3fr 1fr 1fr 1fr; align-items: center; }
+  .gp-account__orders-row--header { display: grid; }
+  .gp-account__orders-row span[data-label]::before { content: none; }
+}
+
+@media (min-width: 1024px) {
+  .gp-account__layout { grid-template-columns: 220px 1fr; gap: 4rem; }
+}
+
+/* ---- Customer Addresses ----------------------------------------------------------------- */
+.gp-addresses__container { max-width: 720px; }
+.gp-addresses__heading { margin: 1.5rem 0 2rem; }
+.gp-addresses__list { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1.5rem; }
+
+.gp-address-card {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.gp-address-card__body p { margin: 0 0 0.35rem; }
+.gp-address-card__badge {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-cyan);
+  color: var(--color-text-on-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.gp-address-card__actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 1.25rem; }
+.gp-address-card__edit { flex: 1; }
+.gp-address-card__edit-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-cyan);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.gp-address-card__edit-toggle::-webkit-details-marker { display: none; }
+.gp-address-card__edit form { display: grid; grid-template-columns: 1fr; gap: 1.1rem; margin-top: 1.25rem; }
+.gp-address-card__default-checkbox { justify-content: flex-start; margin-top: 0.25rem; }
+
+.gp-address-card__delete {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  transition: color var(--transition-fast);
+}
+.gp-address-card__delete:hover { color: #f26d6d; }
+
+.gp-address-card--new { margin-top: 0.5rem; }
+
+/* ---- Customer Order Detail --------------------------------------------------------------- */
+.gp-order__container { max-width: 900px; }
+.gp-order__header { margin: 1.5rem 0 2rem; }
+.gp-order__header h1 { margin-bottom: 0.5rem; }
+
+.gp-order__timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.gp-order__timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+.gp-order__timeline-step .gp-icon { width: 18px; height: 18px; }
+.gp-order__timeline-step.is-complete { color: var(--color-mint); }
+
+.gp-order__layout { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+.gp-order__items { display: flex; flex-direction: column; gap: 1.25rem; }
+.gp-order__item { padding-bottom: 1.25rem; border-bottom: 1px solid var(--color-border); }
+
+.gp-order__summary { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.5rem; }
+.gp-order__summary-row { display: flex; justify-content: space-between; margin-bottom: 0.85rem; color: var(--color-text-secondary); font-size: 0.95rem; }
+.gp-order__summary-row--total { color: var(--color-text-primary); font-weight: 600; font-size: 1.1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+
+.gp-order__address { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); }
+.gp-order__address p { margin: 0 0 0.3rem; color: var(--color-text-secondary); font-size: 0.9rem; }
+.gp-order__address-label { color: var(--color-text-primary) !important; font-weight: 600; margin-bottom: 0.5rem !important; }
+
+@media (min-width: 768px) {
+  .gp-order__layout { grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: start; }
+}

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gp-register": {
+      "type": "gp-register",
+      "settings": {}
+    }
+  },
+  "order": ["gp-register"]
+}

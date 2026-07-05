@@ -1,0 +1,90 @@
+{%- comment -%}
+  Customer Registration Page
+  Same split layout as gp-login.liquid so the two pages feel like one flow.
+{%- endcomment -%}
+
+<div class="gp-auth-page">
+  <div class="gp-auth-page__form-col">
+    <div class="gp-container gp-auth-page__form-wrap">
+      <div class="gp-auth-form is-active">
+        <h1 class="gp-h2">{{ section.settings.heading }}</h1>
+        {%- if section.settings.body != blank -%}
+          <p class="gp-body gp-auth-form__intro">{{ section.settings.body }}</p>
+        {%- endif -%}
+
+        {%- form 'create_customer', id: 'GpRegisterForm' -%}
+          {%- if form.errors -%}
+            <div class="gp-contact-form__errors">
+              <p>{{ form.errors | default_errors }}</p>
+            </div>
+          {%- endif -%}
+
+          <div class="gp-contact-form__field">
+            <label for="RegisterFirstName">First Name</label>
+            <input type="text" id="RegisterFirstName" name="customer[first_name]" autocomplete="given-name">
+          </div>
+
+          <div class="gp-contact-form__field">
+            <label for="RegisterLastName">Last Name</label>
+            <input type="text" id="RegisterLastName" name="customer[last_name]" autocomplete="family-name">
+          </div>
+
+          <div class="gp-contact-form__field">
+            <label for="RegisterEmail">Email</label>
+            <input type="email" id="RegisterEmail" name="customer[email]" autocomplete="email" required>
+          </div>
+
+          <div class="gp-contact-form__field">
+            <label for="RegisterPassword">Password</label>
+            <input type="password" id="RegisterPassword" name="customer[password]" autocomplete="new-password" required>
+          </div>
+
+          <button type="submit" class="gp-btn gp-btn--primary gp-contact-form__submit">{{ section.settings.button_text }}</button>
+        {%- endform -%}
+
+        <p class="gp-auth-form__footer">
+          Already have an account? <a href="{{ routes.account_login_url }}">Sign in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gp-auth-page__brand-col">
+    <div class="gp-auth-page__brand-glow" aria-hidden="true"></div>
+    <div class="gp-auth-page__brand-content">
+      <h2 class="gp-h2">Welcome Back</h2>
+      <p class="gp-body">Your premium desk setup awaits.</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Registration",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sign up for 10% off your first order"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Create an account to track orders, save addresses, and get early access to new drops."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Create Account"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Registration"
+    }
+  ]
+}
+{% endschema %}

@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
   initSearchForm();
   initCopyLinkButtons();
   initNewsletterPopup();
+  initAuthFormToggle();
+  initConfirmSubmit();
 });
 
 /* Shared body-scroll lock for the mobile nav drawer and cart drawer (counted,
@@ -737,4 +739,36 @@ function initNewsletterPopup() {
     var delay = (parseInt(popup.dataset.gpDelay, 10) || 15) * 1000;
     setTimeout(open, delay);
   }
+}
+
+/* Login page — swaps between the sign-in and recover-password panels
+   without a page reload. */
+function initAuthFormToggle() {
+  document.querySelectorAll('[data-gp-auth-toggle]').forEach(function (wrap) {
+    var panels = wrap.querySelectorAll('[data-gp-auth-panel]');
+
+    wrap.querySelectorAll('[data-gp-auth-switch]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var target = link.dataset.gpAuthSwitch;
+        panels.forEach(function (panel) {
+          var isTarget = panel.dataset.gpAuthPanel === target;
+          panel.classList.toggle('is-active', isTarget);
+          panel.hidden = !isTarget;
+        });
+      });
+    });
+  });
+}
+
+/* Confirmation prompt for destructive form submits (e.g. deleting a saved
+   address) — reads its message from the submit button's data attribute. */
+function initConfirmSubmit() {
+  document.querySelectorAll('[data-gp-confirm]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      if (!window.confirm(btn.dataset.gpConfirm)) {
+        e.preventDefault();
+      }
+    });
+  });
 }

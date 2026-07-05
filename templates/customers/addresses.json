@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gp-addresses": {
+      "type": "gp-addresses",
+      "settings": {}
+    }
+  },
+  "order": ["gp-addresses"]
+}

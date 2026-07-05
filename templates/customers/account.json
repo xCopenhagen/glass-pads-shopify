@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "gp-account": {
+      "type": "gp-account",
+      "settings": {
+        "show_order_history": true,
+        "show_addresses": true
+      }
+    }
+  },
+  "order": ["gp-account"]
+}
