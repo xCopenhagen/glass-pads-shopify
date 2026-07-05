@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "main": {
+      "type": "gp-contact-page",
+      "settings": {},
+      "blocks": {
+        "hero": {
+          "type": "hero",
+          "settings": {
+            "heading": "Get in Touch.",
+            "subheading": "Questions about your order, custom artwork, or a wholesale inquiry? We usually reply within one business day."
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "form_heading": "Send Us a Message",
+            "form_body": "Fill out the form below and our team will get back to you shortly.",
+            "email": "hello@glasspads.com",
+            "response_time_text": "Within 1 business day",
+            "show_phone": true
+          }
+        },
+        "faq": {
+          "type": "faq",
+          "settings": { "heading": "Business Inquiries — FAQ" }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer wholesale or bulk pricing?",
+            "answer": "<p>Yes — reach out with your business details and order volume and we'll follow up with pricing.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I partner with Glass Pads as an artist?",
+            "answer": "<p>Absolutely — visit our Artist Program page or mention it in your message and we'll follow up.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I check my order status?",
+            "answer": "<p>Include your order number above and our team will look into it right away.</p>"
+          }
+        }
+      },
+      "block_order": ["hero", "form", "faq", "faq-1", "faq-2", "faq-3"]
+    }
+  },
+  "order": ["main"]
+}

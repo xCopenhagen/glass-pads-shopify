@@ -1,0 +1,205 @@
+{%- comment -%}
+  Contact Page
+  One modular section with three block types (hero, form, faq), matching
+  the multi-block-type pattern used by gp-custom-page.liquid. The form
+  block uses Shopify's native {% form 'contact' %} tag — submissions land
+  in Admin → Inbox, no app required. Phone/Order Number aren't core
+  contact fields but Shopify still forwards them as extra properties on
+  the notification email.
+{%- endcomment -%}
+
+{%- liquid
+  assign faq_items = section.blocks | where: "type", "faq_item"
+-%}
+
+<div class="gp-contact-page">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+      {%- when 'hero' -%}
+        <div class="gp-custom-page-hero" {{ block.shopify_attributes }}>
+          <div class="gp-custom-page-hero__glow" aria-hidden="true"></div>
+          <div class="gp-container gp-custom-page-hero__content">
+            <h1 class="gp-h1">{{ block.settings.heading }}</h1>
+            {%- if block.settings.subheading != blank -%}
+              <p class="gp-custom-page-hero__subheading">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- when 'form' -%}
+        <div class="gp-contact-form-wrap gp-section gp-bg-secondary" {{ block.shopify_attributes }}>
+          <div class="gp-container gp-contact-form">
+            <div class="gp-contact-form__main">
+              <h2 class="gp-h2">{{ block.settings.form_heading }}</h2>
+              {%- if block.settings.form_body != blank -%}
+                <p class="gp-body">{{ block.settings.form_body }}</p>
+              {%- endif -%}
+
+              {%- form 'contact', id: 'GpContactForm' -%}
+                {%- if form.posted_successfully? -%}
+                  <div class="gp-contact-success">
+                    {% render 'gp-icon', icon: 'tick' %}
+                    <p>Thanks for reaching out — we'll get back to you shortly.</p>
+                  </div>
+                {%- else -%}
+                  {%- if form.errors -%}
+                    <div class="gp-contact-form__errors">
+                      <p>{{ form.errors | default_errors }}</p>
+                    </div>
+                  {%- endif -%}
+
+                  <div class="gp-contact-form__field">
+                    <label for="ContactName">Name</label>
+                    <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" required>
+                  </div>
+
+                  <div class="gp-contact-form__field">
+                    <label for="ContactEmail">Email</label>
+                    <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" required>
+                  </div>
+
+                  {%- if block.settings.show_phone -%}
+                    <div class="gp-contact-form__field">
+                      <label for="ContactPhone">Phone (optional)</label>
+                      <input type="tel" id="ContactPhone" name="contact[phone]" value="{{ form.phone }}">
+                    </div>
+                  {%- endif -%}
+
+                  <div class="gp-contact-form__field">
+                    <label for="ContactOrderNumber">Order Number (optional)</label>
+                    <input type="text" id="ContactOrderNumber" name="contact[order_number]">
+                  </div>
+
+                  <div class="gp-contact-form__field gp-contact-form__field--full">
+                    <label for="ContactMessage">Message</label>
+                    <textarea id="ContactMessage" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+                  </div>
+
+                  <button type="submit" class="gp-btn gp-btn--primary gp-contact-form__submit">Send Message</button>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+            <div class="gp-contact-info">
+              {%- if block.settings.email != blank -%}
+                <div class="gp-contact-info__item">
+                  {% render 'gp-icon', icon: 'mail', class: 'gp-contact-info__icon' %}
+                  <div>
+                    <p class="gp-contact-info__label">Email</p>
+                    <a href="mailto:{{ block.settings.email }}" class="gp-contact-info__value">{{ block.settings.email }}</a>
+                  </div>
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.response_time_text != blank -%}
+                <div class="gp-contact-info__item">
+                  {% render 'gp-icon', icon: 'clock', class: 'gp-contact-info__icon' %}
+                  <div>
+                    <p class="gp-contact-info__label">Response Time</p>
+                    <p class="gp-contact-info__value">{{ block.settings.response_time_text }}</p>
+                  </div>
+                </div>
+              {%- endif -%}
+
+              <div class="gp-contact-info__socials">
+                {%- if settings.social_instagram_link != blank -%}
+                  <a href="{{ settings.social_instagram_link }}" aria-label="Instagram">{% render 'gp-icon', icon: 'social-instagram' %}</a>
+                {%- endif -%}
+                {%- if settings.social_tiktok_link != blank -%}
+                  <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok">{% render 'gp-icon', icon: 'social-tiktok' %}</a>
+                {%- endif -%}
+                {%- if settings.social_youtube_link != blank -%}
+                  <a href="{{ settings.social_youtube_link }}" aria-label="YouTube">{% render 'gp-icon', icon: 'social-youtube' %}</a>
+                {%- endif -%}
+                {%- if settings.social_x_link != blank -%}
+                  <a href="{{ settings.social_x_link }}" aria-label="X">{% render 'gp-icon', icon: 'social-x' %}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {%- when 'faq' -%}
+        <div class="gp-contact-faq gp-section gp-bg-frost" {{ block.shopify_attributes }}>
+          <div class="gp-container gp-faq__container">
+            {% render 'gp-section-header', heading: block.settings.heading, align: 'left' %}
+            <div class="gp-faq__list">
+              {%- for item in faq_items -%}
+                <details class="gp-faq-item" {{ item.shopify_attributes }}>
+                  <summary class="gp-faq-item__question">
+                    <span>{{ item.settings.question }}</span>
+                    <span class="gp-faq-item__toggle">
+                      {% render 'gp-icon', icon: 'plus', class: 'gp-faq-item__icon-plus' %}
+                      {% render 'gp-icon', icon: 'minus', class: 'gp-faq-item__icon-minus' %}
+                    </span>
+                  </summary>
+                  <div class="gp-faq-item__answer gp-body">{{ item.settings.answer }}</div>
+                </details>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+      {%- else -%}
+        {%- comment -%} faq_item blocks render inside the faq block above. {%- endcomment -%}
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Get in Touch." },
+        { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Questions about your order, custom artwork, or a wholesale inquiry? We usually reply within one business day." }
+      ]
+    },
+    {
+      "type": "form",
+      "name": "Contact Form",
+      "settings": [
+        { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Send Us a Message" },
+        { "type": "textarea", "id": "form_body", "label": "Form body", "default": "Fill out the form below and our team will get back to you shortly." },
+        { "type": "text", "id": "email", "label": "Contact email", "default": "hello@glasspads.com" },
+        { "type": "text", "id": "response_time_text", "label": "Response time text", "default": "Within 1 business day" },
+        { "type": "checkbox", "id": "show_phone", "label": "Show phone field", "default": true }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Business Inquiries — FAQ" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Do you offer wholesale or bulk pricing?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes — reach out with your business details and order volume and we'll follow up with pricing.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Page",
+      "blocks": [
+        { "type": "hero", "settings": {} },
+        { "type": "form", "settings": {} },
+        { "type": "faq", "settings": {} },
+        { "type": "faq_item", "settings": { "question": "Do you offer wholesale or bulk pricing?", "answer": "<p>Yes — reach out with your business details and order volume and we'll follow up with pricing.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Can I partner with Glass Pads as an artist?", "answer": "<p>Absolutely — visit our Artist Program page or mention it in your message and we'll follow up.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How do I check my order status?", "answer": "<p>Include your order number above and our team will look into it right away.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
