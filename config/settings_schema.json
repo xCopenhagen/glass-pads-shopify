@@ -85,7 +85,7 @@
       },
       {
         "type": "paragraph",
-        "content": "Glass Pads uses Space Grotesk (display), Inter (body/UI) and IBM Plex Mono (spec labels), loaded via Google Fonts in the theme layout."
+        "content": "Glass Pads uses Space Grotesk (display), Inter (body/UI) and IBM Plex Mono (spec labels), loaded via Google Fonts in the theme layout. The pickers below are optional overrides for a future typography swap — leave them unset to keep the brand fonts above."
       },
       {
         "type": "select",
@@ -97,6 +97,24 @@
           { "value": "700", "label": "Bold" }
         ],
         "default": "600"
+      },
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Heading font override",
+        "info": "Optional. Leave unset to use Space Grotesk."
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "label": "Body font override",
+        "info": "Optional. Leave unset to use Inter."
+      },
+      {
+        "type": "font_picker",
+        "id": "mono_font",
+        "label": "Spec / label font override",
+        "info": "Optional. Leave unset to use IBM Plex Mono."
       }
     ]
   },
@@ -162,6 +180,93 @@
         "id": "secure_checkout_text",
         "label": "Secure checkout micro-copy",
         "default": "Secure Checkout"
+      }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default share image",
+        "info": "Used for social previews (Open Graph / Twitter Card) on pages that don't have their own image — the homepage, pages, and any product/article without a photo. Recommended size: 1200×630px."
+      },
+      {
+        "type": "textarea",
+        "id": "og_default_description",
+        "label": "Default social share description",
+        "info": "Used as the fallback meta/social description when a page has no description of its own."
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "container_width",
+        "label": "Max content width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1280
+      },
+      {
+        "type": "range",
+        "id": "section_padding",
+        "label": "Section vertical spacing",
+        "info": "Controls how much breathing room sections get above and below their content.",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "unit": "vw",
+        "default": 7
+      }
+    ]
+  },
+  {
+    "name": "Checkout",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shopify checkout is a separate, isolated experience — a theme can't inject styles into it directly. The settings below don't change checkout automatically; copy the same values into Settings → Checkout → Branding in the Shopify admin (or a Checkout Branding API / UI extension) to keep it visually consistent with the storefront."
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_logo",
+        "label": "Checkout logo"
+      },
+      {
+        "type": "select",
+        "id": "checkout_logo_position",
+        "label": "Checkout logo position",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "font_picker",
+        "id": "checkout_heading_font",
+        "label": "Checkout heading font"
+      },
+      {
+        "type": "font_picker",
+        "id": "checkout_body_font",
+        "label": "Checkout body font"
+      },
+      {
+        "type": "color",
+        "id": "checkout_accent_color",
+        "label": "Checkout accent color",
+        "default": "#5EE6D9"
       }
     ]
   }

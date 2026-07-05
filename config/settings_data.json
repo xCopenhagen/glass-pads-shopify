@@ -19,7 +19,12 @@
     "newsletter_button_text": "Subscribe",
     "shipping_text": "Free Shipping",
     "guarantee_text": "30-Day Guarantee",
-    "secure_checkout_text": "Secure Checkout"
+    "secure_checkout_text": "Secure Checkout",
+    "og_default_description": "Premium tempered glass mousepads with artwork sealed underneath. Smoother than cloth, cleaner than plastic, built to outlast them both.",
+    "container_width": 1280,
+    "section_padding": 7,
+    "checkout_logo_position": "left",
+    "checkout_accent_color": "#5EE6D9"
   },
   "presets": {
     "Default": {
