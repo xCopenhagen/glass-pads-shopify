@@ -1,0 +1,180 @@
+{%- comment -%}
+  Product Quick-View Modal
+  Rendered globally (as an empty shell) from theme.liquid so it's available
+  on every page. Clicking a `.gp-quick-view-trigger` (added to each
+  collection-grid product card) re-fetches this same section in the context
+  of that product's own page — `/products/{handle}?section_id=gp-quick-view`
+  — which binds Liquid's `product` object, and swaps the returned
+  `[data-gp-quick-view-content]` markup into the shell below. See
+  initQuickView in gp-theme.js.
+{%- endcomment -%}
+
+<div class="gp-quick-view" data-gp-quick-view inert>
+  <div class="gp-quick-view-overlay" data-gp-quick-view-overlay></div>
+
+  <div class="gp-quick-view-modal" role="dialog" aria-modal="true" aria-label="Quick view">
+    <button type="button" class="gp-quick-view-close" data-gp-quick-view-close aria-label="Close quick view">
+      {% render 'gp-icon', icon: 'cross' %}
+    </button>
+
+    <div class="gp-quick-view-content" data-gp-quick-view-content>
+      {%- if product -%}
+        {%- liquid
+          assign current_variant = product.selected_or_first_available_variant
+          assign option_count = product.options_with_values.size
+        -%}
+
+        <div class="gp-quick-view-image">
+          {%- if product.featured_image != blank -%}
+            <img
+              data-gp-gallery-main
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+              loading="eager"
+            >
+          {%- else -%}
+            <img data-gp-gallery-main src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="{{ product.title | escape }}" loading="eager">
+          {%- endif -%}
+        </div>
+
+        <div class="gp-quick-view-info">
+          {%- if section.settings.heading != blank -%}
+            <p class="gp-eyebrow">{{ section.settings.heading }}</p>
+          {%- endif -%}
+
+          <h2 class="gp-h3 gp-quick-view-title">{{ product.title }}</h2>
+
+          <p class="gp-quick-view-price">
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <s class="gp-product__compare-price" data-gp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+            {%- endif -%}
+            <span data-gp-price-current>{{ current_variant.price | money }}</span>
+          </p>
+
+          {%- if product.description != blank -%}
+            <div class="gp-quick-view-desc gp-body">{{ product.description | strip_html | truncatewords: 24 }}</div>
+          {%- endif -%}
+
+          {%- form 'product', product, data-gp-product-form: '', data-gp-option-count: option_count -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" data-gp-variant-id>
+
+            {%- for option in product.options_with_values -%}
+              {%- liquid
+                assign option_key = 'option' | append: option.position
+              -%}
+              <div class="gp-product__option" data-gp-option-position="{{ option.position }}">
+                <p class="gp-mono-spec gp-product__option-label">{{ option.name }}</p>
+
+                {%- if option.position == 1 -%}
+                  <div class="gp-product__size-pills">
+                    {%- for value in option.values -%}
+                      {%- liquid
+                        assign matching_variant = product.variants | where: option_key, value | first
+                        assign is_checked = false
+                        if current_variant[option_key] == value
+                          assign is_checked = true
+                        endif
+                      -%}
+                      <label class="gp-product__size-pill{% if is_checked %} is-active{% endif %}">
+                        <input type="radio" name="option-1" value="{{ value | escape }}" {% if is_checked %}checked{% endif %} class="gp-visually-hidden" data-gp-option-input>
+                        <span class="gp-product__size-pill-name">{{ value }}</span>
+                        {%- if matching_variant -%}
+                          <span class="gp-product__size-pill-price">{{ matching_variant.price | money }}</span>
+                        {%- endif -%}
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div class="gp-product__swatches">
+                    {%- for value in option.values -%}
+                      {%- liquid
+                        assign matching_variant = product.variants | where: option_key, value | first
+                        assign is_checked = false
+                        if current_variant[option_key] == value
+                          assign is_checked = true
+                        endif
+                      -%}
+                      <label class="gp-product__swatch{% if is_checked %} is-active{% endif %}" title="{{ value | escape }}">
+                        <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}" {% if is_checked %}checked{% endif %} class="gp-visually-hidden" data-gp-option-input>
+                        {%- if matching_variant.featured_image -%}
+                          <span class="gp-product__swatch-image" style="background-image: url('{{ matching_variant.featured_image | image_url: width: 100 }}');"></span>
+                        {%- else -%}
+                          <span class="gp-product__swatch-initial">{{ value | slice: 0 }}</span>
+                        {%- endif -%}
+                        <span class="gp-visually-hidden">{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+
+            <div class="gp-product__quantity">
+              <label for="GpQuickViewQty-{{ section.id }}" class="gp-mono-spec">Quantity</label>
+              <div class="gp-product__qty-stepper" data-gp-qty-stepper>
+                <button type="button" class="gp-product__qty-btn" data-gp-qty-decrease aria-label="Decrease quantity">{% render 'gp-icon', icon: 'minus' %}</button>
+                <input type="number" name="quantity" id="GpQuickViewQty-{{ section.id }}" value="1" min="1" inputmode="numeric" class="gp-product__qty-input" data-gp-qty-input>
+                <button type="button" class="gp-product__qty-btn" data-gp-qty-increase aria-label="Increase quantity">{% render 'gp-icon', icon: 'plus' %}</button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              name="add"
+              class="gp-btn gp-btn--primary gp-btn--full"
+              {% unless current_variant.available %}disabled{% endunless %}
+              data-gp-add-to-cart
+            >
+              <span data-gp-add-to-cart-text>
+                {%- if current_variant.available -%}
+                  Add to Cart — {{ current_variant.price | money }}
+                {%- else -%}
+                  Sold Out
+                {%- endif -%}
+              </span>
+            </button>
+
+            <script type="application/json" data-gp-product-variants>
+              {{ product.variants | json }}
+            </script>
+          {%- endform -%}
+
+          {%- if section.settings.show_view_details -%}
+            <a href="{{ product.url }}" class="gp-quick-view-details-link">
+              <span>View Full Details</span>
+              {% render 'gp-icon', icon: 'chevron-right' %}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Quick View Modal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Eyebrow label",
+      "info": "Optional small label shown above the product title in the quick-view modal.",
+      "default": "Quick View"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_details",
+      "label": "Show \"View Full Details\" link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick View Modal"
+    }
+  ]
+}
+{% endschema %}
