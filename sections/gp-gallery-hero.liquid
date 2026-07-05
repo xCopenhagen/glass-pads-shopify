@@ -1,0 +1,99 @@
+{%- comment -%}
+  Community Gallery Hero
+  Hero banner for the UGC gallery page. Background collage tiles reuse a
+  single owner-uploaded image (or the lifestyle placeholder) to fake an
+  Instagram-grid backdrop without requiring a block-per-photo setup here —
+  real per-photo blocks live in the Featured Setups section below it.
+{%- endcomment -%}
+
+<section class="gp-gallery-hero">
+  <div class="gp-gallery-hero__collage" aria-hidden="true">
+    {%- for i in (1..16) -%}
+      <div class="gp-gallery-hero__tile">
+        {%- if section.settings.background_image != blank -%}
+          <img src="{{ section.settings.background_image | image_url: width: 400 }}" alt="" loading="lazy">
+        {%- else -%}
+          <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="lazy">
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <div class="gp-gallery-hero__overlay" aria-hidden="true"></div>
+  <div class="gp-gallery-hero__glow" aria-hidden="true"></div>
+
+  <div class="gp-container gp-gallery-hero__content">
+    <p class="gp-eyebrow">Community Gallery</p>
+    <h1 class="gp-h1">{{ section.settings.heading }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p class="gp-gallery-hero__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="gp-gallery-hero__actions">
+      {%- if section.settings.button_text != blank -%}
+        {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'primary', icon: 'chevron-right' %}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.stat_text != blank -%}
+      <p class="gp-gallery-hero__stat">
+        <span class="gp-gallery-hero__stat-number">{{ section.settings.stat_number }}</span>
+        {{ section.settings.stat_text }}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Community Gallery Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Setup. Our Glass."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every Glass Pads box comes with a QR code. Scan it, share your setup on Instagram with #GlassPads, and you could be featured here."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Share Your Setup"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Link to your Instagram profile or a how-to-share page."
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat number",
+      "default": "1,200+"
+    },
+    {
+      "type": "text",
+      "id": "stat_text",
+      "label": "Stat label",
+      "default": "setups featured"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Collage background image",
+      "info": "Used to tile a repeating Instagram-grid backdrop behind the hero copy."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community Gallery Hero"
+    }
+  ]
+}
+{% endschema %}

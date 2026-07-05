@@ -6,7 +6,8 @@
   star, star-outline, smooth-glide, easy-clean, built-to-last, premium-aesthetic,
   shopping-bag, envelope, lock, shipping-truck, shield,
   social-instagram, social-tiktok, social-youtube, social-x,
-  upload, ruler, image, printer, palette, download
+  upload, ruler, image, printer, palette, download,
+  camera, heart, instagram, qr-code, share, trending-up
 {%- endcomment -%}
 
 <span class="gp-icon gp-icon--{{ icon }} {{ class }}" aria-hidden="true">
@@ -92,6 +93,24 @@
 
   {%- when 'download' -%}
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 4V16M12 16L7 11M12 16L17 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'camera' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 8H8L9.5 5H14.5L16 8H20V19H4V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'heart' -%}
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5C12 20.5 3.5 15.5 3.5 9.5C3.5 6.5 5.8 4.5 8.5 4.5C10 4.5 11.3 5.2 12 6.3C12.7 5.2 14 4.5 15.5 4.5C18.2 4.5 20.5 6.5 20.5 9.5C20.5 15.5 12 20.5 12 20.5Z"/></svg>
+
+  {%- when 'instagram' -%}
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
+
+  {%- when 'qr-code' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="3" height="3" fill="currentColor"/><rect x="18" y="14" width="3" height="3" fill="currentColor"/><rect x="14" y="18" width="3" height="3" fill="currentColor"/><rect x="18" y="18" width="3" height="3" fill="currentColor"/></svg>
+
+  {%- when 'share' -%}
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="19" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.2 10.7L15.8 6.3M8.2 13.3L15.8 17.7" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'trending-up' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 17L9.5 10.5L13.5 14.5L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7H21V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 
 {%- endcase -%}
 </span>

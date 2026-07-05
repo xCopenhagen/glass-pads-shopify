@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "gp-gallery-hero": {
+      "type": "gp-gallery-hero",
+      "settings": {
+        "heading": "Your Setup. Our Glass.",
+        "subheading": "Every Glass Pads box comes with a QR code. Scan it, share your setup on Instagram with #GlassPads, and you could be featured here.",
+        "button_text": "Share Your Setup",
+        "button_link": "https://instagram.com/glasspads",
+        "stat_number": "1,200+",
+        "stat_text": "setups featured"
+      }
+    },
+    "gp-gallery-grid": {
+      "type": "gp-gallery-grid",
+      "settings": {
+        "heading": "Featured Setups",
+        "subheading": "Tag @glasspads and use #GlassPads for a chance to be featured.",
+        "show_filter": true
+      },
+      "blocks": {
+        "photo-1": { "type": "photo", "settings": { "handle": "@rgb_ryan", "description": "Full RGB battle station with a Torrent XL in Aurora", "likes": "482", "category": "gaming" } },
+        "photo-2": { "type": "photo", "settings": { "handle": "@minimal.desk", "description": "Clean workstation, Summa in Monochrome", "likes": "356", "category": "minimal" } },
+        "photo-3": { "type": "photo", "settings": { "handle": "@studio.creates", "description": "Content creator setup with an Origin glass pad", "likes": "271", "category": "creator" } },
+        "photo-4": { "type": "photo", "settings": { "handle": "@coder_kate", "description": "Dual-monitor dev setup, Cipher glass pad", "likes": "198", "category": "workstation" } },
+        "photo-5": { "type": "photo", "settings": { "handle": "@streamer_max", "description": "Streaming rig with a custom artwork pad", "likes": "623", "category": "gaming" } },
+        "photo-6": { "type": "photo", "settings": { "handle": "@desk.aesthetics", "description": "Warm minimal desk with Frost White accents", "likes": "145", "category": "minimal" } },
+        "photo-7": { "type": "photo", "settings": { "handle": "@artvibes_ana", "description": "Illustration studio with an artist collab pad", "likes": "312", "category": "creator" } },
+        "photo-8": { "type": "photo", "settings": { "handle": "@office.upgrade", "description": "Professional home office glow-up", "likes": "209", "category": "workstation" } }
+      },
+      "block_order": ["photo-1", "photo-2", "photo-3", "photo-4", "photo-5", "photo-6", "photo-7", "photo-8"]
+    }
+  },
+  "order": ["gp-gallery-hero", "gp-gallery-grid"]
+}

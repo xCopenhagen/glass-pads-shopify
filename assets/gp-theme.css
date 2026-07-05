@@ -1286,3 +1286,174 @@ button { font-family: inherit; cursor: pointer; }
 @media (min-width: 1024px) {
   .gp-custom-specs__grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ---- Community Gallery Hero (Gallery page) ------------------------------------ */
+.gp-gallery-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+  padding: clamp(5rem, 12vw, 8rem) 0 clamp(3rem, 6vw, 4rem);
+  text-align: center;
+}
+
+.gp-gallery-hero__collage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  opacity: 0.35;
+}
+
+.gp-gallery-hero__tile { overflow: hidden; }
+.gp-gallery-hero__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.3) brightness(0.7);
+}
+
+.gp-gallery-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, var(--color-bg-primary) 85%), rgba(10, 10, 12, 0.55);
+}
+
+.gp-gallery-hero__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(94, 230, 217, 0.22), transparent 55%);
+  pointer-events: none;
+}
+
+.gp-gallery-hero__content { position: relative; z-index: 2; }
+
+.gp-gallery-hero__subheading {
+  max-width: 640px;
+  margin: 1.25rem auto 0;
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+}
+
+.gp-gallery-hero__actions { margin-top: 2rem; display: flex; justify-content: center; }
+
+.gp-gallery-hero__stat {
+  margin: 1.75rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.gp-gallery-hero__stat-number { color: var(--color-cyan); font-weight: 600; }
+
+@media (max-width: 767px) {
+  .gp-gallery-hero__collage { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---- Featured Setups (Gallery grid) -------------------------------------------- */
+.gp-gallery__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.gp-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.gp-gallery-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-med), box-shadow var(--transition-med);
+}
+.gp-gallery-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+
+.gp-gallery-card__image { position: relative; aspect-ratio: 1 / 1; overflow: hidden; }
+.gp-gallery-card__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.gp-gallery-card__category {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(10, 10, 12, 0.65);
+  color: var(--color-cyan);
+}
+
+.gp-gallery-card__info { padding: 1rem 1.1rem 1.25rem; }
+.gp-gallery-card__handle { margin: 0; font-family: var(--font-display); font-weight: 600; }
+.gp-gallery-card__description { margin: 0.35rem 0 0; color: var(--color-text-secondary); font-size: 0.9rem; }
+
+.gp-gallery-card__likes {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+.gp-gallery-card__likes .gp-icon { width: 16px; height: 16px; color: var(--color-cyan); }
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .gp-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .gp-gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- The Glass Pads Loop (QR code funnel, homepage) ---------------------------- */
+.gp-qr-funnel__steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.gp-qr-funnel__step { text-align: center; }
+
+.gp-qr-funnel__step-number {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--color-cyan);
+  margin-bottom: 0.75rem;
+}
+
+.gp-qr-funnel__step-icon { width: 32px; height: 32px; color: var(--color-cyan); margin: 0 auto 0.85rem; }
+.gp-qr-funnel__step h3 { margin-bottom: 0.5rem; }
+
+.gp-qr-funnel__connector { display: none; }
+
+.gp-qr-funnel__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .gp-qr-funnel__steps { grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 1.5rem; }
+  .gp-qr-funnel__connector {
+    display: block;
+    height: 1px;
+    min-width: 40px;
+    width: 100%;
+    margin-top: 3.5rem;
+    background: var(--color-border);
+  }
+  .gp-qr-funnel__actions { flex-direction: row; }
+}

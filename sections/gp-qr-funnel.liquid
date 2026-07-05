@@ -1,0 +1,141 @@
+{%- comment -%}
+  The Glass Pads Loop
+  Explains the QR code → Instagram share → gallery feature loop. Sits
+  between the Custom Artwork Promo and Closing Offer Banner on the homepage.
+  Toggle "use_dark_bg" for Void Black instead of the default Frost White —
+  Frost White is recommended here to break up the dark sections around it.
+{%- endcomment -%}
+
+<section class="gp-qr-funnel gp-section{% if section.settings.use_dark_bg %} gp-bg-primary{% else %} gp-bg-frost{% endif %}">
+  <div class="gp-container">
+    <div class="gp-section-header gp-section-header--center">
+      <p class="gp-eyebrow">The Glass Pads Loop</p>
+      <h2 class="gp-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="gp-section-header__sub">{{ section.settings.body }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="gp-qr-funnel__steps">
+      <div class="gp-qr-funnel__step">
+        <span class="gp-qr-funnel__step-number">01</span>
+        {% render 'gp-icon', icon: 'qr-code', class: 'gp-qr-funnel__step-icon' %}
+        <h3 class="gp-h3">{{ section.settings.step_1_title }}</h3>
+        <p class="gp-body">{{ section.settings.step_1_body }}</p>
+      </div>
+      <div class="gp-qr-funnel__connector" aria-hidden="true"></div>
+      <div class="gp-qr-funnel__step">
+        <span class="gp-qr-funnel__step-number">02</span>
+        {% render 'gp-icon', icon: 'camera', class: 'gp-qr-funnel__step-icon' %}
+        <h3 class="gp-h3">{{ section.settings.step_2_title }}</h3>
+        <p class="gp-body">{{ section.settings.step_2_body }}</p>
+      </div>
+      <div class="gp-qr-funnel__connector" aria-hidden="true"></div>
+      <div class="gp-qr-funnel__step">
+        <span class="gp-qr-funnel__step-number">03</span>
+        {% render 'gp-icon', icon: 'trending-up', class: 'gp-qr-funnel__step-icon' %}
+        <h3 class="gp-h3">{{ section.settings.step_3_title }}</h3>
+        <p class="gp-body">{{ section.settings.step_3_body }}</p>
+      </div>
+    </div>
+
+    <div class="gp-qr-funnel__actions">
+      {%- if section.settings.button_text != blank -%}
+        {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'primary' %}
+      {%- endif -%}
+      {%- if section.settings.secondary_text != blank -%}
+        {% render 'gp-button', text: section.settings.secondary_text, url: section.settings.secondary_link, style: 'secondary', icon: 'chevron-right' %}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "The Glass Pads Loop",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Share Your Setup. Get Featured. Inspire the Next."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body copy",
+      "default": "Every Glass Pads box ships with a QR code that links directly to our community. Post your setup, tag @glasspads, and your desk becomes part of the gallery — seen by thousands of people who love premium setups as much as you do."
+    },
+    {
+      "type": "text",
+      "id": "step_1_title",
+      "label": "Step 1 title",
+      "default": "Buy"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1_body",
+      "label": "Step 1 body",
+      "default": "Every pad ships with a QR code"
+    },
+    {
+      "type": "text",
+      "id": "step_2_title",
+      "label": "Step 2 title",
+      "default": "Share"
+    },
+    {
+      "type": "textarea",
+      "id": "step_2_body",
+      "label": "Step 2 body",
+      "default": "Post your setup on Instagram"
+    },
+    {
+      "type": "text",
+      "id": "step_3_title",
+      "label": "Step 3 title",
+      "default": "Inspire"
+    },
+    {
+      "type": "textarea",
+      "id": "step_3_body",
+      "label": "Step 3 body",
+      "default": "Your setup gets featured and inspires others"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Primary button text",
+      "default": "Browse the Gallery"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Secondary button text",
+      "default": "Shop Glass Pads"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_dark_bg",
+      "label": "Use dark background",
+      "info": "When unchecked, uses a Frost White background for contrast against the surrounding dark sections.",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "The Glass Pads Loop"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,120 @@
+{%- comment -%}
+  Featured Setups
+  Repeatable "Photo" block per customer setup. Filter pills reuse the same
+  client-side show/hide behavior as the Featured Products section (see
+  initFilterPills in gp-theme.js) — no app or extra JS required.
+{%- endcomment -%}
+
+<section class="gp-gallery gp-bg-primary gp-section">
+  <div class="gp-container">
+    {% render 'gp-section-header', heading: section.settings.heading, subheading: section.settings.subheading %}
+
+    {%- if section.settings.show_filter and section.blocks.size > 0 -%}
+      <div class="gp-gallery__pills" data-gp-filter-group="#GpGalleryGrid-{{ section.id }}">
+        <button type="button" class="gp-pill is-active" data-gp-filter="all">All</button>
+        <button type="button" class="gp-pill" data-gp-filter="gaming">Gaming</button>
+        <button type="button" class="gp-pill" data-gp-filter="workstation">Workstations</button>
+        <button type="button" class="gp-pill" data-gp-filter="creator">Creators</button>
+        <button type="button" class="gp-pill" data-gp-filter="minimal">Minimal</button>
+      </div>
+    {%- endif -%}
+
+    <div class="gp-gallery-grid" id="GpGalleryGrid-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="gp-gallery-card" data-gp-tags="{{ block.settings.category }}" {{ block.shopify_attributes }}>
+          <div class="gp-gallery-card__image">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 600 }}"
+                alt="{{ block.settings.handle | default: 'Customer setup' | escape }}"
+                loading="lazy"
+                width="600"
+                height="600"
+              >
+            {%- else -%}
+              <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="{{ block.settings.handle | escape }}" loading="lazy">
+            {%- endif -%}
+            <span class="gp-gallery-card__category">{{ block.settings.category | capitalize }}</span>
+          </div>
+          <div class="gp-gallery-card__info">
+            <p class="gp-gallery-card__handle">{{ block.settings.handle }}</p>
+            {%- if block.settings.description != blank -%}
+              <p class="gp-gallery-card__description">{{ block.settings.description }}</p>
+            {%- endif -%}
+            {%- if block.settings.likes != blank -%}
+              <p class="gp-gallery-card__likes">
+                {% render 'gp-icon', icon: 'heart' %}
+                <span>{{ block.settings.likes }}</span>
+              </p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Setups",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Setups"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tag @glasspads and use #GlassPads for a chance to be featured."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter",
+      "label": "Show category filter pills",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "handle", "label": "Instagram handle", "default": "@gamer_desk" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Torrent XL in a full RGB setup" },
+        { "type": "text", "id": "likes", "label": "Likes count", "default": "342" },
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            { "value": "gaming", "label": "Gaming" },
+            { "value": "workstation", "label": "Workstation" },
+            { "value": "creator", "label": "Creator" },
+            { "value": "minimal", "label": "Minimal" }
+          ],
+          "default": "gaming"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Setups",
+      "blocks": [
+        { "type": "photo", "settings": { "handle": "@rgb_ryan", "description": "Full RGB battle station with a Torrent XL in Aurora", "likes": "482", "category": "gaming" } },
+        { "type": "photo", "settings": { "handle": "@minimal.desk", "description": "Clean workstation, Summa in Monochrome", "likes": "356", "category": "minimal" } },
+        { "type": "photo", "settings": { "handle": "@studio.creates", "description": "Content creator setup with an Origin glass pad", "likes": "271", "category": "creator" } },
+        { "type": "photo", "settings": { "handle": "@coder_kate", "description": "Dual-monitor dev setup, Cipher glass pad", "likes": "198", "category": "workstation" } },
+        { "type": "photo", "settings": { "handle": "@streamer_max", "description": "Streaming rig with a custom artwork pad", "likes": "623", "category": "gaming" } },
+        { "type": "photo", "settings": { "handle": "@desk.aesthetics", "description": "Warm minimal desk with Frost White accents", "likes": "145", "category": "minimal" } },
+        { "type": "photo", "settings": { "handle": "@artvibes_ana", "description": "Illustration studio with an artist collab pad", "likes": "312", "category": "creator" } },
+        { "type": "photo", "settings": { "handle": "@office.upgrade", "description": "Professional home office glow-up", "likes": "209", "category": "workstation" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

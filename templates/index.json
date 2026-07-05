@@ -160,6 +160,24 @@
         "use_dark_bg": true
       }
     },
+    "gp-qr-funnel": {
+      "type": "gp-qr-funnel",
+      "settings": {
+        "heading": "Share Your Setup. Get Featured. Inspire the Next.",
+        "body": "Every Glass Pads box ships with a QR code that links directly to our community. Post your setup, tag @glasspads, and your desk becomes part of the gallery — seen by thousands of people who love premium setups as much as you do.",
+        "step_1_title": "Buy",
+        "step_1_body": "Every pad ships with a QR code",
+        "step_2_title": "Share",
+        "step_2_body": "Post your setup on Instagram",
+        "step_3_title": "Inspire",
+        "step_3_body": "Your setup gets featured and inspires others",
+        "button_text": "Browse the Gallery",
+        "button_link": "/pages/gallery",
+        "secondary_text": "Shop Glass Pads",
+        "secondary_link": "/collections/all",
+        "use_dark_bg": false
+      }
+    },
     "gp-final-cta": {
       "type": "gp-final-cta",
       "settings": {
@@ -220,6 +238,7 @@
     "gp-testimonials",
     "gp-artist-collection",
     "gp-custom-promo",
+    "gp-qr-funnel",
     "gp-final-cta",
     "gp-faq",
     "gp-footer"
