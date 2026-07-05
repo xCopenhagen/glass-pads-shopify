@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "gp-blog-hero": {
+      "type": "gp-blog-hero",
+      "settings": {
+        "heading": "Stories & Setups",
+        "subheading": "Behind the designs, the desks, and the people who make Glass Pads what it is."
+      }
+    },
+    "gp-blog-grid": {
+      "type": "gp-blog-grid",
+      "settings": {
+        "articles_per_page": 6,
+        "show_author": true,
+        "show_date": true
+      }
+    }
+  },
+  "order": ["gp-blog-hero", "gp-blog-grid"]
+}

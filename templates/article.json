@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "gp-article": {
+      "type": "gp-article",
+      "settings": {
+        "show_share_buttons": true,
+        "show_related": true,
+        "related_count": 3
+      }
+    }
+  },
+  "order": ["gp-article"]
+}

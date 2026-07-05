@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
   initCartDrawer();
   initCartIcon();
   initSearchForm();
+  initCopyLinkButtons();
+  initNewsletterPopup();
 });
 
 /* Shared body-scroll lock for the mobile nav drawer and cart drawer (counted,
@@ -631,4 +633,107 @@ function initSearchForm() {
   document.addEventListener('click', function (e) {
     if (!wrap.contains(e.target)) list.hidden = true;
   });
+}
+
+/* Article page "Copy Link" share button. */
+function initCopyLinkButtons() {
+  document.querySelectorAll('[data-gp-copy-link]').forEach(function (btn) {
+    var label = btn.querySelector('span');
+    var defaultText = label ? label.textContent : '';
+
+    btn.addEventListener('click', function () {
+      var url = btn.dataset.url;
+      if (!navigator.clipboard) return;
+
+      navigator.clipboard.writeText(url).then(function () {
+        if (!label) return;
+        label.textContent = 'Copied!';
+        setTimeout(function () { label.textContent = defaultText; }, 2000);
+      }).catch(function () {});
+    });
+  });
+}
+
+/* Newsletter signup popup — shows on exit-intent, a timed delay, or a scroll
+   percentage (configurable per section), and stays dismissed via
+   localStorage once closed or submitted. */
+function initNewsletterPopup() {
+  var popup = document.querySelector('[data-gp-newsletter-popup]');
+  if (!popup) return;
+
+  if (!popup.dataset.gpEnabled || popup.dataset.gpEnabled === 'false') return;
+
+  var isMobile = window.matchMedia('(max-width: 767px)').matches;
+  if (isMobile && popup.dataset.gpShowOnMobile === 'false') return;
+
+  var storageKey = 'gpNewsletterPopupDismissed';
+  try {
+    if (localStorage.getItem(storageKey) === 'true') return;
+  } catch (e) {}
+
+  var overlay = popup.querySelector('[data-gp-popup-overlay]');
+  var closeBtn = popup.querySelector('[data-gp-popup-close]');
+  var dismissLink = popup.querySelector('[data-gp-popup-dismiss]');
+  var dontShowAgain = popup.querySelector('[data-gp-popup-dont-show]');
+  var form = popup.querySelector('[data-gp-popup-form]');
+  var triggerType = popup.dataset.gpTrigger || 'timed';
+  var shown = false;
+
+  function persistDismissed() {
+    try {
+      if (dontShowAgain && dontShowAgain.checked) {
+        localStorage.setItem(storageKey, 'true');
+      }
+    } catch (e) {}
+  }
+
+  function open() {
+    if (shown) return;
+    shown = true;
+    popup.classList.add('is-visible');
+    popup.removeAttribute('inert');
+    gpLockBodyScroll();
+  }
+
+  function close() {
+    popup.classList.remove('is-visible');
+    popup.setAttribute('inert', '');
+    gpUnlockBodyScroll();
+    persistDismissed();
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (overlay) overlay.addEventListener('click', close);
+  if (dismissLink) {
+    dismissLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      close();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && popup.classList.contains('is-visible')) close();
+  });
+
+  if (form) {
+    form.addEventListener('submit', function () {
+      try { localStorage.setItem(storageKey, 'true'); } catch (e) {}
+    });
+  }
+
+  if (triggerType === 'manual') return;
+
+  if (triggerType === 'exit_intent') {
+    document.addEventListener('mouseout', function (e) {
+      if (!e.relatedTarget && e.clientY <= 0) open();
+    });
+  } else if (triggerType === 'scroll') {
+    var scrollPct = parseInt(popup.dataset.gpScrollPercentage, 10) || 50;
+    window.addEventListener('scroll', function () {
+      var scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      if (scrolled >= scrollPct) open();
+    });
+  } else {
+    var delay = (parseInt(popup.dataset.gpDelay, 10) || 15) * 1000;
+    setTimeout(open, delay);
+  }
 }

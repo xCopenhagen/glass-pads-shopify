@@ -1,0 +1,57 @@
+{%- comment -%}
+  Blog Listing Hero
+  Simple, minimal hero for the blog index page with a subtle cyan glow —
+  matches the pattern used by gp-gallery-hero/gp-about-hero but without the
+  collage background, since article imagery already carries visual weight.
+{%- endcomment -%}
+
+<section class="gp-blog-hero">
+  <div class="gp-blog-hero__glow" aria-hidden="true"></div>
+  {%- if section.settings.background_image != blank -%}
+    <img
+      class="gp-blog-hero__image"
+      src="{{ section.settings.background_image | image_url: width: 1920 }}"
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+      width="{{ section.settings.background_image.width }}"
+      height="{{ section.settings.background_image.height }}"
+    >
+  {%- endif -%}
+  <div class="gp-container gp-blog-hero__content">
+    <h1 class="gp-h1">{{ section.settings.heading }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p class="gp-blog-hero__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog Listing Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stories & Setups"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Behind the designs, the desks, and the people who make Glass Pads what it is."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Listing Hero"
+    }
+  ]
+}
+{% endschema %}

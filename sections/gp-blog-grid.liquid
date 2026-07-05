@@ -1,0 +1,125 @@
+{%- comment -%}
+  Blog Listing Grid
+  Uses Shopify's native blog/article objects with {% paginate %} — no app
+  required. Article cards reuse the Graphite-surface card language from
+  gp-product-card/gp-gallery-card for visual consistency.
+{%- endcomment -%}
+
+{%- liquid
+  assign per_page = section.settings.articles_per_page | default: 6
+-%}
+
+<section class="gp-blog-grid gp-bg-secondary gp-section">
+  <div class="gp-container">
+    {%- if blog.articles.size == 0 -%}
+      <div class="gp-collection-grid__empty">
+        <p class="gp-h3">No articles yet. Check back soon.</p>
+      </div>
+    {%- else -%}
+      {%- paginate blog.articles by per_page -%}
+        <div class="gp-blog-grid__grid">
+          {%- for article in blog.articles -%}
+            <a href="{{ article.url }}" class="gp-blog-card gp-fade-in">
+              <div class="gp-blog-card__media">
+                {%- if article.image != blank -%}
+                  <img
+                    class="gp-blog-card__image"
+                    src="{{ article.image | image_url: width: 600 }}"
+                    alt="{{ article.image.alt | default: article.title | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="450"
+                  >
+                {%- else -%}
+                  <img class="gp-blog-card__image" src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div class="gp-blog-card__info">
+                <h2 class="gp-h3 gp-blog-card__title">{{ article.title }}</h2>
+                <p class="gp-blog-card__excerpt gp-body">
+                  {{ article.excerpt_or_content | strip_html | truncate: 150 }}
+                </p>
+                <div class="gp-blog-card__meta">
+                  {%- if section.settings.show_date -%}
+                    <span class="gp-blog-card__meta-item">{{ article.published_at | date: '%B %d, %Y' }}</span>
+                  {%- endif -%}
+                  {%- if section.settings.show_author -%}
+                    <span class="gp-blog-card__meta-item">{{ article.author }}</span>
+                  {%- endif -%}
+                </div>
+                <span class="gp-blog-card__read-more">
+                  Read More
+                  {% render 'gp-icon', icon: 'chevron-right' %}
+                </span>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="gp-collection-grid__pagination" role="navigation" aria-label="Pagination">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--prev">
+                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon gp-collection-grid__page-icon--prev' %}
+                <span>Previous</span>
+              </a>
+            {%- endif -%}
+
+            <div class="gp-collection-grid__page-numbers">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="gp-collection-grid__page-number">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="gp-collection-grid__page-number is-current">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="gp-collection-grid__page-number gp-collection-grid__page-number--gap">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--next">
+                <span>Next</span>
+                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon' %}
+              </a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog Listing Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "Articles per page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Listing Grid"
+    }
+  ]
+}
+{% endschema %}

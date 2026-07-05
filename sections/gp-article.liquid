@@ -1,0 +1,146 @@
+{%- comment -%}
+  Article Page
+  Renders Shopify's native article object. Content column is capped at 720px
+  for readability on the Frost White background, matching gp-policies-page's
+  reading-focused layout. Related articles pull from the same blog, excluding
+  the current article.
+{%- endcomment -%}
+
+{%- liquid
+  assign related_count = section.settings.related_count | default: 3
+-%}
+
+<div class="gp-article gp-bg-frost">
+  <div class="gp-article__hero">
+    {%- if article.image != blank -%}
+      <img
+        class="gp-article__featured-image"
+        src="{{ article.image | image_url: width: 1600 }}"
+        alt="{{ article.image.alt | default: article.title | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ article.image.width }}"
+        height="{{ article.image.height }}"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="gp-container gp-article__container gp-section">
+    <a href="{{ blog.url }}" class="gp-article__back">
+      {% render 'gp-icon', icon: 'arrow-left' %}
+      <span>Back to Blog</span>
+    </a>
+
+    <h1 class="gp-h1 gp-article__title">{{ article.title }}</h1>
+
+    <div class="gp-article__meta">
+      {%- if article.author != blank -%}
+        <span class="gp-article__meta-item">
+          {% render 'gp-icon', icon: 'user' %}
+          {{ article.author }}
+        </span>
+      {%- endif -%}
+      <span class="gp-article__meta-item">
+        {% render 'gp-icon', icon: 'clock' %}
+        {{ article.published_at | date: '%B %d, %Y' }}
+      </span>
+    </div>
+
+    <div class="gp-article__content gp-body">
+      {{ article.content }}
+    </div>
+
+    {%- if section.settings.show_share_buttons -%}
+      <div class="gp-article__share">
+        <p class="gp-article__share-label">Share this article</p>
+        <div class="gp-article__share-buttons">
+          <button type="button" class="gp-article__share-btn" data-gp-copy-link data-url="{{ shop.url }}{{ article.url }}">
+            {% render 'gp-icon', icon: 'copy' %}
+            <span>Copy Link</span>
+          </button>
+          <a
+            href="https://twitter.com/intent/tweet?url={{ shop.url | append: article.url | url_encode }}&text={{ article.title | url_encode }}"
+            class="gp-article__share-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {% render 'gp-icon', icon: 'social-x' %}
+            <span>X / Twitter</span>
+          </a>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_related -%}
+    <div class="gp-article-related gp-section">
+      <div class="gp-container">
+        {% render 'gp-section-header', heading: 'More Stories', align: 'left' %}
+        <div class="gp-blog-grid__grid">
+          {%- assign shown = 0 -%}
+          {%- for related in blog.articles -%}
+            {%- if related.id != article.id and shown < related_count -%}
+              {%- assign shown = shown | plus: 1 -%}
+              <a href="{{ related.url }}" class="gp-blog-card gp-fade-in">
+                <div class="gp-blog-card__media">
+                  {%- if related.image != blank -%}
+                    <img
+                      class="gp-blog-card__image"
+                      src="{{ related.image | image_url: width: 600 }}"
+                      alt="{{ related.image.alt | default: related.title | escape }}"
+                      loading="lazy"
+                      width="600"
+                      height="450"
+                    >
+                  {%- else -%}
+                    <img class="gp-blog-card__image" src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="lazy">
+                  {%- endif -%}
+                </div>
+                <div class="gp-blog-card__info">
+                  <h3 class="gp-h3 gp-blog-card__title">{{ related.title }}</h3>
+                  <div class="gp-blog-card__meta">
+                    <span class="gp-blog-card__meta-item">{{ related.published_at | date: '%B %d, %Y' }}</span>
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show share buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related",
+      "label": "Show related articles",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "related_count",
+      "label": "Related articles to show",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article"
+    }
+  ]
+}
+{% endschema %}
