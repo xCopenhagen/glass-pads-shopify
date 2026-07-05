@@ -1,0 +1,214 @@
+{
+  "sections": {
+    "gp-hero": {
+      "type": "gp-hero",
+      "settings": {
+        "show_badge": false,
+        "badge_text": "New: Aurora Collection",
+        "heading": "Your Setup Deserves Glass.",
+        "subheading": "Tempered glass mousepads with artwork sealed underneath. Smoother than cloth. Cleaner than plastic. Built to outlast them both.",
+        "primary_btn_text": "Shop Glass Pads",
+        "primary_btn_link": "/collections/all",
+        "secondary_btn_text": "See Why Glass",
+        "secondary_btn_link": "#gp-solution",
+        "overlay_opacity": 45,
+        "disable_video_mobile": true,
+        "enable_sticky_bar": false
+      }
+    },
+    "gp-trust-bar": {
+      "type": "gp-trust-bar",
+      "settings": {
+        "eyebrow": "Why Glass Pads"
+      },
+      "blocks": {
+        "benefit-1": { "type": "benefit", "settings": { "icon": "smooth-glide", "label": "Smooth Glide", "support_text": "Consistent, frictionless tracking every time." } },
+        "benefit-2": { "type": "benefit", "settings": { "icon": "easy-clean", "label": "Easy Clean", "support_text": "Wipe it down in seconds. No stains, no odor." } },
+        "benefit-3": { "type": "benefit", "settings": { "icon": "built-to-last", "label": "Built to Last", "support_text": "Scratch-resistant tempered glass, not fraying fabric." } },
+        "benefit-4": { "type": "benefit", "settings": { "icon": "premium-aesthetic", "label": "Premium Aesthetic", "support_text": "A desk setup upgrade you can actually see." } }
+      },
+      "block_order": ["benefit-1", "benefit-2", "benefit-3", "benefit-4"]
+    },
+    "gp-problem": {
+      "type": "gp-problem",
+      "settings": {
+        "enable_section": true,
+        "heading": "Cloth Pads Were Never Built to Last.",
+        "body": "<p>Fraying edges. Grime soaked into the fabric. That dead, sticky drag after a few months of use. Cloth mousepads look fine on day one — and it's downhill from there. You clean the rest of your desk. Why not your mousepad?</p>",
+        "image_position": "right"
+      }
+    },
+    "gp-solution": {
+      "type": "gp-solution",
+      "settings": {
+        "heading": "Glass Doesn't Wear Down. It Just Works.",
+        "body": "<p>Tempered glass never frays, never stains, never slows down. It's the same smooth glide on day 1,000 as it was on day one — with a look that actually belongs on a premium desk setup.</p>",
+        "button_text": "Explore the Difference",
+        "button_link": "/collections/all",
+        "image_position": "left",
+        "enable_before_after": false
+      }
+    },
+    "gp-comparison": {
+      "type": "gp-comparison",
+      "settings": {
+        "eyebrow": "The Proof",
+        "heading": "See the Difference for Yourself.",
+        "subheading": "Same desk. Same mouse. A completely different experience.",
+        "use_frost_bg": true,
+        "button_text": "Shop the Upgrade",
+        "button_link": "/collections/all"
+      },
+      "blocks": {
+        "row-1": { "type": "row", "settings": { "label": "Surface Feel", "cloth_value": "Inconsistent, drags over time", "glass_value": "Consistent glide, every time" } },
+        "row-2": { "type": "row", "settings": { "label": "Cleaning", "cloth_value": "Absorbs oils, sweat, dust", "glass_value": "Wipes clean in seconds" } },
+        "row-3": { "type": "row", "settings": { "label": "Lifespan", "cloth_value": "Frays and flattens in months", "glass_value": "Scratch-resistant, built for years" } },
+        "row-4": { "type": "row", "settings": { "label": "Artwork", "cloth_value": "Prints fade and rub off", "glass_value": "Sealed under glass — never fades" } },
+        "row-5": { "type": "row", "settings": { "label": "Sound", "cloth_value": "Soft, sometimes noisy fabric drag", "glass_value": "Quiet, smooth tracking" } },
+        "row-6": { "type": "row", "settings": { "label": "Aesthetic", "cloth_value": "Fabric look, dorm-room feel", "glass_value": "Glass finish, premium desk setup" } }
+      },
+      "block_order": ["row-1", "row-2", "row-3", "row-4", "row-5", "row-6"]
+    },
+    "gp-product-showcase": {
+      "type": "gp-product-showcase",
+      "settings": {
+        "eyebrow": "Shop",
+        "heading": "Find Your Glass.",
+        "subheading": "Every design is sealed beneath 4mm tempered glass — sizes for every desk, every setup.",
+        "products_to_show": 8,
+        "show_filter_pills": true,
+        "view_all_text": "View All Glass Pads",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "gp-features": {
+      "type": "gp-features",
+      "settings": {
+        "eyebrow": "Engineering",
+        "heading": "Engineered Like a Setup Upgrade Should Be.",
+        "button_text": "See Full Specs",
+        "button_link": "/pages/specs"
+      },
+      "blocks": {
+        "feature-1": { "type": "feature", "settings": { "icon": "built-to-last", "spec_label": "4MM / TEMPERED / SCRATCH-RESISTANT", "title": "Tempered Glass Core", "description": "4mm shatter-resistant tempered glass, rated for daily impact and pressure.", "image_position": "right" } },
+        "feature-2": { "type": "feature", "settings": { "icon": "smooth-glide", "spec_label": "MICRO-ETCHED / SENSOR-TUNED", "title": "Precision Glide Coating", "description": "A micro-etched surface tuned for consistent sensor tracking, mouse feet included.", "image_position": "left" } },
+        "feature-3": { "type": "feature", "settings": { "icon": "premium-aesthetic", "spec_label": "SEALED / UV-STABLE", "title": "Sealed Under-Glass Art", "description": "Artwork is fused beneath the surface — it will never fade, peel, or rub off.", "image_position": "right" } },
+        "feature-4": { "type": "feature", "settings": { "icon": "shield", "spec_label": "SILICONE / NON-SLIP", "title": "Anti-Slip Base", "description": "A silicone grip base keeps it locked in place, even during intense sessions.", "image_position": "left" } },
+        "feature-5": { "type": "feature", "settings": { "icon": "easy-clean", "spec_label": "ONE-WIPE / NO RESIDUE", "title": "Effortless Clean", "description": "One wipe removes dust, oils, and spills — no washing, no drying time.", "image_position": "right" } }
+      },
+      "block_order": ["feature-1", "feature-2", "feature-3", "feature-4", "feature-5"]
+    },
+    "gp-use-cases": {
+      "type": "gp-use-cases",
+      "settings": {
+        "eyebrow": "Versatility",
+        "heading": "One Surface. Every Setup.",
+        "button_text": "Shop by Use Case",
+        "button_link": "/collections/all"
+      },
+      "blocks": {
+        "usecase-1": { "type": "use_case", "settings": { "label": "Gaming", "description": "Consistent glide for precision aim and fast flicks — no drag, no hesitation." } },
+        "usecase-2": { "type": "use_case", "settings": { "label": "Workstations", "description": "A clean, professional desk finish that looks as good on a video call as it performs." } },
+        "usecase-3": { "type": "use_case", "settings": { "label": "Creators", "description": "A canvas for your setup — pair your desk pad with the content you make." } },
+        "usecase-4": { "type": "use_case", "settings": { "label": "Premium Setups", "description": "For desks built to be seen. The finishing piece your setup was missing." } }
+      },
+      "block_order": ["usecase-1", "usecase-2", "usecase-3", "usecase-4"]
+    },
+    "gp-testimonials": {
+      "type": "gp-testimonials",
+      "settings": {
+        "eyebrow": "Social Proof",
+        "heading": "Loved by Desks Everywhere.",
+        "aggregate_rating": 4.9,
+        "aggregate_text": "4.9/5 from 1,200+ reviews",
+        "use_review_app": false
+      },
+      "blocks": {
+        "testimonial-1": { "type": "testimonial", "settings": { "quote": "The glide is unreal compared to my old cloth pad. Looks incredible under my RGB setup.", "name": "Customer Name", "rating": 5 } },
+        "testimonial-2": { "type": "testimonial", "settings": { "quote": "Cleaning it takes 5 seconds. Wish I'd switched years ago.", "name": "Customer Name", "rating": 5 } },
+        "testimonial-3": { "type": "testimonial", "settings": { "quote": "The artwork under the glass is way better in person. Feels genuinely premium.", "name": "Customer Name", "rating": 5 } }
+      },
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"]
+    },
+    "gp-artist-collection": {
+      "type": "gp-artist-collection",
+      "settings": {
+        "drop_label": "Drop 004",
+        "heading": "Limited Art. Sealed in Glass.",
+        "body": "<p>Every drop features original artwork from independent artists — once it's gone, it's gone. New designs, released in limited runs.</p>",
+        "primary_btn_text": "Explore Current Drop",
+        "primary_btn_link": "/collections/artist-collection",
+        "secondary_btn_text": "Meet the Artists",
+        "secondary_btn_link": "/pages/artists"
+      },
+      "blocks": {
+        "drop-1": { "type": "past_drop", "settings": { "title": "Drop 003 — Nebula", "status": "Sold Out" } },
+        "drop-2": { "type": "past_drop", "settings": { "title": "Drop 002 — Circuit", "status": "Limited" } },
+        "drop-3": { "type": "past_drop", "settings": { "title": "Drop 001 — Origins", "status": "Available" } }
+      },
+      "block_order": ["drop-1", "drop-2", "drop-3"]
+    },
+    "gp-final-cta": {
+      "type": "gp-final-cta",
+      "settings": {
+        "mode": "shop",
+        "heading": "Upgrade Your Desk. For Good.",
+        "body": "Join thousands who've made the switch to glass. Free shipping on every order, and a 30-day glide guarantee.",
+        "primary_btn_text": "Shop Glass Pads Now",
+        "primary_btn_link": "/collections/all",
+        "secondary_btn_text": "Join the Launch List",
+        "trust_text": "Free Shipping • 30-Day Guarantee • Secure Checkout"
+      }
+    },
+    "gp-faq": {
+      "type": "gp-faq",
+      "settings": {
+        "heading": "Questions? Answered.",
+        "use_frost_bg": true,
+        "contact_text": "Contact Us",
+        "contact_link": "/pages/contact"
+      },
+      "blocks": {
+        "faq-1": { "type": "faq_item", "settings": { "question": "Is tempered glass durable?", "answer": "<p>Yes. Each pad uses 4mm shatter-resistant tempered glass, the same category of glass used in smartphone screen protectors and cooktops — built to handle daily desk use without scratching or cracking under normal conditions.</p>" } },
+        "faq-2": { "type": "faq_item", "settings": { "question": "How do I clean it?", "answer": "<p>Wipe with a damp microfiber cloth or standard glass cleaner. No washing, no drying time, no buildup — spills and dust lift off in seconds.</p>" } },
+        "faq-3": { "type": "faq_item", "settings": { "question": "Does it affect mouse glide or sensor tracking?", "answer": "<p>No — the surface is micro-etched for smooth, consistent glide and is fully compatible with optical and laser mouse sensors.</p>" } },
+        "faq-4": { "type": "faq_item", "settings": { "question": "Is it noisy compared to cloth?", "answer": "<p>No, it's actually quieter. The smooth glass surface produces less friction noise than textured cloth.</p>" } },
+        "faq-5": { "type": "faq_item", "settings": { "question": "Will the artwork fade or peel?", "answer": "<p>Never. Artwork is sealed directly beneath the glass surface, fully protected from UV fading, scratching, or rubbing off over time.</p>" } },
+        "faq-6": { "type": "faq_item", "settings": { "question": "What sizes are available?", "answer": "<p>Glass Pads come in Standard (mouse-only) and XL Desk (full keyboard + mouse coverage) sizes — see each product page for exact dimensions.</p>" } },
+        "faq-7": { "type": "faq_item", "settings": { "question": "How long does shipping take?", "answer": "<p>Orders ship within 1-2 business days. Delivery timelines vary by location — full details on our Shipping page.</p>" } }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6", "faq-7"]
+    },
+    "gp-footer": {
+      "type": "gp-footer",
+      "settings": {
+        "brand_name": "Glass Pads",
+        "tagline": "Premium tempered glass mousepads. Built to outlast everything else on your desk.",
+        "newsletter_heading": "Get 10% off your first order",
+        "newsletter_button_text": "Subscribe",
+        "copyright_text": "© 2026 Glass Pads. All rights reserved."
+      },
+      "blocks": {
+        "col-shop": { "type": "link_column", "settings": { "title": "Shop", "menu": "footer-shop" } },
+        "col-company": { "type": "link_column", "settings": { "title": "Company", "menu": "footer-company" } },
+        "col-support": { "type": "link_column", "settings": { "title": "Support", "menu": "footer-support" } }
+      },
+      "block_order": ["col-shop", "col-company", "col-support"]
+    }
+  },
+  "order": [
+    "gp-hero",
+    "gp-trust-bar",
+    "gp-problem",
+    "gp-solution",
+    "gp-comparison",
+    "gp-product-showcase",
+    "gp-features",
+    "gp-use-cases",
+    "gp-testimonials",
+    "gp-artist-collection",
+    "gp-final-cta",
+    "gp-faq",
+    "gp-footer"
+  ]
+}

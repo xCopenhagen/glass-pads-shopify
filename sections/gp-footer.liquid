@@ -1,0 +1,133 @@
+{%- comment -%}
+  Footer
+  Uses native Shopify linklist menus for Shop/Company/Support columns —
+  owner manages links via Admin → Navigation, zero code required. Newsletter
+  uses the native customer/newsletter form ({% form 'customer' %}).
+  Mobile: columns collapse into <details> accordions.
+{%- endcomment -%}
+
+<footer class="gp-footer gp-hairline-top">
+  <div class="gp-container">
+    <div class="gp-footer__newsletter">
+      <div>
+        <h3 class="gp-h3">{{ section.settings.newsletter_heading }}</h3>
+      </div>
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="gp-footer__newsletter-form">
+          <label for="GpFooterEmail" class="gp-visually-hidden">Email address</label>
+          <input type="email" name="contact[email]" id="GpFooterEmail" placeholder="Enter your email" required class="gp-footer__newsletter-input">
+          <button type="submit" class="gp-btn gp-btn--primary">
+            <span>{{ section.settings.newsletter_button_text }}</span>
+          </button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="gp-final-cta__success">Thanks for subscribing.</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    <div class="gp-footer__columns">
+      <div class="gp-footer__col gp-footer__col--brand">
+        <p class="gp-footer__logo">{{ section.settings.brand_name | default: shop.name }}</p>
+        <p class="gp-footer__tagline">{{ section.settings.tagline }}</p>
+        <div class="gp-footer__socials">
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" aria-label="Instagram">{% render 'gp-icon', icon: 'social-instagram' %}</a>
+          {%- endif -%}
+          {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok">{% render 'gp-icon', icon: 'social-tiktok' %}</a>
+          {%- endif -%}
+          {%- if settings.social_youtube_link != blank -%}
+            <a href="{{ settings.social_youtube_link }}" aria-label="YouTube">{% render 'gp-icon', icon: 'social-youtube' %}</a>
+          {%- endif -%}
+          {%- if settings.social_x_link != blank -%}
+            <a href="{{ settings.social_x_link }}" aria-label="X">{% render 'gp-icon', icon: 'social-x' %}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        <details class="gp-footer__col gp-footer__col--links" {{ block.shopify_attributes }}>
+          <summary class="gp-footer__col-title">
+            {{ block.settings.title }}
+            {% render 'gp-icon', icon: 'chevron-down', class: 'gp-footer__col-toggle' %}
+          </summary>
+          <ul class="gp-footer__link-list">
+            {%- for link in block.settings.menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      {%- endfor -%}
+    </div>
+
+    <div class="gp-footer__bottom gp-hairline-top">
+      <p class="gp-footer__copyright">{{ section.settings.copyright_text }}</p>
+      <div class="gp-footer__payment-icons">
+        {%- comment -%} Shopify auto-renders enabled payment icons for the shop. {%- endcomment -%}
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'gp-footer__payment-icon' }}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "Glass Pads"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Premium tempered glass mousepads. Built to outlast everything else on your desk."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Get 10% off your first order"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_text",
+      "label": "Newsletter button text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "© 2026 Glass Pads. All rights reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link Column",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Column title", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "link_column", "settings": { "title": "Shop" } },
+        { "type": "link_column", "settings": { "title": "Company" } },
+        { "type": "link_column", "settings": { "title": "Support" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
