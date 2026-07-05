@@ -671,11 +671,10 @@ function initNewsletterPopup() {
     if (localStorage.getItem(storageKey) === 'true') return;
   } catch (e) {}
 
-  var overlay = popup.querySelector('[data-gp-popup-overlay]');
   var closeBtn = popup.querySelector('[data-gp-popup-close]');
   var dismissLink = popup.querySelector('[data-gp-popup-dismiss]');
   var dontShowAgain = popup.querySelector('[data-gp-popup-dont-show]');
-  var form = popup.querySelector('[data-gp-popup-form]');
+  var form = popup.querySelector('form');
   var triggerType = popup.dataset.gpTrigger || 'timed';
   var shown = false;
 
@@ -703,7 +702,9 @@ function initNewsletterPopup() {
   }
 
   if (closeBtn) closeBtn.addEventListener('click', close);
-  if (overlay) overlay.addEventListener('click', close);
+  popup.addEventListener('click', function (e) {
+    if (e.target === popup) close();
+  });
   if (dismissLink) {
     dismissLink.addEventListener('click', function (e) {
       e.preventDefault();

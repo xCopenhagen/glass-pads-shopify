@@ -2757,3 +2757,116 @@ button { font-family: inherit; cursor: pointer; }
   .gp-password-page__password-row { flex-direction: row; }
   .gp-password-page__input { flex: 1; }
 }
+
+/* ---- Newsletter Signup Popup ------------------------------------------------------------ */
+.gp-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(10, 10, 12, 0.7);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-med), visibility var(--transition-med);
+}
+.gp-popup-overlay.is-visible { opacity: 1; visibility: visible; }
+
+.gp-popup-modal {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 5vw, 2.75rem);
+  transform: translateY(16px);
+  transition: transform var(--transition-med);
+}
+.gp-popup-overlay.is-visible .gp-popup-modal { transform: translateY(0); }
+
+.gp-popup-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+.gp-popup-close:hover { color: var(--color-text-primary); }
+.gp-popup-close .gp-icon { width: 20px; height: 20px; }
+
+.gp-popup-content { text-align: center; }
+
+.gp-popup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.gp-popup-badge .gp-icon { width: 14px; height: 14px; }
+
+.gp-popup-body { margin: 1rem 0 1.75rem; color: var(--color-text-secondary); }
+
+.gp-popup-form__row { display: flex; flex-direction: column; gap: 0.75rem; }
+.gp-popup-input {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  width: 100%;
+}
+
+.gp-popup-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-mint);
+  text-align: left;
+}
+.gp-popup-success .gp-icon { width: 22px; height: 22px; color: var(--color-mint); flex-shrink: 0; }
+.gp-popup-success p { margin: 0; }
+
+.gp-popup-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.gp-popup-dismiss {
+  display: block;
+  margin-top: 1rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gp-popup-dismiss:hover { color: var(--color-text-primary); }
