@@ -1,0 +1,41 @@
+{%- comment -%}
+  Computes the URL that results from toggling `tag` on/off within
+  `current_tags`, for Shopify's native collection tag filtering
+  (/collections/{handle}/{tag1}+{tag2} — no app required). Outputs the URL
+  as plain text, no wrapping element, so callers can drop it straight into
+  an href.
+  Params: tag, current_tags (array), collection
+{%- endcomment -%}
+{%- liquid
+  assign is_active = false
+  if current_tags contains tag
+    assign is_active = true
+  endif
+  assign tag_escaped = tag | url_param_escape
+
+  assign other = ''
+  for t in current_tags
+    unless t == tag
+      assign t_escaped = t | url_param_escape
+      if other == blank
+        assign other = t_escaped
+      else
+        assign other = other | append: '+' | append: t_escaped
+      endif
+    endunless
+  endfor
+
+  assign result = other
+  unless is_active
+    if result == blank
+      assign result = tag_escaped
+    else
+      assign result = result | append: '+' | append: tag_escaped
+    endif
+  endunless
+
+  assign toggle_url = collection.url
+  if result != blank
+    assign toggle_url = collection.url | append: '/' | append: result
+  endif
+-%}{{ toggle_url }}

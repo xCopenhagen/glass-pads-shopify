@@ -7,119 +7,189 @@
 
 {%- liquid
   assign per_page = section.settings.products_per_page | default: 24
+  assign size_tags = 'Standard 9×9″,XL Desk 2:1' | split: ','
+  assign artwork_tags = 'Monochrome,Gradient,Geometric,Abstract,Artist Collab' | split: ','
 -%}
 
 <section class="gp-collection-grid gp-bg-secondary gp-section">
   <div class="gp-container">
+    <div class="gp-collection-grid__body{% if section.settings.show_filters %} gp-collection-grid__body--with-filters{% endif %}">
 
-    {%- if section.settings.show_sort_by and collection.products.size > 0 -%}
-      <div class="gp-collection-grid__toolbar">
-        <p class="gp-collection-grid__count gp-body">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</p>
-        <form method="get" class="gp-collection-grid__sort-form" data-gp-sort-form>
-          <label for="GpCollectionSort-{{ section.id }}" class="gp-visually-hidden">Sort by</label>
-          <select name="sort_by" id="GpCollectionSort-{{ section.id }}" class="gp-collection-grid__sort-select" data-gp-sort-select>
-            <option value="manual" {% if collection.sort_by == 'manual' or collection.sort_by == blank %}selected{% endif %}>Featured</option>
-            <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-            <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>Alphabetical, A-Z</option>
-            <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price, Low to High</option>
-            <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price, High to Low</option>
-            <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Date, New to Old</option>
-          </select>
-        </form>
-      </div>
-    {%- endif -%}
+      {%- if section.settings.show_filters -%}
+        <aside class="gp-collection-filters" aria-label="Filter products" data-gp-filter-sidebar>
+          {%- if current_tags.size > 0 -%}
+            <div class="gp-collection-filters__chips">
+              {%- for tag in current_tags -%}
+                {%- capture chip_url -%}{% render 'gp-tag-toggle-url', tag: tag, current_tags: current_tags, collection: collection %}{%- endcapture -%}
+                <a href="{{ chip_url | strip }}" class="gp-filter-chip">
+                  <span>{{ tag }}</span>
+                  {% render 'gp-icon', icon: 'cross' %}
+                </a>
+              {%- endfor -%}
+              <a href="{{ collection.url }}" class="gp-collection-filters__clear">Clear all</a>
+            </div>
+          {%- endif -%}
 
-    {%- if collection.products.size == 0 -%}
-      <div class="gp-collection-grid__empty">
-        <p class="gp-h3">This collection is empty.</p>
-        <p class="gp-body">Browse all products instead.</p>
-        <div class="gp-collection-grid__empty-cta">
-          {% render 'gp-button', text: 'Browse All Products', url: '/collections/all', style: 'primary' %}
-        </div>
-      </div>
-    {%- else -%}
-      {%- paginate collection.products by per_page -%}
-        <div
-          class="gp-product-showcase__grid gp-collection-grid__grid"
-          id="GpCollectionGrid-{{ section.id }}"
-          {%- if section.settings.enable_infinite_scroll %}
-            data-gp-infinite-scroll
-            data-gp-next-url="{{ paginate.next.url }}"
-          {%- endif %}
-        >
-          {%- for product in collection.products -%}
-            <div class="gp-product-card gp-fade-in">
-              <a href="{{ product.url }}" class="gp-product-card__media">
-                <img
-                  class="gp-product-card__image gp-product-card__image--primary"
-                  src="{{ product.featured_image | image_url: width: 600 }}"
-                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                  loading="lazy"
-                  width="600"
-                  height="600"
-                >
-                {%- if product.images[1] -%}
-                  <img
-                    class="gp-product-card__image gp-product-card__image--secondary"
-                    src="{{ product.images[1] | image_url: width: 600 }}"
-                    alt=""
-                    loading="lazy"
-                    width="600"
-                    height="600"
-                  >
-                {%- endif -%}
-                {%- if product.tags contains 'Best Seller' -%}
-                  <span class="gp-pill-badge">Best Seller</span>
-                {%- elsif product.tags contains 'New' -%}
-                  <span class="gp-pill-badge">New</span>
-                {%- endif -%}
-                <span class="gp-product-card__shop-now">Shop Now</span>
-              </a>
-              <div class="gp-product-card__info">
-                <h2 class="gp-h3 gp-product-card__title">{{ product.title }}</h2>
-                <p class="gp-product-card__price">
-                  {%- if product.compare_at_price > product.price -%}
-                    <s>{{ product.compare_at_price | money }}</s> {{ product.price | money }}
-                  {%- else -%}
-                    {{ product.price | money }}
+          {%- assign has_size_filter = false -%}
+          {%- for tag in size_tags -%}
+            {%- if collection.all_tags contains tag -%}{%- assign has_size_filter = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if has_size_filter -%}
+            <div class="gp-collection-filters__group">
+              <p class="gp-collection-filters__group-label gp-mono-spec">Size</p>
+              <div class="gp-collection-filters__pills" data-gp-filter-checkbox-group>
+                {%- for tag in size_tags -%}
+                  {%- if collection.all_tags contains tag -%}
+                    {%- assign is_active = current_tags contains tag -%}
+                    {%- capture pill_url -%}{% render 'gp-tag-toggle-url', tag: tag, current_tags: current_tags, collection: collection %}{%- endcapture -%}
+                    <a href="{{ pill_url | strip }}" class="gp-filter-pill{% if is_active %} is-active{% endif %}">
+                      {% render 'gp-icon', icon: 'tick', class: 'gp-filter-pill__check' %}
+                      <span>{{ tag }}</span>
+                    </a>
                   {%- endif -%}
-                </p>
+                {%- endfor -%}
               </div>
             </div>
+          {%- endif -%}
+
+          {%- assign has_artwork_filter = false -%}
+          {%- for tag in artwork_tags -%}
+            {%- if collection.all_tags contains tag -%}{%- assign has_artwork_filter = true -%}{%- endif -%}
           {%- endfor -%}
-        </div>
+          {%- if has_artwork_filter -%}
+            <div class="gp-collection-filters__group">
+              <p class="gp-collection-filters__group-label gp-mono-spec">Artwork Type</p>
+              <div class="gp-collection-filters__pills" data-gp-filter-checkbox-group>
+                {%- for tag in artwork_tags -%}
+                  {%- if collection.all_tags contains tag -%}
+                    {%- assign is_active = current_tags contains tag -%}
+                    {%- capture pill_url -%}{% render 'gp-tag-toggle-url', tag: tag, current_tags: current_tags, collection: collection %}{%- endcapture -%}
+                    <a href="{{ pill_url | strip }}" class="gp-filter-pill{% if is_active %} is-active{% endif %}">
+                      {% render 'gp-icon', icon: 'tick', class: 'gp-filter-pill__check' %}
+                      <span>{{ tag }}</span>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </aside>
+      {%- endif -%}
 
-        {%- if paginate.pages > 1 and section.settings.enable_infinite_scroll == false -%}
-          <nav class="gp-collection-grid__pagination" role="navigation" aria-label="Pagination">
-            {%- if paginate.previous -%}
-              <a href="{{ paginate.previous.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--prev">
-                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon gp-collection-grid__page-icon--prev' %}
-                <span>Previous</span>
-              </a>
-            {%- endif -%}
+      <div class="gp-collection-grid__main">
+        {%- if section.settings.show_sort_by and collection.products.size > 0 -%}
+          <div class="gp-collection-grid__toolbar">
+            <p class="gp-collection-grid__count gp-body">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</p>
+            <form method="get" class="gp-collection-grid__sort-form" data-gp-sort-form>
+              <label for="GpCollectionSort-{{ section.id }}" class="gp-visually-hidden">Sort by</label>
+              <select name="sort_by" id="GpCollectionSort-{{ section.id }}" class="gp-collection-grid__sort-select" data-gp-sort-select>
+                <option value="manual" {% if collection.sort_by == 'manual' or collection.sort_by == blank %}selected{% endif %}>Featured</option>
+                <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+                <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>Alphabetical, A-Z</option>
+                <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price, Low to High</option>
+                <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price, High to Low</option>
+                <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Date, New to Old</option>
+              </select>
+            </form>
+          </div>
+        {%- endif -%}
 
-            <div class="gp-collection-grid__page-numbers">
-              {%- for part in paginate.parts -%}
-                {%- if part.is_link -%}
-                  <a href="{{ part.url }}" class="gp-collection-grid__page-number">{{ part.title }}</a>
-                {%- elsif part.title == paginate.current_page -%}
-                  <span class="gp-collection-grid__page-number is-current">{{ part.title }}</span>
-                {%- else -%}
-                  <span class="gp-collection-grid__page-number gp-collection-grid__page-number--gap">{{ part.title }}</span>
-                {%- endif -%}
+        {%- if collection.products.size == 0 -%}
+          <div class="gp-collection-grid__empty">
+            <p class="gp-h3">No products match these filters.</p>
+            <p class="gp-body">Try removing a filter or browse all products instead.</p>
+            <div class="gp-collection-grid__empty-cta">
+              {% render 'gp-button', text: 'Browse All Products', url: '/collections/all', style: 'primary' %}
+            </div>
+          </div>
+        {%- else -%}
+          {%- paginate collection.products by per_page -%}
+            <div
+              class="gp-product-showcase__grid gp-collection-grid__grid"
+              id="GpCollectionGrid-{{ section.id }}"
+              {%- if section.settings.enable_infinite_scroll %}
+                data-gp-infinite-scroll
+                data-gp-next-url="{{ paginate.next.url }}"
+              {%- endif %}
+            >
+              {%- for product in collection.products -%}
+                <div class="gp-product-card gp-fade-in">
+                  <a href="{{ product.url }}" class="gp-product-card__media">
+                    <img
+                      class="gp-product-card__image gp-product-card__image--primary"
+                      src="{{ product.featured_image | image_url: width: 600 }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      loading="lazy"
+                      width="600"
+                      height="600"
+                    >
+                    {%- if product.images[1] -%}
+                      <img
+                        class="gp-product-card__image gp-product-card__image--secondary"
+                        src="{{ product.images[1] | image_url: width: 600 }}"
+                        alt=""
+                        loading="lazy"
+                        width="600"
+                        height="600"
+                      >
+                    {%- endif -%}
+                    {%- if product.tags contains 'Best Seller' -%}
+                      <span class="gp-pill-badge">Best Seller</span>
+                    {%- elsif product.tags contains 'New' -%}
+                      <span class="gp-pill-badge">New</span>
+                    {%- endif -%}
+                    <span class="gp-product-card__shop-now">Shop Now</span>
+                  </a>
+                  <div class="gp-product-card__info">
+                    <h2 class="gp-h3 gp-product-card__title">{{ product.title }}</h2>
+                    <p class="gp-product-card__price">
+                      {%- if product.compare_at_price > product.price -%}
+                        <s>{{ product.compare_at_price | money }}</s> {{ product.price | money }}
+                      {%- else -%}
+                        {{ product.price | money }}
+                      {%- endif -%}
+                    </p>
+                    <button type="button" class="gp-product-card__quick-view gp-quick-view-trigger" data-product-handle="{{ product.handle }}">
+                      Quick View
+                    </button>
+                  </div>
+                </div>
               {%- endfor -%}
             </div>
 
-            {%- if paginate.next -%}
-              <a href="{{ paginate.next.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--next">
-                <span>Next</span>
-                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon' %}
-              </a>
+            {%- if paginate.pages > 1 and section.settings.enable_infinite_scroll == false -%}
+              <nav class="gp-collection-grid__pagination" role="navigation" aria-label="Pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--prev">
+                    {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon gp-collection-grid__page-icon--prev' %}
+                    <span>Previous</span>
+                  </a>
+                {%- endif -%}
+
+                <div class="gp-collection-grid__page-numbers">
+                  {%- for part in paginate.parts -%}
+                    {%- if part.is_link -%}
+                      <a href="{{ part.url }}" class="gp-collection-grid__page-number">{{ part.title }}</a>
+                    {%- elsif part.title == paginate.current_page -%}
+                      <span class="gp-collection-grid__page-number is-current">{{ part.title }}</span>
+                    {%- else -%}
+                      <span class="gp-collection-grid__page-number gp-collection-grid__page-number--gap">{{ part.title }}</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--next">
+                    <span>Next</span>
+                    {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon' %}
+                  </a>
+                {%- endif -%}
+              </nav>
             {%- endif -%}
-          </nav>
+          {%- endpaginate -%}
         {%- endif -%}
-      {%- endpaginate -%}
-    {%- endif -%}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -140,6 +210,13 @@
       "type": "checkbox",
       "id": "show_sort_by",
       "label": "Show sort by dropdown",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show size/artwork filters",
+      "info": "Filters by product tag using Shopify's native tag filtering — no app required.",
       "default": true
     },
     {
