@@ -1,0 +1,168 @@
+{
+  "sections": {
+    "main": {
+      "type": "gp-custom-page",
+      "settings": {},
+      "blocks": {
+        "hero": {
+          "type": "hero",
+          "settings": {
+            "heading": "Your Art. Your Pad. One-of-a-Kind.",
+            "subheading": "Upload your own design and we'll seal it under 4mm tempered glass. Every custom pad is made to order, one at a time — precision-crafted to your exact artwork.",
+            "button_text": "Start Your Custom Design",
+            "button_link": "/pages/custom-artwork#upload"
+          }
+        },
+        "specs": {
+          "type": "specs",
+          "settings": { "heading": "Design Specifications" }
+        },
+        "spec-1": {
+          "type": "spec_card",
+          "settings": {
+            "icon": "ruler",
+            "title": "Desk Pad (2:1 Ratio)",
+            "description": "Width × Height = 2:1 aspect ratio. Perfect for full desk coverage. Recommended: 3600 × 1800px at 300 DPI."
+          }
+        },
+        "spec-2": {
+          "type": "spec_card",
+          "settings": {
+            "icon": "ruler",
+            "title": "Standard Pad (Square — 9×9\")",
+            "description": "A perfect square. Ideal for standalone mouse use. Recommended: 2700 × 2700px at 300 DPI."
+          }
+        },
+        "spec-3": {
+          "type": "spec_card",
+          "settings": {
+            "icon": "image",
+            "title": "Maximum Resolution",
+            "description": "The higher the better. We recommend 300 DPI minimum. JPEG, PNG, or TIFF accepted."
+          }
+        },
+        "spec-4": {
+          "type": "spec_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Safe Zones",
+            "description": "Keep critical artwork away from edges. We provide a downloadable template with marked safe zones."
+          }
+        },
+        "how-it-works": {
+          "type": "how-it-works",
+          "settings": {
+            "heading": "How It Works",
+            "step_1_icon": "ruler",
+            "step_1_title": "Choose Your Size",
+            "step_1_body": "Select Standard (9×9\") or XL Desk Pad (2:1). Every custom pad is made to order.",
+            "step_2_icon": "upload",
+            "step_2_title": "Upload Your Artwork",
+            "step_2_body": "Send us your high-res design. We'll review it for print readiness and reach out if anything needs adjustment.",
+            "step_3_icon": "printer",
+            "step_3_title": "We Craft Your Pad",
+            "step_3_body": "Your artwork is printed and sealed beneath 4mm tempered glass. Ships within 5-7 business days."
+          }
+        },
+        "gallery": {
+          "type": "gallery",
+          "settings": { "heading": "Custom Pads, Real Results." }
+        },
+        "gallery-1": {
+          "type": "gallery_example",
+          "settings": { "label": "Custom Photo Print" }
+        },
+        "gallery-2": {
+          "type": "gallery_example",
+          "settings": { "label": "Custom Pattern" }
+        },
+        "gallery-3": {
+          "type": "gallery_example",
+          "settings": { "label": "Brand Logo" }
+        },
+        "gallery-4": {
+          "type": "gallery_example",
+          "settings": { "label": "Original Artwork" }
+        },
+        "cta": {
+          "type": "cta",
+          "settings": {
+            "heading": "Ready to Create?",
+            "body": "Upload your artwork and we'll take care of the rest. Free shipping on every custom order.",
+            "button_text": "Start Your Custom Design",
+            "button_link": "/pages/custom-artwork#upload"
+          }
+        },
+        "faq": {
+          "type": "faq",
+          "settings": { "heading": "Custom Orders — FAQ" }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What file formats do you accept?",
+            "answer": "<p>JPEG, PNG, and TIFF. For vector artwork, we prefer high-res PNG exports.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's the turnaround time?",
+            "answer": "<p>Custom orders ship within 5-7 business days from approval. Each pad is made to order.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I request color matching?",
+            "answer": "<p>We print with high-fidelity UV printing. Colors appear vibrant and accurate, though some variation may occur between screen and print.</p>"
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if my artwork doesn't fit?",
+            "answer": "<p>We'll review every submission and contact you if resizing or adjustments are needed.</p>"
+          }
+        },
+        "faq-5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I order a custom pad for my business or brand?",
+            "answer": "<p>Absolutely. Custom branding orders are welcome — contact us for bulk pricing.</p>"
+          }
+        },
+        "faq-6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is the custom artwork covered by the glass the same way?",
+            "answer": "<p>Yes. Custom artwork is sealed under glass with the same process as our standard designs — it will never fade, peel, or rub off.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "hero",
+        "specs",
+        "spec-1",
+        "spec-2",
+        "spec-3",
+        "spec-4",
+        "how-it-works",
+        "gallery",
+        "gallery-1",
+        "gallery-2",
+        "gallery-3",
+        "gallery-4",
+        "cta",
+        "faq",
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-5",
+        "faq-6"
+      ]
+    }
+  },
+  "order": ["main"]
+}

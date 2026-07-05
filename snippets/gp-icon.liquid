@@ -5,7 +5,8 @@
   Available icons: tick, cross, chevron-right, chevron-down, plus, minus,
   star, star-outline, smooth-glide, easy-clean, built-to-last, premium-aesthetic,
   shopping-bag, envelope, lock, shipping-truck, shield,
-  social-instagram, social-tiktok, social-youtube, social-x
+  social-instagram, social-tiktok, social-youtube, social-x,
+  upload, ruler, image, printer, palette, download
 {%- endcomment -%}
 
 <span class="gp-icon gp-icon--{{ icon }} {{ class }}" aria-hidden="true">
@@ -73,6 +74,24 @@
 
   {%- when 'social-x' -%}
     <svg viewBox="0 0 24 24" fill="none"><path d="M4 4L20 20M20 4L4 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+  {%- when 'upload' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'ruler' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(-8 12 12)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 9.3L8.3 11.6M11.3 8.6L12.1 10.9M15.1 7.9L15.9 10.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+  {%- when 'image' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="9.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15L16 10L5 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'printer' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M7 8V4H17V8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="14" width="10" height="6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+  {%- when 'palette' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3C7 3 3 7 3 12C3 16 6 19 10 19C11 19 11.5 18.3 11.2 17.5C11 16.9 11 16.3 11.5 15.9C11.9 15.5 12.5 15.5 13 15.7C13.9 16 15 15.8 15.7 15.1C18 14 21 11.5 21 9C21 5.5 17 3 12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7.5" cy="10.5" r="1.2" fill="currentColor"/><circle cx="11" cy="7.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/></svg>
+
+  {%- when 'download' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 4V16M12 16L7 11M12 16L17 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 
 {%- endcase -%}
 </span>

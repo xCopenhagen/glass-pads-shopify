@@ -1,0 +1,105 @@
+{%- comment -%}
+  Custom Artwork Promo
+  Full-width split banner selling the custom artwork option. Sits between
+  the Artist Collection and Closing Offer Banner sections on the homepage.
+  Toggle "use_dark_bg" off for a Frost White treatment instead of the
+  cyan-to-violet gradient.
+{%- endcomment -%}
+
+<section class="gp-custom-promo gp-section{% if section.settings.use_dark_bg %} gp-custom-promo--dark{% else %} gp-bg-frost{% endif %}">
+  {%- if section.settings.use_dark_bg -%}
+    <div class="gp-custom-promo__glow" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="gp-container gp-custom-promo__grid">
+    <div class="gp-custom-promo__text gp-fade-in">
+      {%- if section.settings.heading != blank -%}
+        <p class="gp-mono-spec gp-custom-promo__eyebrow">Custom Artwork</p>
+      {%- endif -%}
+      <h2 class="gp-h2">{{ section.settings.heading }}</h2>
+      <p class="gp-custom-promo__body gp-body">{{ section.settings.body }}</p>
+      <div class="gp-custom-promo__actions">
+        {%- if section.settings.button_text != blank -%}
+          {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'primary' %}
+        {%- endif -%}
+        {%- if section.settings.secondary_text != blank -%}
+          {% render 'gp-button', text: section.settings.secondary_text, url: section.settings.secondary_link, style: 'secondary', icon: 'chevron-right' %}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="gp-custom-promo__media gp-fade-in">
+      <div class="gp-custom-promo__glow-behind" aria-hidden="true"></div>
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1000 }}"
+          alt="{{ section.settings.image.alt | default: 'Custom artwork glass pad mockup' | escape }}"
+          loading="lazy"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+        >
+      {%- else -%}
+        <img src="{{ 'gp-placeholder-artwork.svg' | asset_url }}" alt="Custom artwork glass pad mockup placeholder" loading="lazy">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Artwork Promo",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Make It Yours."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body copy",
+      "default": "Upload your own design and we'll seal it under 4mm tempered glass. Photos, patterns, logos, original art — if you can create it, we'll make it a glass pad."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Primary button text",
+      "default": "Design Your Custom Pad"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Secondary link text",
+      "default": "See Design Specs"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Mockup image"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_dark_bg",
+      "label": "Use dark gradient background",
+      "info": "When unchecked, uses a Frost White background for pacing variety.",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Artwork Promo"
+    }
+  ]
+}
+{% endschema %}

@@ -148,6 +148,18 @@
       },
       "block_order": ["drop-1", "drop-2", "drop-3"]
     },
+    "gp-custom-promo": {
+      "type": "gp-custom-promo",
+      "settings": {
+        "heading": "Make It Yours.",
+        "body": "Upload your own design and we'll seal it under 4mm tempered glass. Photos, patterns, logos, original art — if you can create it, we'll make it a glass pad.",
+        "button_text": "Design Your Custom Pad",
+        "button_link": "/pages/custom-artwork",
+        "secondary_text": "See Design Specs",
+        "secondary_link": "/pages/custom-artwork#specs",
+        "use_dark_bg": true
+      }
+    },
     "gp-final-cta": {
       "type": "gp-final-cta",
       "settings": {
@@ -207,6 +219,7 @@
     "gp-use-cases",
     "gp-testimonials",
     "gp-artist-collection",
+    "gp-custom-promo",
     "gp-final-cta",
     "gp-faq",
     "gp-footer"

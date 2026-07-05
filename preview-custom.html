@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glass Pads — Custom Artwork</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-bg-primary: #0A0A0C;
+  --color-bg-secondary: #141417;
+  --color-surface: #1D1E22;
+  --color-text-primary: #F5F6F7;
+  --color-text-secondary: #9B9DA3;
+  --color-cyan: #5EE6D9;
+  --color-violet: #8B7CF6;
+  --color-frost-white: #FAFAFA;
+  --color-mint: #4ADE80;
+  --color-border: #2A2B30;
+  --color-text-on-cyan: #0A0A0C;
+  --color-frost-text: #17181B;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --fs-h1: clamp(2.75rem, 5vw, 5rem);
+  --fs-h2: clamp(2rem, 3.4vw, 3rem);
+  --fs-h3: clamp(1.375rem, 2vw, 1.625rem);
+  --fs-body: clamp(1rem, 1.1vw, 1.125rem);
+  --container-width: 1280px;
+  --section-padding-y: clamp(3.5rem, 7vw, 7rem);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* , *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--color-bg-primary); color: var(--color-text-primary); font-family: var(--font-body); font-size: var(--fs-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+.gp-h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); letter-spacing: -0.02em; line-height: 1.05; }
+.gp-h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h2); letter-spacing: -0.01em; line-height: 1.1; }
+.gp-h3 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-h3); line-height: 1.25; }
+.gp-body { color: var(--color-text-secondary); }
+.gp-eyebrow { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-cyan); margin: 0 0 0.75rem; }
+.gp-container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 1.5rem; }
+.gp-section { padding: var(--section-padding-y) 0; }
+.gp-bg-primary { background: var(--color-bg-primary); }
+.gp-bg-secondary { background: var(--color-bg-secondary); }
+.gp-bg-frost { background: var(--color-frost-white); color: var(--color-frost-text); }
+.gp-bg-frost .gp-body { color: #52545C; }
+.gp-section-header { max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 3.5rem); text-align: center; }
+.gp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.9rem 1.75rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: transform 180ms var(--ease-out), background 180ms var(--ease-out); }
+.gp-btn--primary { background: var(--color-cyan); color: var(--color-text-on-cyan); }
+.gp-btn--primary:hover { transform: translateY(-2px); background: #7CEFE4; }
+.gp-icon { display: inline-flex; width: 28px; height: 28px; }
+.gp-icon svg { width: 100%; height: 100%; }
+
+/* Nav */
+.gp-nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,12,0.9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-border); padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.gp-nav__logo { font-family: var(--font-display); font-weight: 600; letter-spacing: 1px; }
+.gp-nav__links { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--color-text-secondary); }
+
+/* Hero */
+.gp-custom-page-hero { position: relative; overflow: hidden; background: var(--color-bg-primary); padding: clamp(5rem, 12vw, 8rem) 0; text-align: center; }
+.gp-custom-page-hero__glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 35%, rgba(139,124,246,0.35), transparent 60%); pointer-events: none; }
+.gp-custom-page-hero__content { position: relative; z-index: 1; }
+.gp-custom-page-hero__subheading { max-width: 640px; margin: 1.25rem auto 0; color: var(--color-text-secondary); font-size: 1.125rem; }
+.gp-custom-page-hero__actions { margin-top: 2rem; }
+
+/* Specs */
+.gp-custom-specs__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.gp-custom-spec-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.75rem; }
+.gp-custom-spec-card__icon { color: var(--color-cyan); margin-bottom: 1rem; width: 28px; height: 28px; }
+.gp-custom-spec-card h3 { margin-bottom: 0.6rem; }
+.gp-custom-spec-card__download { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; color: var(--color-cyan); font-weight: 600; font-size: 0.9rem; }
+.gp-custom-spec-card__download .gp-icon { width: 18px; height: 18px; }
+
+/* Steps */
+.gp-custom-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+.gp-custom-step__number { display: block; font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--color-violet); margin-bottom: 0.75rem; }
+.gp-custom-step__icon { width: 28px; height: 28px; color: var(--color-violet); margin-bottom: 0.75rem; }
+.gp-custom-step h3 { margin-bottom: 0.5rem; }
+.gp-custom-step p { color: #52545C; }
+
+/* Gallery */
+.gp-custom-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.gp-custom-gallery-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+.gp-custom-gallery-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+.gp-custom-gallery-card__info { padding: 1.1rem 1.25rem 1.35rem; }
+.gp-custom-gallery-card__label { font-family: var(--font-display); font-weight: 600; }
+.gp-custom-gallery-card__description { margin-top: 0.35rem; color: var(--color-text-secondary); font-size: 0.9rem; }
+
+/* CTA */
+.gp-custom-cta { position: relative; overflow: hidden; background: var(--color-bg-primary); text-align: center; }
+.gp-custom-cta__glow { position: absolute; inset: 0; background: radial-gradient(circle at 25% 25%, rgba(94,230,217,0.4), transparent 50%), radial-gradient(circle at 75% 75%, rgba(139,124,246,0.4), transparent 50%), radial-gradient(circle at 50% 50%, rgba(139,124,246,0.15), transparent 70%); pointer-events: none; }
+.gp-custom-cta__content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.gp-custom-cta__body { margin: 1.25rem 0 2rem; color: var(--color-text-secondary); font-size: 1.05rem; }
+
+/* FAQ */
+.gp-faq__container { max-width: 800px; }
+.gp-faq__list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+.gp-faq-item { border-bottom: 1px solid var(--color-border); padding: 1.25rem 0; }
+.gp-faq-item__question { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; font-family: var(--font-display); font-weight: 500; font-size: 1.1rem; list-style: none; }
+.gp-faq-item__question::-webkit-details-marker { display: none; }
+.gp-faq-item__toggle { flex-shrink: 0; width: 22px; height: 22px; color: var(--color-cyan); }
+.gp-faq-item__answer { margin-top: 1rem; max-width: 640px; color: var(--color-text-secondary); }
+
+@media (max-width: 900px) {
+  .gp-custom-specs__grid { grid-template-columns: repeat(2, 1fr); }
+  .gp-custom-steps { grid-template-columns: 1fr; gap: 2rem; }
+  .gp-custom-gallery { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .gp-custom-specs__grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gp-nav">
+  <span class="gp-nav__logo">GLASS PADS</span>
+  <div class="gp-nav__links"><span>Shop</span><span>Custom</span><span>About</span></div>
+</nav>
+
+<!-- HERO -->
+<section class="gp-custom-page-hero">
+  <div class="gp-custom-page-hero__glow"></div>
+  <div class="gp-container gp-custom-page-hero__content">
+    <h1 class="gp-h1">Your Art. Your Pad. One-of-a-Kind.</h1>
+    <p class="gp-custom-page-hero__subheading">Upload your own design and we'll seal it under 4mm tempered glass. Every custom pad is made to order, one at a time — precision-crafted to your exact artwork.</p>
+    <div class="gp-custom-page-hero__actions">
+      <a href="#" class="gp-btn gp-btn--primary" id="upload">Start Your Custom Design</a>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="gp-section gp-bg-secondary" id="specs">
+  <div class="gp-container">
+    <div class="gp-section-header">
+      <h2 class="gp-h2">Design Specifications</h2>
+    </div>
+    <div class="gp-custom-specs__grid">
+      <div class="gp-custom-spec-card">
+        <span class="gp-icon gp-custom-spec-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(-8 12 12)" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Desk Pad (2:1 Ratio)</h3>
+        <p class="gp-body">Width × Height = 2:1 aspect ratio. Perfect for full desk coverage. Recommended: 3600 × 1800px at 300 DPI.</p>
+      </div>
+      <div class="gp-custom-spec-card">
+        <span class="gp-icon gp-custom-spec-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(-8 12 12)" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Standard Pad (Square — 9×9")</h3>
+        <p class="gp-body">A perfect square. Ideal for standalone mouse use. Recommended: 2700 × 2700px at 300 DPI.</p>
+      </div>
+      <div class="gp-custom-spec-card">
+        <span class="gp-icon gp-custom-spec-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="9.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15L16 10L5 20" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Maximum Resolution</h3>
+        <p class="gp-body">The higher the better. We recommend 300 DPI minimum. JPEG, PNG, or TIFF accepted.</p>
+      </div>
+      <div class="gp-custom-spec-card">
+        <span class="gp-icon gp-custom-spec-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3L19 6V11C19 15.5 16.1 19.4 12 21C7.9 19.4 5 15.5 5 11V6L12 3Z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Safe Zones</h3>
+        <p class="gp-body">Keep critical artwork away from edges. We provide a downloadable template with marked safe zones.</p>
+        <a href="#" class="gp-custom-spec-card__download">
+          <span class="gp-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4V16M12 16L7 11M12 16L17 11" stroke="currentColor" stroke-width="1.5"/></svg></span>
+          <span>Download Template</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="gp-section gp-bg-frost">
+  <div class="gp-container">
+    <div class="gp-section-header">
+      <h2 class="gp-h2">How It Works</h2>
+    </div>
+    <div class="gp-custom-steps">
+      <div class="gp-custom-step">
+        <span class="gp-custom-step__number">01</span>
+        <span class="gp-icon gp-custom-step__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(-8 12 12)" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Choose Your Size</h3>
+        <p>Select Standard (9×9") or XL Desk Pad (2:1). Every custom pad is made to order.</p>
+      </div>
+      <div class="gp-custom-step">
+        <span class="gp-custom-step__number">02</span>
+        <span class="gp-icon gp-custom-step__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="currentColor" stroke-width="1.5"/><path d="M4 16V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V16" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">Upload Your Artwork</h3>
+        <p>Send us your high-res design. We'll review it for print readiness and reach out if anything needs adjustment.</p>
+      </div>
+      <div class="gp-custom-step">
+        <span class="gp-custom-step__number">03</span>
+        <span class="gp-icon gp-custom-step__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 8V4H17V8" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="8" width="18" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="14" width="10" height="6" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <h3 class="gp-h3">We Craft Your Pad</h3>
+        <p>Your artwork is printed and sealed beneath 4mm tempered glass. Ships within 5-7 business days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gp-section gp-bg-primary">
+  <div class="gp-container">
+    <div class="gp-section-header">
+      <h2 class="gp-h2">Custom Pads, Real Results.</h2>
+    </div>
+    <div class="gp-custom-gallery">
+      <div class="gp-custom-gallery-card">
+        <svg viewBox="0 0 400 400" width="100%"><rect width="400" height="400" fill="#1D1E22"/><circle cx="150" cy="180" r="110" fill="#5EE6D9" opacity="0.3"/><polygon points="320,80 380,260 220,260" fill="#8B7CF6" opacity="0.3"/></svg>
+        <div class="gp-custom-gallery-card__info">
+          <p class="gp-custom-gallery-card__label">Custom Photo Print</p>
+        </div>
+      </div>
+      <div class="gp-custom-gallery-card">
+        <svg viewBox="0 0 400 400" width="100%"><rect width="400" height="400" fill="#1D1E22"/><rect x="60" y="60" width="280" height="280" fill="none" stroke="#5EE6D9" stroke-width="2"/><rect x="110" y="110" width="180" height="180" fill="none" stroke="#8B7CF6" stroke-width="2"/></svg>
+        <div class="gp-custom-gallery-card__info">
+          <p class="gp-custom-gallery-card__label">Custom Pattern</p>
+        </div>
+      </div>
+      <div class="gp-custom-gallery-card">
+        <svg viewBox="0 0 400 400" width="100%"><rect width="400" height="400" fill="#1D1E22"/><text x="200" y="220" font-family="Space Grotesk" font-size="60" fill="#5EE6D9" text-anchor="middle" font-weight="600">LOGO</text></svg>
+        <div class="gp-custom-gallery-card__info">
+          <p class="gp-custom-gallery-card__label">Brand Logo</p>
+        </div>
+      </div>
+      <div class="gp-custom-gallery-card">
+        <svg viewBox="0 0 400 400" width="100%"><rect width="400" height="400" fill="#1D1E22"/><circle cx="200" cy="200" r="140" fill="url(#g)" opacity="0.4"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5EE6D9"/><stop offset="100%" stop-color="#8B7CF6"/></linearGradient></defs></svg>
+        <div class="gp-custom-gallery-card__info">
+          <p class="gp-custom-gallery-card__label">Original Artwork</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="gp-section gp-custom-cta">
+  <div class="gp-custom-cta__glow"></div>
+  <div class="gp-container gp-custom-cta__content">
+    <h2 class="gp-h2">Ready to Create?</h2>
+    <p class="gp-custom-cta__body">Upload your artwork and we'll take care of the rest. Free shipping on every custom order.</p>
+    <a href="#upload" class="gp-btn gp-btn--primary">Start Your Custom Design</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="gp-section gp-bg-secondary">
+  <div class="gp-container gp-faq__container">
+    <div class="gp-section-header" style="text-align:left;margin:0 0 1.5rem;">
+      <h2 class="gp-h2">Custom Orders — FAQ</h2>
+    </div>
+    <div class="gp-faq__list">
+      <details class="gp-faq-item" open>
+        <summary class="gp-faq-item__question"><span>What file formats do you accept?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">JPEG, PNG, and TIFF. For vector artwork, we prefer high-res PNG exports.</div>
+      </details>
+      <details class="gp-faq-item">
+        <summary class="gp-faq-item__question"><span>What's the turnaround time?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">Custom orders ship within 5-7 business days from approval. Each pad is made to order.</div>
+      </details>
+      <details class="gp-faq-item">
+        <summary class="gp-faq-item__question"><span>Can I request color matching?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">We print with high-fidelity UV printing. Colors appear vibrant and accurate, though some variation may occur between screen and print.</div>
+      </details>
+      <details class="gp-faq-item">
+        <summary class="gp-faq-item__question"><span>What if my artwork doesn't fit?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">We'll review every submission and contact you if resizing or adjustments are needed.</div>
+      </details>
+      <details class="gp-faq-item">
+        <summary class="gp-faq-item__question"><span>Can I order a custom pad for my business or brand?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">Absolutely. Custom branding orders are welcome — contact us for bulk pricing.</div>
+      </details>
+      <details class="gp-faq-item">
+        <summary class="gp-faq-item__question"><span>Is the custom artwork covered by the glass the same way?</span><span class="gp-faq-item__toggle">＋</span></summary>
+        <div class="gp-faq-item__answer">Yes. Custom artwork is sealed under glass with the same process as our standard designs — it will never fade, peel, or rub off.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

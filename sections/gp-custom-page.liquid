@@ -1,0 +1,359 @@
+{%- comment -%}
+  Custom Artwork Page
+  One modular section with six block types (hero, specs, how-it-works,
+  gallery, cta, faq) that together build the full /pages/custom-artwork
+  landing page. "spec_card", "gallery_example" and "faq_item" are repeatable
+  child blocks — add as many as needed under their parent block type; they
+  render nested inside the matching specs/gallery/faq block wherever it sits
+  in the block order.
+{%- endcomment -%}
+
+{%- liquid
+  assign spec_cards = section.blocks | where: "type", "spec_card"
+  assign gallery_examples = section.blocks | where: "type", "gallery_example"
+  assign faq_items = section.blocks | where: "type", "faq_item"
+-%}
+
+<div class="gp-custom-page">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+      {%- when 'hero' -%}
+        <div class="gp-custom-page-hero" {{ block.shopify_attributes }}>
+          <div class="gp-custom-page-hero__glow" aria-hidden="true"></div>
+          {%- if block.settings.background_image != blank -%}
+            <img
+              class="gp-custom-page-hero__image"
+              src="{{ block.settings.background_image | image_url: width: 1920 }}"
+              alt=""
+              loading="eager"
+              fetchpriority="high"
+              width="{{ block.settings.background_image.width }}"
+              height="{{ block.settings.background_image.height }}"
+            >
+          {%- endif -%}
+          <div class="gp-container gp-custom-page-hero__content">
+            <h1 class="gp-h1 gp-custom-page-hero__heading">{{ block.settings.heading }}</h1>
+            {%- if block.settings.subheading != blank -%}
+              <p class="gp-custom-page-hero__subheading">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+            {%- if block.settings.button_text != blank -%}
+              <div class="gp-custom-page-hero__actions">
+                {% render 'gp-button', text: block.settings.button_text, url: block.settings.button_link, style: 'primary' %}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- when 'specs' -%}
+        <div class="gp-custom-specs gp-section gp-bg-secondary" {{ block.shopify_attributes }}>
+          <div class="gp-container">
+            {% render 'gp-section-header', heading: block.settings.heading %}
+            <div class="gp-custom-specs__grid">
+              {%- for card in spec_cards -%}
+                <div class="gp-custom-spec-card" {{ card.shopify_attributes }}>
+                  {% render 'gp-icon', icon: card.settings.icon, class: 'gp-custom-spec-card__icon' %}
+                  <h3 class="gp-h3">{{ card.settings.title }}</h3>
+                  <p class="gp-body">{{ card.settings.description }}</p>
+                  {%- if card.settings.download_template_link != blank -%}
+                    <a href="{{ card.settings.download_template_link }}" class="gp-custom-spec-card__download">
+                      {% render 'gp-icon', icon: 'download' %}
+                      <span>Download Template</span>
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+      {%- when 'how-it-works' -%}
+        <div class="gp-custom-steps-wrap gp-section gp-bg-frost" {{ block.shopify_attributes }}>
+          <div class="gp-container">
+            {% render 'gp-section-header', heading: block.settings.heading %}
+            <div class="gp-custom-steps">
+              <div class="gp-custom-step">
+                <span class="gp-custom-step__number">01</span>
+                {% render 'gp-icon', icon: block.settings.step_1_icon, class: 'gp-custom-step__icon' %}
+                <h3 class="gp-h3">{{ block.settings.step_1_title }}</h3>
+                <p class="gp-body">{{ block.settings.step_1_body }}</p>
+              </div>
+              <div class="gp-custom-step">
+                <span class="gp-custom-step__number">02</span>
+                {% render 'gp-icon', icon: block.settings.step_2_icon, class: 'gp-custom-step__icon' %}
+                <h3 class="gp-h3">{{ block.settings.step_2_title }}</h3>
+                <p class="gp-body">{{ block.settings.step_2_body }}</p>
+              </div>
+              <div class="gp-custom-step">
+                <span class="gp-custom-step__number">03</span>
+                {% render 'gp-icon', icon: block.settings.step_3_icon, class: 'gp-custom-step__icon' %}
+                <h3 class="gp-h3">{{ block.settings.step_3_title }}</h3>
+                <p class="gp-body">{{ block.settings.step_3_body }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {%- when 'gallery' -%}
+        <div class="gp-custom-gallery-wrap gp-section gp-bg-primary" {{ block.shopify_attributes }}>
+          <div class="gp-container">
+            {% render 'gp-section-header', heading: block.settings.heading %}
+            <div class="gp-custom-gallery">
+              {%- for example in gallery_examples -%}
+                <div class="gp-custom-gallery-card" {{ example.shopify_attributes }}>
+                  {%- if example.settings.image != blank -%}
+                    <img
+                      src="{{ example.settings.image | image_url: width: 800 }}"
+                      alt="{{ example.settings.label | default: 'Custom glass pad example' | escape }}"
+                      loading="lazy"
+                      width="{{ example.settings.image.width }}"
+                      height="{{ example.settings.image.height }}"
+                    >
+                  {%- else -%}
+                    <img src="{{ 'gp-placeholder-artwork.svg' | asset_url }}" alt="{{ example.settings.label | default: 'Custom glass pad example' | escape }}" loading="lazy">
+                  {%- endif -%}
+                  <div class="gp-custom-gallery-card__info">
+                    <p class="gp-custom-gallery-card__label">{{ example.settings.label }}</p>
+                    {%- if example.settings.description != blank -%}
+                      <p class="gp-custom-gallery-card__description">{{ example.settings.description }}</p>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+      {%- when 'cta' -%}
+        <div class="gp-custom-cta gp-section" {{ block.shopify_attributes }}>
+          <div class="gp-custom-cta__glow" aria-hidden="true"></div>
+          <div class="gp-container gp-custom-cta__content">
+            <h2 class="gp-h2">{{ block.settings.heading }}</h2>
+            <p class="gp-custom-cta__body">{{ block.settings.body }}</p>
+            {%- if block.settings.button_text != blank -%}
+              <div class="gp-custom-cta__actions">
+                {% render 'gp-button', text: block.settings.button_text, url: block.settings.button_link, style: 'primary' %}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- when 'faq' -%}
+        <div class="gp-custom-faq gp-section gp-bg-secondary" {{ block.shopify_attributes }}>
+          <div class="gp-container gp-faq__container">
+            {% render 'gp-section-header', heading: block.settings.heading, align: 'left' %}
+            <div class="gp-faq__list">
+              {%- for item in faq_items -%}
+                <details class="gp-faq-item" {{ item.shopify_attributes }}>
+                  <summary class="gp-faq-item__question">
+                    <span>{{ item.settings.question }}</span>
+                    <span class="gp-faq-item__toggle">
+                      {% render 'gp-icon', icon: 'plus', class: 'gp-faq-item__icon-plus' %}
+                      {% render 'gp-icon', icon: 'minus', class: 'gp-faq-item__icon-minus' %}
+                    </span>
+                  </summary>
+                  <div class="gp-faq-item__answer gp-body">{{ item.settings.answer }}</div>
+                </details>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+        {%- if faq_items.size > 0 -%}
+          {%- comment -%} FAQPage structured data, generated from the faq_item blocks for SEO rich results. {%- endcomment -%}
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {%- for item in faq_items -%}
+                {
+                  "@type": "Question",
+                  "name": {{ item.settings.question | strip_html | strip_newlines | json }},
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": {{ item.settings.answer | strip_html | strip_newlines | json }}
+                  }
+                }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }
+          </script>
+        {%- endif -%}
+
+      {%- else -%}
+        {%- comment -%} spec_card, gallery_example, and faq_item blocks render inside their parent block above. {%- endcomment -%}
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Custom Artwork Page",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Your Art. Your Pad. One-of-a-Kind." },
+        { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Upload your own design and we'll seal it under 4mm tempered glass. Every custom pad is made to order, one at a time — precision-crafted to your exact artwork." },
+        { "type": "text", "id": "button_text", "label": "Button text", "default": "Start Your Custom Design" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "image_picker", "id": "background_image", "label": "Background image" }
+      ]
+    },
+    {
+      "type": "specs",
+      "name": "Design Specifications",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Design Specifications" }
+      ]
+    },
+    {
+      "type": "spec_card",
+      "name": "Spec Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "image", "label": "Image" },
+            { "value": "printer", "label": "Printer" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "upload", "label": "Upload" }
+          ],
+          "default": "ruler"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Desk Pad (2:1 Ratio)" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Width × Height = 2:1 aspect ratio. Perfect for full desk coverage. Recommended: 3600 × 1800px at 300 DPI." },
+        { "type": "url", "id": "download_template_link", "label": "Download template link" }
+      ]
+    },
+    {
+      "type": "how-it-works",
+      "name": "How It Works",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "How It Works" },
+        {
+          "type": "select",
+          "id": "step_1_icon",
+          "label": "Step 1 icon",
+          "options": [
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "upload", "label": "Upload" },
+            { "value": "printer", "label": "Printer" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "image", "label": "Image" }
+          ],
+          "default": "ruler"
+        },
+        { "type": "text", "id": "step_1_title", "label": "Step 1 title", "default": "Choose Your Size" },
+        { "type": "textarea", "id": "step_1_body", "label": "Step 1 body", "default": "Select Standard (9×9\") or XL Desk Pad (2:1). Every custom pad is made to order." },
+        {
+          "type": "select",
+          "id": "step_2_icon",
+          "label": "Step 2 icon",
+          "options": [
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "upload", "label": "Upload" },
+            { "value": "printer", "label": "Printer" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "image", "label": "Image" }
+          ],
+          "default": "upload"
+        },
+        { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "Upload Your Artwork" },
+        { "type": "textarea", "id": "step_2_body", "label": "Step 2 body", "default": "Send us your high-res design. We'll review it for print readiness and reach out if anything needs adjustment." },
+        {
+          "type": "select",
+          "id": "step_3_icon",
+          "label": "Step 3 icon",
+          "options": [
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "upload", "label": "Upload" },
+            { "value": "printer", "label": "Printer" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "image", "label": "Image" }
+          ],
+          "default": "printer"
+        },
+        { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "We Craft Your Pad" },
+        { "type": "textarea", "id": "step_3_body", "label": "Step 3 body", "default": "Your artwork is printed and sealed beneath 4mm tempered glass. Ships within 5-7 business days." }
+      ]
+    },
+    {
+      "type": "gallery",
+      "name": "Gallery",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Custom Pads, Real Results." }
+      ]
+    },
+    {
+      "type": "gallery_example",
+      "name": "Example",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Custom Photo Print" },
+        { "type": "textarea", "id": "description", "label": "Description (optional)" }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Closing CTA",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Ready to Create?" },
+        { "type": "textarea", "id": "body", "label": "Body copy", "default": "Upload your artwork and we'll take care of the rest. Free shipping on every custom order." },
+        { "type": "text", "id": "button_text", "label": "Button text", "default": "Start Your Custom Design" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Custom Orders — FAQ" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What file formats do you accept?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>JPEG, PNG, and TIFF. For vector artwork, we prefer high-res PNG exports.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Artwork Page",
+      "blocks": [
+        { "type": "hero", "settings": {} },
+        { "type": "specs", "settings": {} },
+        { "type": "spec_card", "settings": { "icon": "ruler", "title": "Desk Pad (2:1 Ratio)", "description": "Width × Height = 2:1 aspect ratio. Perfect for full desk coverage. Recommended: 3600 × 1800px at 300 DPI." } },
+        { "type": "spec_card", "settings": { "icon": "ruler", "title": "Standard Pad (Square — 9×9\")", "description": "A perfect square. Ideal for standalone mouse use. Recommended: 2700 × 2700px at 300 DPI." } },
+        { "type": "spec_card", "settings": { "icon": "image", "title": "Maximum Resolution", "description": "The higher the better. We recommend 300 DPI minimum. JPEG, PNG, or TIFF accepted." } },
+        { "type": "spec_card", "settings": { "icon": "shield", "title": "Safe Zones", "description": "Keep critical artwork away from edges. We provide a downloadable template with marked safe zones." } },
+        { "type": "how-it-works", "settings": {} },
+        { "type": "gallery", "settings": {} },
+        { "type": "gallery_example", "settings": { "label": "Custom Photo Print" } },
+        { "type": "gallery_example", "settings": { "label": "Custom Pattern" } },
+        { "type": "gallery_example", "settings": { "label": "Brand Logo" } },
+        { "type": "gallery_example", "settings": { "label": "Original Artwork" } },
+        { "type": "cta", "settings": {} },
+        { "type": "faq", "settings": {} },
+        { "type": "faq_item", "settings": { "question": "What file formats do you accept?", "answer": "<p>JPEG, PNG, and TIFF. For vector artwork, we prefer high-res PNG exports.</p>" } },
+        { "type": "faq_item", "settings": { "question": "What's the turnaround time?", "answer": "<p>Custom orders ship within 5-7 business days from approval. Each pad is made to order.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Can I request color matching?", "answer": "<p>We print with high-fidelity UV printing. Colors appear vibrant and accurate, though some variation may occur between screen and print.</p>" } },
+        { "type": "faq_item", "settings": { "question": "What if my artwork doesn't fit?", "answer": "<p>We'll review every submission and contact you if resizing or adjustments are needed.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Can I order a custom pad for my business or brand?", "answer": "<p>Absolutely. Custom branding orders are welcome — contact us for bulk pricing.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Is the custom artwork covered by the glass the same way?", "answer": "<p>Yes. Custom artwork is sealed under glass with the same process as our standard designs — it will never fade, peel, or rub off.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
