@@ -902,3 +902,103 @@ button { font-family: inherit; cursor: pointer; }
 @media (min-width: 1024px) {
   .gp-artist-collection__spotlight { grid-template-columns: 1fr 1fr; gap: 4rem; }
 }
+
+.gp-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Closing Offer Banner ----------------------------------------------------- */
+.gp-final-cta {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+  text-align: center;
+}
+
+.gp-final-cta__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(94, 230, 217, 0.3), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(139, 124, 246, 0.3), transparent 50%);
+  pointer-events: none;
+}
+
+.gp-final-cta__content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+
+.gp-final-cta__body { margin: 1.25rem 0 2rem; color: var(--color-text-secondary); font-size: 1.05rem; }
+
+.gp-final-cta__actions { display: flex; justify-content: center; }
+
+.gp-final-cta__email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.gp-final-cta__email-input {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+.gp-final-cta__success { margin-top: 1rem; color: var(--color-mint); }
+
+.gp-final-cta__trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+.gp-final-cta__trust .gp-icon { width: 18px; height: 18px; color: var(--color-cyan); }
+
+@media (min-width: 768px) {
+  .gp-final-cta__email-form { flex-direction: row; }
+  .gp-final-cta__email-input { flex: 1; }
+}
+
+/* ---- FAQ ------------------------------------------------------------------- */
+.gp-faq__container { max-width: 800px; }
+
+.gp-faq__list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.gp-faq-item {
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.25rem 0;
+}
+
+.gp-faq-item__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.1rem;
+  list-style: none;
+}
+.gp-faq-item__question::-webkit-details-marker { display: none; }
+
+.gp-faq-item__toggle { flex-shrink: 0; width: 22px; height: 22px; color: var(--color-cyan); }
+.gp-faq-item__icon-minus { display: none; }
+.gp-faq-item[open] .gp-faq-item__icon-plus { display: none; }
+.gp-faq-item[open] .gp-faq-item__icon-minus { display: inline-flex; }
+
+.gp-faq-item__answer { margin-top: 1rem; max-width: 640px; }
+.gp-bg-frost .gp-faq-item__answer { color: #52545C; }
+
+.gp-faq__contact { margin-top: 2.5rem; color: var(--color-text-secondary); }
+.gp-faq__contact-link { color: var(--color-cyan); border-bottom: 1px solid var(--color-cyan); }

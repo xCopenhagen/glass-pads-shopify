@@ -1,0 +1,108 @@
+{%- comment -%}
+  FAQ
+  Native <details>/<summary> accordion — zero JS dependency, accessible by
+  default. FAQPage structured data is generated automatically from blocks.
+{%- endcomment -%}
+
+<section class="gp-faq gp-section{% if section.settings.use_frost_bg %} gp-bg-frost{% else %} gp-bg-secondary{% endif %}">
+  <div class="gp-container gp-faq__container">
+    {% render 'gp-section-header', heading: section.settings.heading, align: 'left' %}
+
+    <div class="gp-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="gp-faq-item" {{ block.shopify_attributes }}>
+          <summary class="gp-faq-item__question">
+            <span>{{ block.settings.question }}</span>
+            <span class="gp-faq-item__toggle">
+              {% render 'gp-icon', icon: 'plus', class: 'gp-faq-item__icon-plus' %}
+              {% render 'gp-icon', icon: 'minus', class: 'gp-faq-item__icon-minus' %}
+            </span>
+          </summary>
+          <div class="gp-faq-item__answer gp-body">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.contact_text != blank -%}
+      <p class="gp-faq__contact">
+        Still have questions?
+        <a href="{{ section.settings.contact_link | default: '/pages/contact' }}" class="gp-faq__contact-link">{{ section.settings.contact_text }}</a>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} FAQPage structured data, generated from the blocks for SEO rich results. {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for block in section.blocks -%}
+      {
+        "@type": "Question",
+        "name": {{ block.settings.question | strip_html | strip_newlines | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ block.settings.answer | strip_html | strip_newlines | json }}
+        }
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions? Answered."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_frost_bg",
+      "label": "Use Frost White background",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact link text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Is tempered glass durable?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes. Each pad uses 4mm shatter-resistant tempered glass.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "Is tempered glass durable?", "answer": "<p>Yes. Each pad uses 4mm shatter-resistant tempered glass, the same category of glass used in smartphone screen protectors and cooktops — built to handle daily desk use without scratching or cracking under normal conditions.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How do I clean it?", "answer": "<p>Wipe with a damp microfiber cloth or standard glass cleaner. No washing, no drying time, no buildup — spills and dust lift off in seconds.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Does it affect mouse glide or sensor tracking?", "answer": "<p>No — the surface is micro-etched for smooth, consistent glide and is fully compatible with optical and laser mouse sensors.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Is it noisy compared to cloth?", "answer": "<p>No, it's actually quieter. The smooth glass surface produces less friction noise than textured cloth.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Will the artwork fade or peel?", "answer": "<p>Never. Artwork is sealed directly beneath the glass surface, fully protected from UV fading, scratching, or rubbing off over time.</p>" } },
+        { "type": "faq_item", "settings": { "question": "What sizes are available?", "answer": "<p>Glass Pads come in Standard (mouse-only) and XL Desk (full keyboard + mouse coverage) sizes — see each product page for exact dimensions.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How long does shipping take?", "answer": "<p>Orders ship within 1-2 business days. Delivery timelines vary by location — full details on our Shipping page.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
