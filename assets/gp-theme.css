@@ -681,3 +681,70 @@ button { font-family: inherit; cursor: pointer; }
   }
   .gp-product-card { scroll-snap-align: start; }
 }
+
+/* ---- Feature Breakdown ------------------------------------------------------ */
+.gp-features__list { display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 5rem); }
+
+.gp-feature-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.gp-feature-row__media { position: relative; border-radius: var(--radius-lg); overflow: hidden; }
+.gp-feature-row__media img { width: 100%; object-fit: cover; max-height: 420px; }
+
+.gp-feature-row--cyan .gp-feature-row__media { box-shadow: 0 0 60px rgba(94, 230, 217, 0.18); }
+.gp-feature-row--violet .gp-feature-row__media { box-shadow: 0 0 60px rgba(139, 124, 246, 0.18); }
+
+.gp-feature-row__icon { width: 30px; height: 30px; margin-bottom: 1rem; }
+.gp-feature-row--cyan .gp-feature-row__icon { color: var(--color-cyan); }
+.gp-feature-row--violet .gp-feature-row__icon { color: var(--color-violet); }
+
+.gp-feature-row__spec { margin: 0 0 0.75rem; }
+.gp-feature-row--violet .gp-feature-row__spec { color: var(--color-violet); }
+
+.gp-feature-row__text h3 { margin-bottom: 0.6rem; }
+.gp-feature-row__text p { margin: 0; }
+
+.gp-features__cta { margin-top: 3rem; text-align: center; }
+
+@media (min-width: 1024px) {
+  .gp-feature-row { grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .gp-feature-row--image-left .gp-feature-row__media { order: -1; }
+}
+
+/* ---- Shop by Use Case -------------------------------------------------------- */
+.gp-use-cases__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.gp-use-case-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-med), box-shadow var(--transition-med);
+}
+.gp-use-case-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+
+.gp-use-case-card__media { aspect-ratio: 4 / 3; overflow: hidden; }
+.gp-use-case-card__media img { width: 100%; height: 100%; object-fit: cover; }
+
+.gp-use-case-card__info { padding: 1.25rem 1.25rem 1.5rem; }
+.gp-use-case-card__info h3 { margin-bottom: 0.5rem; }
+.gp-use-case-card__info p { margin: 0; color: var(--color-text-secondary); font-size: 0.95rem; }
+
+.gp-use-cases__cta { margin-top: 2.5rem; text-align: center; }
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .gp-use-cases__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .gp-use-cases__grid { grid-template-columns: 1fr; }
+}

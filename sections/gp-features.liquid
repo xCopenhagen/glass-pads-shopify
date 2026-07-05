@@ -1,0 +1,136 @@
+{%- comment -%}
+  Feature Breakdown
+  Repeatable "Feature" blocks in a zig-zag layout, alternating cyan/violet
+  rim-light. IBM Plex Mono spec callouts add the Razer-style technical feel.
+{%- endcomment -%}
+
+<section class="gp-features gp-bg-primary gp-section">
+  <div class="gp-container">
+    {% render 'gp-section-header', eyebrow: section.settings.eyebrow, heading: section.settings.heading, subheading: section.settings.subheading %}
+
+    <div class="gp-features__list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign rhythm = 'cyan'
+          assign row_index = forloop.index0 | modulo: 2
+          if row_index == 1
+            assign rhythm = 'violet'
+          endif
+          assign img_position = block.settings.image_position | default: 'right'
+        -%}
+        <div class="gp-feature-row gp-feature-row--{{ rhythm }} gp-feature-row--image-{{ img_position }} gp-fade-in" {{ block.shopify_attributes }}>
+          <div class="gp-feature-row__media">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 900 }}"
+                alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                loading="lazy"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+              >
+            {%- else -%}
+              <img src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="gp-feature-row__text">
+            {% render 'gp-icon', icon: block.settings.icon, class: 'gp-feature-row__icon' %}
+            {%- if block.settings.spec_label != blank -%}
+              <p class="gp-mono-spec gp-feature-row__spec">{{ block.settings.spec_label }}</p>
+            {%- endif -%}
+            <h3 class="gp-h3">{{ block.settings.title }}</h3>
+            <p class="gp-body">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_text != blank -%}
+      <div class="gp-features__cta">
+        {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'secondary', icon: 'chevron-right' %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature Breakdown",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Engineering"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Engineered Like a Setup Upgrade Should Be."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "See Full Specs"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "built-to-last", "label": "Built to Last" },
+            { "value": "smooth-glide", "label": "Smooth Glide" },
+            { "value": "premium-aesthetic", "label": "Premium Aesthetic" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "easy-clean", "label": "Easy Clean" }
+          ],
+          "default": "built-to-last"
+        },
+        { "type": "text", "id": "spec_label", "label": "Spec callout (mono label)", "default": "4MM / TEMPERED / SCRATCH-RESISTANT" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Tempered Glass Core" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "4mm shatter-resistant tempered glass, rated for daily impact and pressure." },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "right"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Breakdown",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "built-to-last", "spec_label": "4MM / TEMPERED / SCRATCH-RESISTANT", "title": "Tempered Glass Core", "description": "4mm shatter-resistant tempered glass, rated for daily impact and pressure.", "image_position": "right" } },
+        { "type": "feature", "settings": { "icon": "smooth-glide", "spec_label": "MICRO-ETCHED / SENSOR-TUNED", "title": "Precision Glide Coating", "description": "A micro-etched surface tuned for consistent sensor tracking, mouse feet included.", "image_position": "left" } },
+        { "type": "feature", "settings": { "icon": "premium-aesthetic", "spec_label": "SEALED / UV-STABLE", "title": "Sealed Under-Glass Art", "description": "Artwork is fused beneath the surface — it will never fade, peel, or rub off.", "image_position": "right" } },
+        { "type": "feature", "settings": { "icon": "shield", "spec_label": "SILICONE / NON-SLIP", "title": "Anti-Slip Base", "description": "A silicone grip base keeps it locked in place, even during intense sessions.", "image_position": "left" } },
+        { "type": "feature", "settings": { "icon": "easy-clean", "spec_label": "ONE-WIPE / NO RESIDUE", "title": "Effortless Clean", "description": "One wipe removes dust, oils, and spills — no washing, no drying time.", "image_position": "right" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,100 @@
+{%- comment -%}
+  Shop by Use Case
+  Repeatable "Use Case" blocks (4-card grid) — owner can retarget each card
+  to any collection/tag via the link setting.
+{%- endcomment -%}
+
+<section class="gp-use-cases gp-bg-secondary gp-section">
+  <div class="gp-container">
+    {% render 'gp-section-header', eyebrow: section.settings.eyebrow, heading: section.settings.heading, subheading: section.settings.subheading %}
+
+    <div class="gp-use-cases__grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link | default: '#' }}" class="gp-use-case-card gp-fade-in" {{ block.shopify_attributes }}>
+          <div class="gp-use-case-card__media">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 700 }}"
+                alt="{{ block.settings.image.alt | default: block.settings.label | escape }}"
+                loading="lazy"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+              >
+            {%- else -%}
+              <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="gp-use-case-card__info">
+            <h3 class="gp-h3">{{ block.settings.label }}</h3>
+            <p class="gp-body">{{ block.settings.description }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_text != blank -%}
+      <div class="gp-use-cases__cta">
+        {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'secondary', icon: 'chevron-right' %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by Use Case",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Versatility"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One Surface. Every Setup."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop by Use Case"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "use_case",
+      "name": "Use Case",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Gaming" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Consistent glide for precision aim and fast flicks — no drag, no hesitation." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Use Case",
+      "blocks": [
+        { "type": "use_case", "settings": { "label": "Gaming", "description": "Consistent glide for precision aim and fast flicks — no drag, no hesitation." } },
+        { "type": "use_case", "settings": { "label": "Workstations", "description": "A clean, professional desk finish that looks as good on a video call as it performs." } },
+        { "type": "use_case", "settings": { "label": "Creators", "description": "A canvas for your setup — pair your desk pad with the content you make." } },
+        { "type": "use_case", "settings": { "label": "Premium Setups", "description": "For desks built to be seen. The finishing piece your setup was missing." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
