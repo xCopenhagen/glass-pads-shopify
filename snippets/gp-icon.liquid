@@ -1,0 +1,78 @@
+{%- comment -%}
+  Glass Pads icon system.
+  Usage: {% render 'gp-icon', icon: 'tick' %}
+  Accepts optional `class` param to append extra CSS classes.
+  Available icons: tick, cross, chevron-right, chevron-down, plus, minus,
+  star, star-outline, smooth-glide, easy-clean, built-to-last, premium-aesthetic,
+  shopping-bag, envelope, lock, shipping-truck, shield,
+  social-instagram, social-tiktok, social-youtube, social-x
+{%- endcomment -%}
+
+<span class="gp-icon gp-icon--{{ icon }} {{ class }}" aria-hidden="true">
+{%- case icon -%}
+
+  {%- when 'tick' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'cross' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+  {%- when 'chevron-right' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'chevron-down' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'plus' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+  {%- when 'minus' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+  {%- when 'star' -%}
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5L15.09 8.76L22 9.77L17 14.64L18.18 21.52L12 18.27L5.82 21.52L7 14.64L2 9.77L8.91 8.76L12 2.5Z"/></svg>
+
+  {%- when 'star-outline' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5L15.09 8.76L22 9.77L17 14.64L18.18 21.52L12 18.27L5.82 21.52L7 14.64L2 9.77L8.91 8.76L12 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+  {%- when 'smooth-glide' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 17C6 17 6 7 9 7C12 7 12 17 15 17C18 17 18 7 21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+  {%- when 'easy-clean' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M7 3L17 13M14 3H20V9M4 20L10 14M4 15V20H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'built-to-last' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L20 6.5V11C20 15.5 16.9 19.7 12 21C7.1 19.7 4 15.5 4 11V6.5L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+  {%- when 'premium-aesthetic' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L14.5 9.5L21 12L14.5 14.5L12 21L9.5 14.5L3 12L9.5 9.5L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+  {%- when 'shopping-bag' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 8H18L17 21H7L6 8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8V6C9 4.34 10.34 3 12 3C13.66 3 15 4.34 15 6V8" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'envelope' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 7L12 13L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'lock' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7C8 4.79 9.79 3 12 3C14.21 3 16 4.79 16 7V11" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'shipping-truck' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 7H14V16H3V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 10H18L21 13V16H14V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="18" r="1.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="18" r="1.6" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'shield' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L19 6V11C19 15.5 16.1 19.4 12 21C7.9 19.4 5 15.5 5 11V6L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12L11 14L15 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'social-instagram' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+
+  {%- when 'social-tiktok' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M14 3V14.5C14 16.43 12.43 18 10.5 18C8.57 18 7 16.43 7 14.5C7 12.57 8.57 11 10.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 3C14 5.76 16.24 8 19 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+  {%- when 'social-youtube' -%}
+    <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 9.5L15 12L10.5 14.5V9.5Z" fill="currentColor"/></svg>
+
+  {%- when 'social-x' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 4L20 20M20 4L4 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+{%- endcase -%}
+</span>

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Reusable Glass Pads CTA button.
+  Params:
+    text        - button label (required)
+    url         - link href (required)
+    style       - 'primary' (cyan fill) | 'secondary' (ghost/underline), default 'primary'
+    icon        - optional gp-icon name to render after text (e.g. 'chevron-right')
+    full_width  - true to force full-width (mobile CTAs)
+{%- endcomment -%}
+
+{%- liquid
+  assign btn_style = style | default: 'primary'
+-%}
+
+<a
+  href="{{ url }}"
+  class="gp-btn gp-btn--{{ btn_style }}{% if full_width %} gp-btn--full{% endif %}"
+>
+  <span>{{ text }}</span>
+  {%- if icon -%}
+    {% render 'gp-icon', icon: icon, class: 'gp-btn__icon' %}
+  {%- endif -%}
+</a>

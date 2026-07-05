@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Glass Pads product placeholder">
+  <defs>
+    <linearGradient id="gp-prod-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5EE6D9" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#8B7CF6" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="gp-prod-sheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="35%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="65%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="#0A0A0C"/>
+  <rect x="120" y="180" width="560" height="440" rx="28" fill="#1D1E22" stroke="url(#gp-prod-glow)" stroke-width="3"/>
+  <rect x="120" y="180" width="560" height="440" rx="28" fill="url(#gp-prod-sheen)"/>
+  <line x1="140" y1="600" x2="660" y2="600" stroke="#5EE6D9" stroke-opacity="0.5" stroke-width="2"/>
+  <text x="400" y="410" font-family="Space Grotesk, sans-serif" font-size="28" fill="#9B9DA3" text-anchor="middle" letter-spacing="2">GLASS PAD — PRODUCT PHOTO</text>
+  <text x="400" y="446" font-family="IBM Plex Mono, monospace" font-size="14" fill="#5EE6D9" text-anchor="middle" letter-spacing="3">4MM / TEMPERED / SEALED ARTWORK</text>
+</svg>

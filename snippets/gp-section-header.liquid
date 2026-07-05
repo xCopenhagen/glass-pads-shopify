@@ -1,0 +1,22 @@
+{%- comment -%}
+  Reusable section heading + subheading + optional eyebrow label pattern.
+  Params:
+    eyebrow    - optional small IBM Plex Mono uppercase label above heading
+    heading    - main H2 heading text (required)
+    subheading - optional supporting body copy
+    align      - 'left' | 'center', default 'center'
+{%- endcomment -%}
+
+{%- liquid
+  assign header_align = align | default: 'center'
+-%}
+
+<div class="gp-section-header gp-section-header--{{ header_align }}">
+  {%- if eyebrow -%}
+    <p class="gp-eyebrow">{{ eyebrow }}</p>
+  {%- endif -%}
+  <h2 class="gp-h2">{{ heading }}</h2>
+  {%- if subheading -%}
+    <p class="gp-section-header__sub">{{ subheading }}</p>
+  {%- endif -%}
+</div>

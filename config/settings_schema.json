@@ -1,0 +1,168 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Glass Pads",
+    "theme_version": "1.0.0",
+    "theme_author": "Glass Pads",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand palette"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_primary",
+        "label": "Primary background (Void Black)",
+        "default": "#0A0A0C"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_secondary",
+        "label": "Secondary background (Slate Charcoal)",
+        "default": "#141417"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface / panel (Graphite)",
+        "default": "#1D1E22"
+      },
+      {
+        "type": "color",
+        "id": "color_text_primary",
+        "label": "Primary text (Pure White)",
+        "default": "#F5F6F7"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary text (Cool Gray)",
+        "default": "#9B9DA3"
+      },
+      {
+        "type": "color",
+        "id": "color_cyan",
+        "label": "Accent — Glass Cyan",
+        "default": "#5EE6D9"
+      },
+      {
+        "type": "color",
+        "id": "color_violet",
+        "label": "Accent — Electric Violet",
+        "default": "#8B7CF6"
+      },
+      {
+        "type": "color",
+        "id": "color_frost_white",
+        "label": "Light mode base (Frost White)",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "color",
+        "id": "color_mint",
+        "label": "Success / trust (Mint)",
+        "default": "#4ADE80"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border / divider (Hairline Gray)",
+        "default": "#2A2B30"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "paragraph",
+        "content": "Glass Pads uses Space Grotesk (display), Inter (body/UI) and IBM Plex Mono (spec labels), loaded via Google Fonts in the theme layout."
+      },
+      {
+        "type": "select",
+        "id": "heading_font_weight",
+        "label": "Heading weight",
+        "options": [
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semibold" },
+          { "value": "700", "label": "Bold" }
+        ],
+        "default": "600"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "text",
+        "id": "social_x_link",
+        "label": "X (Twitter) URL"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "text",
+        "id": "newsletter_heading",
+        "label": "Newsletter heading",
+        "default": "Get 10% off your first order"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_button_text",
+        "label": "Subscribe button text",
+        "default": "Subscribe"
+      }
+    ]
+  },
+  {
+    "name": "Shipping & guarantee",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shipping_text",
+        "label": "Shipping micro-copy",
+        "default": "Free Shipping"
+      },
+      {
+        "type": "text",
+        "id": "guarantee_text",
+        "label": "Guarantee micro-copy",
+        "default": "30-Day Guarantee"
+      },
+      {
+        "type": "text",
+        "id": "secure_checkout_text",
+        "label": "Secure checkout micro-copy",
+        "default": "Secure Checkout"
+      }
+    ]
+  }
+]
