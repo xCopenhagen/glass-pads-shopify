@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "gp-policies-page",
+      "settings": {
+        "heading": ""
+      },
+      "blocks": {
+        "content": {
+          "type": "content",
+          "settings": {
+            "body": "<p>Add your policy content here, or delete this block and add repeatable \"Policy Section\" blocks instead for a policy with a table of contents (e.g. Privacy, Refund, Shipping, Terms).</p>"
+          }
+        }
+      },
+      "block_order": ["content"]
+    }
+  },
+  "order": ["main"]
+}

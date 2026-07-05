@@ -1,0 +1,194 @@
+{%- comment -%}
+  About Us Page
+  One modular section with four block types (hero, story, values, cta) that
+  together build the full /pages/about brand story page. "value_card" is a
+  repeatable child block — add as many as needed under the "values" block;
+  they render nested inside it wherever it sits in the block order.
+{%- endcomment -%}
+
+{%- liquid
+  assign value_cards = section.blocks | where: "type", "value_card"
+-%}
+
+<div class="gp-about-page">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+      {%- when 'hero' -%}
+        <div class="gp-about-hero" {{ block.shopify_attributes }}>
+          <div class="gp-about-hero__glow" aria-hidden="true"></div>
+          {%- if block.settings.background_image != blank -%}
+            <img
+              class="gp-about-hero__image"
+              src="{{ block.settings.background_image | image_url: width: 1920 }}"
+              alt=""
+              loading="eager"
+              fetchpriority="high"
+              width="{{ block.settings.background_image.width }}"
+              height="{{ block.settings.background_image.height }}"
+            >
+          {%- else -%}
+            <img class="gp-about-hero__image" src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="eager">
+          {%- endif -%}
+          <div class="gp-container gp-about-hero__content">
+            <h1 class="gp-h1 gp-about-hero__heading">{{ block.settings.heading }}</h1>
+            {%- if block.settings.subheading != blank -%}
+              <p class="gp-about-hero__subheading">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- when 'story' -%}
+        <div class="gp-about-story gp-section gp-bg-primary" {{ block.shopify_attributes }}>
+          <div class="gp-container">
+            <div class="gp-about-story__grid gp-about-story--image-{{ block.settings.image_position | default: 'right' }}">
+              <div class="gp-about-story__media">
+                {%- if block.settings.image != blank -%}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 900 }}"
+                    alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                    loading="lazy"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                  >
+                {%- else -%}
+                  <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="{{ block.settings.heading | escape }}" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div class="gp-about-story__text">
+                <h2 class="gp-h2">{{ block.settings.heading }}</h2>
+                <div class="gp-about-story__body gp-body">{{ block.settings.body }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {%- when 'values' -%}
+        <div class="gp-about-values gp-section gp-bg-secondary" {{ block.shopify_attributes }}>
+          <div class="gp-container">
+            {% render 'gp-section-header', eyebrow: block.settings.eyebrow, heading: block.settings.heading %}
+            <div class="gp-about-values__grid">
+              {%- for card in value_cards -%}
+                <div class="gp-about-value-card" {{ card.shopify_attributes }}>
+                  {% render 'gp-icon', icon: card.settings.icon, class: 'gp-about-value-card__icon' %}
+                  <h3 class="gp-h3">{{ card.settings.title }}</h3>
+                  <p class="gp-body">{{ card.settings.description }}</p>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+      {%- when 'cta' -%}
+        <div class="gp-about-cta gp-section" {{ block.shopify_attributes }}>
+          <div class="gp-about-cta__glow" aria-hidden="true"></div>
+          <div class="gp-container gp-about-cta__content">
+            <h2 class="gp-h2">{{ block.settings.heading }}</h2>
+            {%- if block.settings.body != blank -%}
+              <p class="gp-about-cta__body">{{ block.settings.body }}</p>
+            {%- endif -%}
+            {%- if block.settings.button_text != blank -%}
+              <div class="gp-about-cta__actions">
+                {% render 'gp-button', text: block.settings.button_text, url: block.settings.button_link, style: 'primary' %}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- else -%}
+        {%- comment -%} value_card blocks render inside their parent "values" block above. {%- endcomment -%}
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "About Us Page",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Headline", "default": "Built Different. On Purpose." },
+        { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Glass Pads was born from a simple observation: your desk setup deserves better than fabric." },
+        { "type": "image_picker", "id": "background_image", "label": "Background image" }
+      ]
+    },
+    {
+      "type": "story",
+      "name": "Brand Story",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Why Glass?" },
+        { "type": "richtext", "id": "body", "label": "Body copy", "default": "<p>We started with a question: why do we spend thousands on keyboards, monitors, and peripherals — and then use a fraying cloth pad that collects dust, sweat, and coffee stains? Tempered glass was the answer. It's the same precision material used in the devices it supports. It's cleaner, faster, and it lasts. Every Glass Pad is designed to be the foundation of a premium desk setup — not an afterthought.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "right"
+        }
+      ]
+    },
+    {
+      "type": "values",
+      "name": "Values",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "What We Stand For" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "The Principles Behind Every Pad." }
+      ]
+    },
+    {
+      "type": "value_card",
+      "name": "Value Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "built-to-last", "label": "Built to Last" },
+            { "value": "premium-aesthetic", "label": "Premium Aesthetic" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "users", "label": "Community" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "built-to-last"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Precision Engineering" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Every surface is micro-etched for consistent glide." }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Closing CTA",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "See the Collection" },
+        { "type": "textarea", "id": "body", "label": "Body copy" },
+        { "type": "text", "id": "button_text", "label": "Button text", "default": "See the Collection" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Page",
+      "blocks": [
+        { "type": "hero", "settings": {} },
+        { "type": "story", "settings": {} },
+        { "type": "values", "settings": {} },
+        { "type": "value_card", "settings": { "icon": "built-to-last", "title": "Precision Engineering", "description": "Every surface is micro-etched for consistent glide." } },
+        { "type": "value_card", "settings": { "icon": "palette", "title": "Art-First Design", "description": "We collaborate with artists to turn desk space into gallery space." } },
+        { "type": "value_card", "settings": { "icon": "shield", "title": "Built to Last", "description": "4mm tempered glass that outlasts every other pad you've owned." } },
+        { "type": "value_card", "settings": { "icon": "users", "title": "Community Driven", "description": "Your setups inspire the next generation of designs." } },
+        { "type": "cta", "settings": { "heading": "See the Collection", "button_text": "See the Collection", "button_link": "/collections/all" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

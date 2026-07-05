@@ -1,0 +1,83 @@
+{%- comment -%}
+  Policies Page
+  Reusable section for legal/policy pages (Privacy, Refund, Shipping, Terms).
+  Two block types: "content" for a single unstructured richtext block, and
+  repeatable "section" blocks (heading + body) for multi-section policies —
+  a table of contents auto-generates from "section" block headings when
+  there's more than one.
+{%- endcomment -%}
+
+{%- liquid
+  assign policy_sections = section.blocks | where: "type", "section"
+-%}
+
+<div class="gp-policies-page gp-bg-frost gp-section">
+  <div class="gp-container gp-policies-page__container">
+    <h1 class="gp-h1 gp-policies-page__heading">{{ section.settings.heading | default: page.title }}</h1>
+
+    {%- if policy_sections.size > 1 -%}
+      <nav class="gp-policies-page__toc" aria-label="Table of contents">
+        <p class="gp-mono-spec gp-policies-page__toc-label">On This Page</p>
+        <ul class="gp-policies-page__toc-list">
+          {%- for policy_section in policy_sections -%}
+            <li><a href="#{{ policy_section.settings.heading | handle }}">{{ policy_section.settings.heading }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'content' -%}
+          <div class="gp-policies-page__content gp-body" {{ block.shopify_attributes }}>{{ block.settings.body }}</div>
+
+        {%- when 'section' -%}
+          <div class="gp-policies-page__section" id="{{ block.settings.heading | handle }}" {{ block.shopify_attributes }}>
+            <h2 class="gp-h3">{{ block.settings.heading }}</h2>
+            <div class="gp-policies-page__content gp-body">{{ block.settings.body }}</div>
+          </div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Policies Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the page's own title."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Single Content Block",
+      "settings": [
+        { "type": "richtext", "id": "body", "label": "Body copy" }
+      ]
+    },
+    {
+      "type": "section",
+      "name": "Policy Section",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Section heading", "default": "Section Heading" },
+        { "type": "richtext", "id": "body", "label": "Section body" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Policies Page",
+      "blocks": [
+        { "type": "content", "settings": {} }
+      ]
+    }
+  ]
+}
+{% endschema %}

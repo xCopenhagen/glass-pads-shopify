@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "main": {
+      "type": "gp-about-page",
+      "settings": {},
+      "blocks": {
+        "hero": {
+          "type": "hero",
+          "settings": {
+            "heading": "Built Different. On Purpose.",
+            "subheading": "Glass Pads was born from a simple observation: your desk setup deserves better than fabric."
+          }
+        },
+        "story": {
+          "type": "story",
+          "settings": {
+            "heading": "Why Glass?",
+            "body": "<p>We started with a question: why do we spend thousands on keyboards, monitors, and peripherals — and then use a fraying cloth pad that collects dust, sweat, and coffee stains? Tempered glass was the answer. It's the same precision material used in the devices it supports. It's cleaner, faster, and it lasts. Every Glass Pad is designed to be the foundation of a premium desk setup — not an afterthought.</p>",
+            "image_position": "right"
+          }
+        },
+        "values": {
+          "type": "values",
+          "settings": {
+            "eyebrow": "What We Stand For",
+            "heading": "The Principles Behind Every Pad."
+          }
+        },
+        "value-1": {
+          "type": "value_card",
+          "settings": {
+            "icon": "built-to-last",
+            "title": "Precision Engineering",
+            "description": "Every surface is micro-etched for consistent glide."
+          }
+        },
+        "value-2": {
+          "type": "value_card",
+          "settings": {
+            "icon": "palette",
+            "title": "Art-First Design",
+            "description": "We collaborate with artists to turn desk space into gallery space."
+          }
+        },
+        "value-3": {
+          "type": "value_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Built to Last",
+            "description": "4mm tempered glass that outlasts every other pad you've owned."
+          }
+        },
+        "value-4": {
+          "type": "value_card",
+          "settings": {
+            "icon": "users",
+            "title": "Community Driven",
+            "description": "Your setups inspire the next generation of designs."
+          }
+        },
+        "cta": {
+          "type": "cta",
+          "settings": {
+            "heading": "See the Collection",
+            "button_text": "See the Collection",
+            "button_link": "/collections/all"
+          }
+        }
+      },
+      "block_order": ["hero", "story", "values", "value-1", "value-2", "value-3", "value-4", "cta"]
+    }
+  },
+  "order": ["main"]
+}
