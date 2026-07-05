@@ -79,15 +79,86 @@
     <link rel="alternate" hreflang="x-default" href="{{ shop.url }}">
   {%- endif -%}
 
+  {%- comment -%} Resource hints — Shopify CDN + Google Fonts. {%- endcomment -%}
+  <link rel="preconnect" href="https://cdn.shopify.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Brand typography: Space Grotesk (display), Inter (body/UI), IBM Plex Mono (spec/labels) -->
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  {%- if request.page_type == 'product' and product.featured_image != blank -%}
+    <link rel="preload" as="image" href="{{ product.featured_image | image_url: width: 1000 }}" fetchpriority="high">
+  {%- endif -%}
+  {%- comment -%}
+    The homepage hero image doesn't need a matching preload here: its <img>
+    (sections/gp-hero.liquid) already renders with loading="eager"
+    fetchpriority="high", which gives the browser the same priority signal
+    without guessing at a section setting that isn't visible from the layout.
+  {%- endcomment -%}
+
+  {%- comment -%}
+    Critical CSS: hero + nav only, inlined so the first viewport paints
+    without waiting on the full stylesheet. Keep this in sync by hand with
+    gp-theme.css §1 (custom properties) and the Hero/Nav rules — it's a
+    trimmed subset, not a generated build step, so don't let it grow past a
+    few KB.
+  {%- endcomment -%}
+  <style>
+    :root{--color-bg-primary:#0A0A0C;--color-bg-secondary:#141417;--color-text-primary:#F5F6F7;--color-text-secondary:#9B9DA3;--color-cyan:#5EE6D9;--color-border:#2A2B30;--color-text-on-cyan:#0A0A0C;--font-display:"Space Grotesk",sans-serif;--font-body:"Inter",sans-serif;--fs-h1:clamp(2.75rem,5vw,5rem);--container-width:{{ settings.container_width | default: 1280 }}px;--section-padding-y:clamp(3.5rem,{{ settings.section_padding | default: 7 }}vw,7rem);--radius-sm:8px;--ease-out:cubic-bezier(0.16,1,0.3,1)}
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;background:var(--color-bg-primary);color:var(--color-text-primary);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+    img,svg,video{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    .gp-skip-link{position:absolute;left:-9999px;top:0;background:var(--color-cyan);color:var(--color-text-on-cyan);padding:.75rem 1.25rem;z-index:1000;border-radius:0 0 8px 0}
+    .gp-skip-link:focus{left:0}
+    .gp-container{width:100%;max-width:var(--container-width);margin:0 auto;padding:0 1.5rem}
+    .gp-h1{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h1);letter-spacing:-0.02em;line-height:1.05;margin:0}
+    .gp-nav{background:var(--color-bg-primary);border-bottom:1px solid var(--color-border)}
+    .gp-nav__inner{display:flex;align-items:center;justify-content:space-between;min-height:72px}
+    .gp-nav__left{display:flex;align-items:center;gap:.75rem}
+    .gp-nav__logo{font-family:var(--font-display);font-weight:600;letter-spacing:.02em}
+    .gp-nav__links{display:none;align-items:center;gap:2rem}
+    .gp-nav__actions{display:flex;align-items:center;gap:1.25rem}
+    .gp-mobile-nav-toggle{background:none;border:0;color:var(--color-text-primary);padding:0}
+    @media (min-width:768px){.gp-nav__links{display:flex}.gp-mobile-nav-toggle{display:none}}
+    .gp-hero{position:relative;overflow:hidden;background:var(--color-bg-primary)}
+    .gp-hero__media{position:relative;width:100%;padding-top:125%}
+    .gp-hero__image,.gp-hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .gp-hero__image--mobile{display:block}
+    .gp-hero__image--desktop{display:none}
+    .gp-hero__overlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,var(--color-bg-primary) 100%),rgba(10,10,12,var(--gp-hero-overlay,0.45))}
+    .gp-hero__content{position:relative;z-index:2;padding-top:3rem;padding-bottom:3.5rem;text-align:center}
+    .gp-hero__heading{color:var(--color-text-primary)}
+    .gp-hero__subheading{max-width:640px;margin:1.25rem auto 0;color:var(--color-text-secondary);font-size:1.125rem}
+    .gp-hero__actions{margin-top:2rem;display:flex;flex-direction:column;align-items:center;gap:.75rem}
+    .gp-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.75rem;border-radius:var(--radius-sm);font-family:var(--font-body);font-weight:600;font-size:1rem;white-space:nowrap}
+    .gp-btn--primary{background:var(--color-cyan);color:var(--color-text-on-cyan);border:1px solid var(--color-cyan)}
+    @media (max-width:767px){.gp-btn:not(.gp-btn--secondary){width:100%}}
+    @media (min-width:768px){.gp-hero__media{padding-top:62%}.gp-hero__content{padding-top:4.5rem;padding-bottom:5rem}.gp-hero__actions{flex-direction:row;justify-content:center}}
+    @media (min-width:1024px){.gp-hero__image--desktop{display:block}.gp-hero__image--mobile{display:none}}
+  </style>
+
+  {%- comment -%}
+    Brand typography: Space Grotesk (display), Inter (body/UI), IBM Plex Mono
+    (spec/labels). Loaded async (media="print" swapped to "all" on load) so
+    it never blocks the first paint; font-display=swap in the Google Fonts
+    URL itself avoids invisible text in the meantime.
+  {%- endcomment -%}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"></noscript>
 
   {{ content_for_header }}
 
-  <link rel="stylesheet" href="{{ 'gp-theme.css' | asset_url }}">
+  {%- comment -%} Full stylesheet loads async, same media-swap pattern, so it never blocks rendering. {%- endcomment -%}
+  <link rel="stylesheet" href="{{ 'gp-theme.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="{{ 'gp-theme.css' | asset_url }}"></noscript>
+
+  {%- comment -%}
+    gp-theme.css declares its own static :root defaults for --container-width
+    / --section-padding-y. Because that stylesheet's <link> sits after the
+    critical <style> above in document order, once it loads it would win the
+    cascade tie and silently discard the Layout settings override — this
+    block re-asserts them afterward so the theme editor setting always wins.
+  {%- endcomment -%}
+  <style>:root{--container-width:{{ settings.container_width | default: 1280 }}px;--section-padding-y:clamp(3.5rem,{{ settings.section_padding | default: 7 }}vw,7rem)}</style>
 
   {% render 'gp-jsonld' %}
 </head>
