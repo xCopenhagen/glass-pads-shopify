@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
   initBeforeAfterSliders();
   initStickyShopBar();
   initFilterPills();
+  initCollectionSort();
+  initInfiniteScroll();
 });
 
 /* Fade sections/cards in as they enter the viewport. */
@@ -112,6 +114,60 @@ function initStickyShopBar() {
   }, { threshold: 0 });
 
   observer.observe(hero);
+}
+
+/* Collection page sort-by dropdown — submits the native ?sort_by= param. */
+function initCollectionSort() {
+  document.querySelectorAll('[data-gp-sort-select]').forEach(function (select) {
+    select.addEventListener('change', function () {
+      select.closest('form').submit();
+    });
+  });
+}
+
+/* Collection page infinite scroll — fetches and appends the next page of products. */
+function initInfiniteScroll() {
+  document.querySelectorAll('[data-gp-infinite-scroll]').forEach(function (grid) {
+    if (!('IntersectionObserver' in window)) return;
+
+    var sentinel = document.createElement('div');
+    grid.after(sentinel);
+    var loading = false;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) loadNextPage();
+      });
+    }, { rootMargin: '400px' });
+
+    observer.observe(sentinel);
+
+    function loadNextPage() {
+      var nextUrl = grid.dataset.gpNextUrl;
+      if (loading || !nextUrl) return;
+      loading = true;
+
+      fetch(nextUrl)
+        .then(function (response) { return response.text(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var nextGrid = doc.getElementById(grid.id);
+          if (!nextGrid) return;
+
+          nextGrid.querySelectorAll(':scope > .gp-product-card').forEach(function (card) {
+            grid.appendChild(card);
+          });
+
+          if (nextGrid.dataset.gpNextUrl) {
+            grid.dataset.gpNextUrl = nextGrid.dataset.gpNextUrl;
+          } else {
+            grid.removeAttribute('data-gp-next-url');
+            observer.unobserve(sentinel);
+          }
+        })
+        .finally(function () { loading = false; });
+    }
+  });
 }
 
 /* Product showcase filter pills — client-side show/hide by collection tag. */

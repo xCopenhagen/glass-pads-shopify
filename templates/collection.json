@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "gp-collection-hero": {
+      "type": "gp-collection-hero",
+      "settings": {
+        "overlay_opacity": 55
+      }
+    },
+    "gp-collection-grid": {
+      "type": "gp-collection-grid",
+      "settings": {
+        "products_per_page": 24,
+        "show_sort_by": true,
+        "enable_infinite_scroll": false
+      }
+    }
+  },
+  "order": ["gp-collection-hero", "gp-collection-grid"]
+}
