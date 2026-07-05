@@ -12,11 +12,73 @@
     {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
   </title>
 
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
+  {%- liquid
+    assign gp_meta_description = page_description | default: settings.og_default_description | default: shop.description
+    assign gp_meta_type = 'website'
+    assign gp_meta_image = settings.share_image | image_url: width: 1200
+
+    case request.page_type
+      when 'product'
+        assign gp_meta_type = 'product'
+        if product.featured_image != blank
+          assign gp_meta_image = product.featured_image | image_url: width: 1200
+        endif
+        if gp_meta_description == blank
+          assign gp_meta_description = product.description | strip_html | strip_newlines | truncate: 200
+        endif
+      when 'article'
+        assign gp_meta_type = 'article'
+        if article.image != blank
+          assign gp_meta_image = article.image | image_url: width: 1200
+        endif
+        if gp_meta_description == blank
+          assign gp_meta_description = article.excerpt | strip_html | strip_newlines | truncate: 200
+          if gp_meta_description == blank
+            assign gp_meta_description = article.content | strip_html | strip_newlines | truncate: 200
+          endif
+        endif
+      when 'collection'
+        if collection.image != blank
+          assign gp_meta_image = collection.image | image_url: width: 1200
+        endif
+        if gp_meta_description == blank
+          assign gp_meta_description = collection.description | strip_html | strip_newlines | truncate: 200
+        endif
+    endcase
+
+    if gp_meta_description == blank
+      assign gp_meta_description = 'Premium tempered glass mousepads with artwork sealed underneath. Smooth glide, easy clean, built to last.'
+    endif
+  -%}
+
+  {% if gp_meta_description %}
+    <meta name="description" content="{{ gp_meta_description | escape }}">
   {% endif %}
+  <meta name="robots" content="{% if request.page_type == 'password' %}noindex, nofollow{% else %}index, follow{% endif %}">
 
   <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- comment -%} Open Graph {%- endcomment -%}
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ gp_meta_description | escape }}">
+  {% if gp_meta_image != blank %}<meta property="og:image" content="{{ gp_meta_image }}">{% endif %}
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:type" content="{{ gp_meta_type }}">
+  <meta property="og:site_name" content="{{ shop.name }}">
+
+  {%- comment -%} Twitter Card {%- endcomment -%}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title | escape }}">
+  <meta name="twitter:description" content="{{ gp_meta_description | escape }}">
+  {% if gp_meta_image != blank %}<meta name="twitter:image" content="{{ gp_meta_image }}">{% endif %}
+
+  {%- if shop.published_locales.size > 1 -%}
+    {%- for locale in shop.published_locales -%}
+      <link rel="alternate" hreflang="{{ locale.iso_code }}" href="{{ shop.url }}{{ locale.root_url }}">
+    {%- endfor -%}
+    <link rel="alternate" hreflang="x-default" href="{{ shop.url }}">
+  {%- endif -%}
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -26,6 +88,8 @@
   {{ content_for_header }}
 
   <link rel="stylesheet" href="{{ 'gp-theme.css' | asset_url }}">
+
+  {% render 'gp-jsonld' %}
 </head>
 
 <body class="template-{{ request.page_type }}">
