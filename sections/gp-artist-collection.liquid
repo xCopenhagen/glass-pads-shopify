@@ -1,0 +1,183 @@
+{%- comment -%}
+  Artist Collection Spotlight
+  Editorial/gallery layout for the current featured drop, plus a repeatable
+  "Past Drop" thumbnail row with status badges. Electric Violet plays the
+  lead accent role here — the one place it outweighs cyan.
+{%- endcomment -%}
+
+<section class="gp-artist-collection gp-section">
+  <div class="gp-artist-collection__glow" aria-hidden="true"></div>
+
+  <div class="gp-container">
+    <div class="gp-artist-collection__spotlight">
+      <div class="gp-artist-collection__media gp-fade-in">
+        {%- if section.settings.featured_image != blank -%}
+          <img
+            src="{{ section.settings.featured_image | image_url: width: 1000 }}"
+            alt="{{ section.settings.featured_image.alt | default: section.settings.heading | escape }}"
+            loading="lazy"
+            width="{{ section.settings.featured_image.width }}"
+            height="{{ section.settings.featured_image.height }}"
+          >
+        {%- else -%}
+          <img src="{{ 'gp-placeholder-artwork.svg' | asset_url }}" alt="Featured artist artwork placeholder" loading="lazy">
+        {%- endif -%}
+      </div>
+
+      <div class="gp-artist-collection__text gp-fade-in">
+        {%- if section.settings.drop_label != blank -%}
+          <p class="gp-mono-spec gp-artist-collection__drop">{{ section.settings.drop_label }}</p>
+        {%- endif -%}
+        <h2 class="gp-h2">{{ section.settings.heading }}</h2>
+        <div class="gp-body">{{ section.settings.body }}</div>
+
+        {%- if section.settings.artist_name != blank -%}
+          <div class="gp-artist-collection__artist">
+            {%- if section.settings.artist_portrait != blank -%}
+              <img class="gp-artist-collection__portrait" src="{{ section.settings.artist_portrait | image_url: width: 96 }}" alt="{{ section.settings.artist_name | escape }}" loading="lazy" width="48" height="48">
+            {%- endif -%}
+            <div>
+              <p class="gp-artist-collection__artist-name">{{ section.settings.artist_name }}</p>
+              {%- if section.settings.artist_bio != blank -%}
+                <p class="gp-artist-collection__artist-bio">{{ section.settings.artist_bio }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="gp-artist-collection__actions">
+          {%- if section.settings.primary_btn_text != blank -%}
+            {% render 'gp-button', text: section.settings.primary_btn_text, url: section.settings.primary_btn_link, style: 'primary' %}
+          {%- endif -%}
+          {%- if section.settings.secondary_btn_text != blank -%}
+            {% render 'gp-button', text: section.settings.secondary_btn_text, url: section.settings.secondary_btn_link, style: 'secondary', icon: 'chevron-right' %}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="gp-artist-collection__past-drops">
+        <p class="gp-eyebrow">Past Drops</p>
+        <div class="gp-past-drops__row">
+          {%- for block in section.blocks -%}
+            <a href="{{ block.settings.link | default: '#' }}" class="gp-past-drop" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="200" height="200">
+              {%- else -%}
+                <img src="{{ 'gp-placeholder-artwork.svg' | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+              <span class="gp-past-drop__badge gp-past-drop__badge--{{ block.settings.status | handleize }}">{{ block.settings.status }}</span>
+              <p class="gp-past-drop__title">{{ block.settings.title }}</p>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Artist Collection Spotlight",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured collection"
+    },
+    {
+      "type": "text",
+      "id": "drop_label",
+      "label": "Drop label",
+      "default": "Drop 004"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Limited Art. Sealed in Glass."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy",
+      "default": "<p>Every drop features original artwork from independent artists — once it's gone, it's gone. New designs, released in limited runs.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured artwork image"
+    },
+    {
+      "type": "text",
+      "id": "artist_name",
+      "label": "Artist name"
+    },
+    {
+      "type": "textarea",
+      "id": "artist_bio",
+      "label": "Artist bio"
+    },
+    {
+      "type": "image_picker",
+      "id": "artist_portrait",
+      "label": "Artist portrait"
+    },
+    {
+      "type": "text",
+      "id": "primary_btn_text",
+      "label": "Primary button text",
+      "default": "Explore Current Drop"
+    },
+    {
+      "type": "url",
+      "id": "primary_btn_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary button text",
+      "default": "Meet the Artists"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "past_drop",
+      "name": "Past Drop",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Drop 003 — Nebula" },
+        {
+          "type": "select",
+          "id": "status",
+          "label": "Status",
+          "options": [
+            { "value": "Available", "label": "Available" },
+            { "value": "Limited", "label": "Limited" },
+            { "value": "Sold Out", "label": "Sold Out" }
+          ],
+          "default": "Sold Out"
+        },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artist Collection Spotlight",
+      "blocks": [
+        { "type": "past_drop", "settings": { "title": "Drop 003 — Nebula", "status": "Sold Out" } },
+        { "type": "past_drop", "settings": { "title": "Drop 002 — Circuit", "status": "Limited" } },
+        { "type": "past_drop", "settings": { "title": "Drop 001 — Origins", "status": "Available" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

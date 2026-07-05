@@ -748,3 +748,157 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 767px) {
   .gp-use-cases__grid { grid-template-columns: 1fr; }
 }
+
+/* ---- Customer Reviews -------------------------------------------------------- */
+.gp-testimonials__aggregate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: -1rem 0 2.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.gp-testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.gp-testimonial-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+}
+
+.gp-testimonial-card__quote {
+  margin: 1rem 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.gp-testimonial-card__author { display: flex; align-items: center; gap: 0.75rem; }
+.gp-testimonial-card__avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.gp-testimonial-card__avatar--placeholder { background: linear-gradient(135deg, var(--color-cyan), var(--color-violet)); }
+.gp-testimonial-card__name { margin: 0; font-weight: 600; }
+.gp-testimonial-card__badge { margin: 0; font-size: 0.8rem; color: var(--color-text-secondary); }
+
+.gp-testimonials__app-slot { text-align: center; color: var(--color-text-secondary); }
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .gp-testimonials__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .gp-testimonials__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 85%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem 0.5rem;
+  }
+  .gp-testimonial-card { scroll-snap-align: start; }
+}
+
+/* ---- Artist Collection Spotlight --------------------------------------------- */
+.gp-artist-collection {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+}
+
+.gp-artist-collection__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(139, 124, 246, 0.28), transparent 55%);
+  pointer-events: none;
+}
+
+.gp-artist-collection__spotlight {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.gp-artist-collection__media img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 70px rgba(139, 124, 246, 0.25);
+}
+
+.gp-artist-collection__drop { color: var(--color-violet); margin: 0 0 0.75rem; }
+.gp-artist-collection__text h2 { margin-bottom: 1rem; }
+
+.gp-artist-collection__artist {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+.gp-artist-collection__portrait { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.gp-artist-collection__artist-name { margin: 0; font-weight: 600; }
+.gp-artist-collection__artist-bio { margin: 0; font-size: 0.9rem; color: var(--color-text-secondary); }
+
+.gp-artist-collection__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.gp-artist-collection__past-drops { margin-top: clamp(3rem, 6vw, 4.5rem); position: relative; z-index: 1; }
+.gp-artist-collection__past-drops .gp-eyebrow { text-align: left; }
+
+.gp-past-drops__row {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+
+.gp-past-drop {
+  position: relative;
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.gp-past-drop img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+
+.gp-past-drop__badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: var(--color-bg-primary);
+}
+.gp-past-drop__badge--available { color: var(--color-mint); }
+.gp-past-drop__badge--limited { color: var(--color-cyan); }
+.gp-past-drop__badge--sold-out { color: var(--color-text-secondary); }
+
+.gp-past-drop__title { margin: 0.6rem 0.75rem 0.85rem; font-size: 0.9rem; }
+
+@media (min-width: 768px) {
+  .gp-artist-collection__actions { flex-direction: row; }
+}
+
+@media (min-width: 1024px) {
+  .gp-artist-collection__spotlight { grid-template-columns: 1fr 1fr; gap: 4rem; }
+}

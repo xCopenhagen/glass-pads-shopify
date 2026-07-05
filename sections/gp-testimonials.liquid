@@ -1,0 +1,110 @@
+{%- comment -%}
+  Customer Reviews
+  Static, app-agnostic "Testimonial" blocks by default. Toggle "Use review
+  app instead" once a review app (Judge.me/Loox/Okendo) snippet is ready to
+  swap in — avoids app lock-in from day one.
+{%- endcomment -%}
+
+<section class="gp-testimonials gp-bg-primary gp-section">
+  <div class="gp-container">
+    {% render 'gp-section-header', eyebrow: section.settings.eyebrow, heading: section.settings.heading %}
+
+    {%- if section.settings.aggregate_text != blank -%}
+      <div class="gp-testimonials__aggregate">
+        {% render 'gp-star-rating', rating: section.settings.aggregate_rating %}
+        <span>{{ section.settings.aggregate_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.use_review_app -%}
+      <div class="gp-testimonials__app-slot">
+        {%- comment -%} Swap in your review app's Liquid snippet render here, e.g. {% render 'judgeme-widgets' %} {%- endcomment -%}
+        <p class="gp-body">Review app widget goes here — enable your review app snippet in this block.</p>
+      </div>
+    {%- else -%}
+      <div class="gp-testimonials__grid">
+        {%- for block in section.blocks -%}
+          <div class="gp-testimonial-card gp-fade-in" {{ block.shopify_attributes }}>
+            {% render 'gp-star-rating', rating: block.settings.rating %}
+            <p class="gp-testimonial-card__quote">&ldquo;{{ block.settings.quote }}&rdquo;</p>
+            <div class="gp-testimonial-card__author">
+              {%- if block.settings.avatar != blank -%}
+                <img class="gp-testimonial-card__avatar" src="{{ block.settings.avatar | image_url: width: 96 }}" alt="{{ block.settings.name | escape }}" loading="lazy" width="48" height="48">
+              {%- else -%}
+                <span class="gp-testimonial-card__avatar gp-testimonial-card__avatar--placeholder"></span>
+              {%- endif -%}
+              <div>
+                <p class="gp-testimonial-card__name">{{ block.settings.name }}</p>
+                <p class="gp-testimonial-card__badge">Verified Buyer</p>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Social Proof"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Desks Everywhere."
+    },
+    {
+      "type": "range",
+      "id": "aggregate_rating",
+      "label": "Aggregate rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.9
+    },
+    {
+      "type": "text",
+      "id": "aggregate_text",
+      "label": "Aggregate rating text",
+      "default": "4.9/5 from 1,200+ reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_review_app",
+      "label": "Use review app instead",
+      "info": "Swap in a Judge.me/Loox/Okendo snippet once configured, instead of the static Testimonial blocks below.",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The glide is unreal compared to my old cloth pad. Looks incredible under my RGB setup." },
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Customer Name" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 0.5, "default": 5 },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "The glide is unreal compared to my old cloth pad. Looks incredible under my RGB setup.", "name": "Customer Name", "rating": 5 } },
+        { "type": "testimonial", "settings": { "quote": "Cleaning it takes 5 seconds. Wish I'd switched years ago.", "name": "Customer Name", "rating": 5 } },
+        { "type": "testimonial", "settings": { "quote": "The artwork under the glass is way better in person. Feels genuinely premium.", "name": "Customer Name", "rating": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
