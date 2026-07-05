@@ -13,11 +13,12 @@
 -%}
 
 <section class="gp-product gp-bg-primary gp-section">
+  <span class="gp-visually-hidden" data-gp-track-product-view="{{ product.handle }}" aria-hidden="true"></span>
   <div class="gp-container">
     <div class="gp-product__layout">
 
       <div class="gp-product__gallery" data-gp-product-gallery>
-        <div class="gp-product__main-image">
+        <div class="gp-product__main-image zoom-container" data-gp-image-zoom>
           {%- if product.featured_image != blank -%}
             <img
               data-gp-gallery-main
@@ -159,6 +160,40 @@
           </script>
         {%- endform -%}
 
+        {%- if section.settings.enable_back_in_stock -%}
+          {%- comment -%}
+            Shown/hidden in place of the add-to-cart form above by
+            gpInitProductForm (gp-theme.js) whenever the selected variant is
+            unavailable — see toggleBackInStock. Uses the native `contact`
+            form so no app is required; product/variant details go in the
+            message body since Shopify's contact form has no field for them.
+          {%- endcomment -%}
+          <div class="gp-back-in-stock" data-gp-back-in-stock data-product-title="{{ product.title | escape }}" {% if current_variant.available %}hidden{% endif %}>
+            {%- form 'contact', class: 'gp-back-in-stock__form' -%}
+              <input type="hidden" name="contact[tags]" value="back-in-stock-request">
+              <input
+                type="hidden"
+                name="contact[body]"
+                value="Back-in-stock request for {{ product.title | escape }} — {{ current_variant.title | escape }} (variant ID: {{ current_variant.id }})"
+                data-gp-back-in-stock-body
+              >
+              {%- if form.posted_successfully? -%}
+                <div class="gp-back-in-stock__success">
+                  {% render 'gp-icon', icon: 'tick' %}
+                  <p>{{ section.settings.back_in_stock_success }}</p>
+                </div>
+              {%- else -%}
+                <p class="gp-back-in-stock__heading gp-mono-spec">{{ section.settings.back_in_stock_heading }}</p>
+                <div class="gp-back-in-stock__row">
+                  <label for="GpBackInStockEmail-{{ section.id }}" class="gp-visually-hidden">Email address</label>
+                  <input type="email" name="contact[email]" id="GpBackInStockEmail-{{ section.id }}" placeholder="Enter your email" required class="gp-back-in-stock__input">
+                  <button type="submit" class="gp-btn gp-btn--primary">{{ section.settings.back_in_stock_button_text }}</button>
+                </div>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+
         <p class="gp-product__trust">
           <span>{% render 'gp-icon', icon: 'shipping-truck' %} Free Shipping</span>
           <span>{% render 'gp-icon', icon: 'shield' %} 30-Day Glide Guarantee</span>
@@ -236,6 +271,29 @@
   </div>
 </section>
 
+{%- comment -%}
+  Mobile sticky add-to-cart bar. Hidden on desktop via CSS; on mobile,
+  initStickyAddToCart (gp-theme.js) shows it once the real add-to-cart
+  button has scrolled out of view above the viewport. Its button forwards
+  a click to the real button rather than duplicating the cart-add logic, so
+  disabled/sold-out state and quantity/variant selection stay in sync for
+  free.
+{%- endcomment -%}
+<div class="gp-product-sticky-bar" data-gp-product-sticky-bar>
+  <div class="gp-product-sticky-bar__thumb">
+    {%- if product.featured_image != blank -%}
+      <img src="{{ product.featured_image | image_url: width: 120 }}" alt="" width="60" height="60" loading="lazy">
+    {%- endif -%}
+  </div>
+  <div class="gp-product-sticky-bar__info">
+    <p class="gp-product-sticky-bar__title">{{ product.title }}</p>
+    <p class="gp-product-sticky-bar__price" data-gp-sticky-price>{{ current_variant.price | money }}</p>
+  </div>
+  <button type="button" class="gp-btn gp-btn--primary gp-product-sticky-bar__cta" data-gp-sticky-add-to-cart>
+    Add to Cart
+  </button>
+</div>
+
 {%- if section.settings.show_related_products -%}
   {%- liquid
     assign related_collection = collections[section.settings.related_collection]
@@ -298,6 +356,31 @@
       "type": "collection",
       "id": "related_collection",
       "label": "Cross-sell collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_back_in_stock",
+      "label": "Show \"Notify Me\" form for sold-out variants",
+      "info": "Replaces the add-to-cart button with an email signup when the selected variant is unavailable. Uses the native contact form — no app required.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_heading",
+      "label": "Back-in-stock heading",
+      "default": "Notify Me When Available"
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_button_text",
+      "label": "Back-in-stock button text",
+      "default": "Notify Me"
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_success",
+      "label": "Back-in-stock success message",
+      "default": "We'll let you know when this is back in stock."
     }
   ],
   "presets": [
