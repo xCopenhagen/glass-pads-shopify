@@ -16,7 +16,30 @@ document.addEventListener('DOMContentLoaded', function () {
   initProductVariantPicker();
   initQuantityStepper();
   initProductTabs();
+  initAnnouncementBar();
+  initMobileNav();
+  initCartDrawer();
+  initCartIcon();
+  initSearchForm();
 });
+
+/* Shared body-scroll lock for the mobile nav drawer and cart drawer (counted,
+   so one drawer closing doesn't re-enable scroll while another is open). */
+var gpScrollLockCount = 0;
+function gpLockBodyScroll() {
+  gpScrollLockCount++;
+  document.body.style.overflow = 'hidden';
+}
+function gpUnlockBodyScroll() {
+  gpScrollLockCount = Math.max(0, gpScrollLockCount - 1);
+  if (gpScrollLockCount === 0) document.body.style.overflow = '';
+}
+
+function gpEscapeHtml(value) {
+  var div = document.createElement('div');
+  div.textContent = value;
+  return div.innerHTML;
+}
 
 /* Fade sections/cards in as they enter the viewport. */
 function initFadeInOnScroll() {
@@ -350,5 +373,262 @@ function initFilterPills() {
         });
       });
     });
+  });
+}
+
+/* Announcement bar — dismiss state stored in sessionStorage so it stays
+   hidden for the rest of the visit but reappears next session. */
+function initAnnouncementBar() {
+  var bar = document.querySelector('[data-gp-announcement-bar]');
+  if (!bar) return;
+
+  var key = bar.dataset.gpAnnouncementKey;
+  var closeBtn = bar.querySelector('[data-gp-announcement-close]');
+
+  try {
+    if (key && sessionStorage.getItem(key) === 'dismissed') {
+      bar.classList.add('is-hidden');
+    }
+  } catch (e) {}
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      bar.classList.add('is-hidden');
+      try {
+        if (key) sessionStorage.setItem(key, 'dismissed');
+      } catch (e) {}
+    });
+  }
+}
+
+/* Mobile navigation drawer — slide-in from left, overlay/Escape/close-button
+   dismissal, body scroll lock while open. */
+function initMobileNav() {
+  var toggle = document.querySelector('[data-gp-mobile-nav-open]');
+  var drawer = document.querySelector('[data-gp-mobile-nav-drawer]');
+  var overlay = document.querySelector('[data-gp-mobile-nav-overlay]');
+  var closeBtn = document.querySelector('[data-gp-mobile-nav-close]');
+  if (!toggle || !drawer || !overlay) return;
+
+  function open() {
+    drawer.classList.remove('is-closed');
+    drawer.classList.add('is-open');
+    drawer.removeAttribute('inert');
+    overlay.hidden = false;
+    requestAnimationFrame(function () { overlay.classList.add('is-visible'); });
+    toggle.setAttribute('aria-expanded', 'true');
+    gpLockBodyScroll();
+  }
+
+  function close() {
+    drawer.classList.remove('is-open');
+    drawer.classList.add('is-closed');
+    drawer.setAttribute('inert', '');
+    overlay.classList.remove('is-visible');
+    toggle.setAttribute('aria-expanded', 'false');
+    gpUnlockBodyScroll();
+    setTimeout(function () {
+      if (drawer.classList.contains('is-closed')) overlay.hidden = true;
+    }, 320);
+  }
+
+  toggle.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
+  });
+  drawer.querySelectorAll('.gp-mobile-nav-link').forEach(function (link) {
+    link.addEventListener('click', close);
+  });
+}
+
+/* Slide-out cart drawer — opens on add-to-cart or the nav cart icon, adjusts
+   quantities and removes lines via AJAX (/cart/change.js), and re-renders
+   itself from the Section Rendering API response so markup/schema settings
+   stay in sync without a full page reload. */
+function initCartDrawer() {
+  var drawer = document.querySelector('[data-gp-cart-drawer]');
+  var overlay = document.querySelector('[data-gp-cart-overlay]');
+  if (!drawer || !overlay) return;
+
+  var sectionId = drawer.dataset.sectionId;
+  var openTriggers = document.querySelectorAll('[data-gp-cart-open]');
+
+  function open() {
+    drawer.classList.remove('is-closed');
+    drawer.classList.add('is-open');
+    drawer.removeAttribute('inert');
+    overlay.hidden = false;
+    requestAnimationFrame(function () { overlay.classList.add('is-visible'); });
+    openTriggers.forEach(function (btn) { btn.setAttribute('aria-expanded', 'true'); });
+    gpLockBodyScroll();
+  }
+
+  function close() {
+    drawer.classList.remove('is-open');
+    drawer.classList.add('is-closed');
+    drawer.setAttribute('inert', '');
+    overlay.classList.remove('is-visible');
+    openTriggers.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
+    gpUnlockBodyScroll();
+    setTimeout(function () {
+      if (drawer.classList.contains('is-closed')) overlay.hidden = true;
+    }, 320);
+  }
+
+  openTriggers.forEach(function (btn) { btn.addEventListener('click', open); });
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
+  });
+
+  function updateCartBadge(count) {
+    document.querySelectorAll('[data-gp-cart-count]').forEach(function (el) {
+      el.textContent = count;
+    });
+  }
+
+  function refreshCartCount() {
+    fetch('/cart.js')
+      .then(function (res) { return res.json(); })
+      .then(function (cart) { updateCartBadge(cart.item_count); })
+      .catch(function () {});
+  }
+
+  function bindDrawerContentEvents() {
+    drawer.querySelectorAll('[data-gp-cart-close]').forEach(function (btn) {
+      btn.addEventListener('click', close);
+    });
+
+    drawer.querySelectorAll('[data-gp-cart-qty-stepper]').forEach(function (stepper) {
+      var line = parseInt(stepper.dataset.line, 10);
+      var input = stepper.querySelector('[data-gp-cart-qty-input]');
+      var decrease = stepper.querySelector('[data-gp-cart-qty-decrease]');
+      var increase = stepper.querySelector('[data-gp-cart-qty-increase]');
+      if (!input) return;
+
+      decrease.addEventListener('click', function () {
+        changeLine(line, Math.max(0, (parseInt(input.value, 10) || 1) - 1));
+      });
+      increase.addEventListener('click', function () {
+        changeLine(line, (parseInt(input.value, 10) || 1) + 1);
+      });
+      input.addEventListener('change', function () {
+        changeLine(line, Math.max(0, parseInt(input.value, 10) || 0));
+      });
+    });
+
+    drawer.querySelectorAll('[data-gp-cart-remove]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        changeLine(parseInt(btn.dataset.line, 10), 0);
+      });
+    });
+  }
+
+  function applySectionHtml(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var newDrawer = doc.querySelector('[data-gp-cart-drawer]');
+    if (!newDrawer) return;
+    drawer.innerHTML = newDrawer.innerHTML;
+    bindDrawerContentEvents();
+  }
+
+  function changeLine(line, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ line: line, quantity: quantity, sections: sectionId })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.sections && data.sections[sectionId]) applySectionHtml(data.sections[sectionId]);
+        refreshCartCount();
+      })
+      .catch(function () {});
+  }
+
+  bindDrawerContentEvents();
+
+  /* Intercept product-page add-to-cart forms so they open the drawer
+     instead of doing a full-page form submit/reload. */
+  document.querySelectorAll('[data-gp-product-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var formData = new FormData(form);
+      formData.append('sections', sectionId);
+
+      fetch('/cart/add.js', { method: 'POST', body: formData })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.sections && data.sections[sectionId]) applySectionHtml(data.sections[sectionId]);
+          refreshCartCount();
+          open();
+        })
+        .catch(function () {});
+    });
+  });
+}
+
+/* Syncs the nav cart count badge from Shopify's cart on page load (keeps
+   the badge correct after back/forward navigation from the browser cache). */
+function initCartIcon() {
+  var badges = document.querySelectorAll('[data-gp-cart-count]');
+  if (!badges.length) return;
+
+  fetch('/cart.js')
+    .then(function (res) { return res.json(); })
+    .then(function (cart) {
+      badges.forEach(function (el) { el.textContent = cart.item_count; });
+    })
+    .catch(function () {});
+}
+
+/* Basic live search suggestions for the search results page's refine field. */
+function initSearchForm() {
+  var input = document.getElementById('GpSearchRefine');
+  if (!input) return;
+
+  var wrap = input.closest('.gp-search-hero__form');
+  if (!wrap) return;
+
+  var list = document.createElement('div');
+  list.className = 'gp-search-hero__suggestions';
+  list.hidden = true;
+  wrap.appendChild(list);
+
+  var debounceTimer;
+
+  function fetchSuggestions(term) {
+    fetch('/search/suggest.json?q=' + encodeURIComponent(term) + '&resources[type]=product&resources[limit]=5')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var products = (data.resources && data.resources.results && data.resources.results.products) || [];
+        if (!products.length) {
+          list.hidden = true;
+          list.innerHTML = '';
+          return;
+        }
+        list.innerHTML = products.map(function (product) {
+          return '<a href="' + gpEscapeHtml(product.url) + '" class="gp-search-hero__suggestion">' + gpEscapeHtml(product.title) + '</a>';
+        }).join('');
+        list.hidden = false;
+      })
+      .catch(function () {});
+  }
+
+  input.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    var term = input.value.trim();
+    if (term.length < 2) {
+      list.hidden = true;
+      list.innerHTML = '';
+      return;
+    }
+    debounceTimer = setTimeout(function () { fetchSuggestions(term); }, 250);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!wrap.contains(e.target)) list.hidden = true;
   });
 }

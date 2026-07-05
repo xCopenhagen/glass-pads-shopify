@@ -1,0 +1,69 @@
+{%- comment -%}
+  Announcement Bar
+  Thin promo strip above the nav. Dismiss state is stored in sessionStorage
+  (data-gp-announcement-key) so it stays hidden for the rest of the visit
+  but reappears on the next new session — no cookie/app dependency.
+{%- endcomment -%}
+
+{%- unless section.settings.show_announcement -%}
+  {%- comment -%} Section disabled — render nothing. {%- endcomment -%}
+{%- else -%}
+  <div
+    class="gp-announcement-bar"
+    data-gp-announcement-bar
+    data-gp-announcement-key="gp-announcement-{{ section.id }}"
+    style="background: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};"
+  >
+    <div class="gp-container gp-announcement-bar__inner">
+      <p class="gp-announcement-bar__text">{{ section.settings.text }}</p>
+      {%- if section.settings.dismissible -%}
+        <button type="button" class="gp-announcement-bar__close" data-gp-announcement-close aria-label="Dismiss announcement">
+          {% render 'gp-icon', icon: 'cross' %}
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Free Shipping on All Orders  •  30-Day Glide Guarantee"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Allow customers to dismiss",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#5EE6D9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0A0A0C"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

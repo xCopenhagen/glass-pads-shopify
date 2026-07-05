@@ -32,9 +32,91 @@
 
   <a class="gp-skip-link" href="#MainContent">Skip to content</a>
 
+  {%- comment -%}
+    Announcement bar + primary nav share one sticky wrapper so dismissing
+    the announcement collapses cleanly instead of leaving a gap under a
+    separately-fixed nav. Both the desktop links and the mobile drawer
+    render the same native "main-menu" linklist (Admin → Navigation) —
+    owner adds/reorders/removes nav items with zero code. Recommended
+    items: Home, Shop All, Artist Collection, Custom Artwork, Gallery,
+    About, Contact.
+  {%- endcomment -%}
+  {%- assign gp_main_menu = linklists['main-menu'] -%}
+
+  <div class="gp-site-header" data-gp-site-header>
+    {% section 'gp-announcement-bar' %}
+
+    <header class="gp-nav" data-gp-nav>
+      <div class="gp-container gp-nav__inner">
+        <div class="gp-nav__left">
+          <button type="button" class="gp-mobile-nav-toggle" data-gp-mobile-nav-open aria-label="Open menu" aria-expanded="false" aria-controls="GpMobileNavDrawer">
+            {% render 'gp-icon', icon: 'hamburger' %}
+          </button>
+          <a href="{{ routes.root_url }}" class="gp-nav__logo">GLASS PADS</a>
+        </div>
+
+        <nav class="gp-nav__links" aria-label="Primary">
+          {%- for link in gp_main_menu.links -%}
+            <a href="{{ link.url }}" class="gp-nav__link{% if link.active %} is-active{% endif %}">{{ link.title }}</a>
+          {%- endfor -%}
+        </nav>
+
+        <div class="gp-nav__actions">
+          <a href="{{ routes.search_url }}" class="gp-nav__action" aria-label="Search">
+            {% render 'gp-icon', icon: 'search' %}
+          </a>
+          <button type="button" class="gp-nav__action gp-nav__cart-toggle" data-gp-cart-open aria-label="Open cart" aria-expanded="false" aria-controls="GpCartDrawer">
+            {% render 'gp-icon', icon: 'shopping-bag' %}
+            <span class="gp-nav__cart-badge" data-gp-cart-count>{{ cart.item_count }}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div class="gp-mobile-nav-overlay" data-gp-mobile-nav-overlay hidden></div>
+
+  <div class="gp-mobile-nav-drawer is-closed" id="GpMobileNavDrawer" data-gp-mobile-nav-drawer inert>
+    <div class="gp-mobile-nav-drawer__header">
+      <a href="{{ routes.root_url }}" class="gp-nav__logo">GLASS PADS</a>
+      <button type="button" class="gp-mobile-nav-drawer__close" data-gp-mobile-nav-close aria-label="Close menu">
+        {% render 'gp-icon', icon: 'cross' %}
+      </button>
+    </div>
+
+    <nav class="gp-mobile-nav-drawer__links" aria-label="Mobile">
+      {%- for link in gp_main_menu.links -%}
+        <a href="{{ link.url }}" class="gp-mobile-nav-link">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="gp-mobile-nav-drawer__footer">
+      <div class="gp-mobile-nav-cta">
+        {% render 'gp-button', text: 'Shop Glass Pads', url: '/collections/all', style: 'primary', full_width: true %}
+      </div>
+
+      <div class="gp-mobile-nav-drawer__socials">
+        {%- if settings.social_instagram_link != blank -%}
+          <a href="{{ settings.social_instagram_link }}" aria-label="Instagram">{% render 'gp-icon', icon: 'social-instagram' %}</a>
+        {%- endif -%}
+        {%- if settings.social_tiktok_link != blank -%}
+          <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok">{% render 'gp-icon', icon: 'social-tiktok' %}</a>
+        {%- endif -%}
+        {%- if settings.social_youtube_link != blank -%}
+          <a href="{{ settings.social_youtube_link }}" aria-label="YouTube">{% render 'gp-icon', icon: 'social-youtube' %}</a>
+        {%- endif -%}
+        {%- if settings.social_x_link != blank -%}
+          <a href="{{ settings.social_x_link }}" aria-label="X">{% render 'gp-icon', icon: 'social-x' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
   <main id="MainContent" role="main">
     {{ content_for_layout }}
   </main>
+
+  {% section 'gp-cart-drawer' %}
 
   <script src="{{ 'gp-theme.js' | asset_url }}" defer="defer"></script>
 </body>
