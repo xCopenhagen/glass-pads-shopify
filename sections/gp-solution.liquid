@@ -1,0 +1,121 @@
+{%- comment -%}
+  Solution Statement
+  Mirrors the Problem section but warm/glowing — cyan accent returns here.
+  Optional before/after drag slider (vanilla JS, no library) compares the
+  Problem section's cloth image against this section's glass image.
+{%- endcomment -%}
+
+<section class="gp-solution gp-section gp-solution--image-{{ section.settings.image_position }}">
+  <div class="gp-solution__glow" aria-hidden="true"></div>
+
+  <div class="gp-container gp-solution__grid">
+    <div class="gp-solution__text gp-fade-in">
+      <h2 class="gp-h2">{{ section.settings.heading }}</h2>
+      <div class="gp-body gp-solution__body">{{ section.settings.body }}</div>
+      {%- if section.settings.button_text != blank -%}
+        <div class="gp-solution__cta">
+          {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'primary' %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="gp-solution__media gp-fade-in">
+      {%- if section.settings.enable_before_after and section.settings.before_image != blank and section.settings.image != blank -%}
+        <div class="gp-before-after" data-gp-before-after>
+          <img
+            class="gp-before-after__pane gp-before-after__pane--before"
+            src="{{ section.settings.before_image | image_url: width: 1200 }}"
+            alt="{{ section.settings.before_image.alt | default: 'Worn cloth mousepad (before)' | escape }}"
+            loading="lazy"
+          >
+          <div class="gp-before-after__pane gp-before-after__pane--after" data-gp-slider-after>
+            <img
+              src="{{ section.settings.image | image_url: width: 1200 }}"
+              alt="{{ section.settings.image.alt | default: 'Glass Pad (after)' | escape }}"
+              loading="lazy"
+            >
+          </div>
+          <div class="gp-before-after__handle" data-gp-slider-handle tabindex="0" role="slider" aria-label="Drag to compare cloth versus glass" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span class="gp-before-after__grip"></span>
+          </div>
+          <span class="gp-before-after__label gp-before-after__label--left">Cloth</span>
+          <span class="gp-before-after__label gp-before-after__label--right">Glass</span>
+        </div>
+      {%- elsif section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          srcset="{{ section.settings.image | image_url: width: 600 }} 600w, {{ section.settings.image | image_url: width: 1200 }} 1200w"
+          sizes="(max-width: 767px) 100vw, 50vw"
+          alt="{{ section.settings.image.alt | default: 'Glass Pad glowing on desk' | escape }}"
+          loading="lazy"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+        >
+      {%- else -%}
+        <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="Glass Pad placeholder" loading="lazy">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Solution Statement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Glass Doesn't Wear Down. It Just Works."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy",
+      "default": "<p>Tempered glass never frays, never stains, never slows down. It's the same smooth glide on day 1,000 as it was on day one — with a look that actually belongs on a premium desk setup.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Explore the Difference"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Glass image (also used as 'after' image)"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_before_after",
+      "label": "Enable before/after drag slider",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Cloth image ('before', used only if slider enabled)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Solution Statement"
+    }
+  ]
+}
+{% endschema %}
