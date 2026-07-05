@@ -247,3 +247,168 @@ button { font-family: inherit; cursor: pointer; }
 /* -------------------------------------------------------------------------
    8. Section styles (appended below per section as built)
    ------------------------------------------------------------------------- */
+
+/* ---- Hero Banner --------------------------------------------------------- */
+.gp-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+}
+
+.gp-hero__media {
+  position: relative;
+  width: 100%;
+  padding-top: 125%; /* mobile aspect box */
+}
+
+.gp-hero__image,
+.gp-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gp-hero__image--mobile { display: block; }
+.gp-hero__image--desktop { display: none; }
+
+.gp-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--color-bg-primary) 100%),
+              rgba(10, 10, 12, var(--gp-hero-overlay, 0.45));
+}
+
+.gp-hero__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 60%, rgba(94, 230, 217, 0.22), transparent 55%);
+  pointer-events: none;
+}
+
+.gp-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-top: 3rem;
+  padding-bottom: 3.5rem;
+  text-align: center;
+}
+
+.gp-hero__badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+  border: 1px solid var(--color-cyan);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.gp-hero__heading { color: var(--color-text-primary); }
+
+.gp-hero__subheading {
+  max-width: 640px;
+  margin: 1.25rem auto 0;
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+}
+
+.gp-hero__actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gp-sticky-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  transform: translateY(100%);
+  transition: transform var(--transition-med);
+}
+.gp-sticky-bar.is-visible { transform: translateY(0); }
+.gp-sticky-bar__label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gp-sticky-bar .gp-btn { padding: 0.65rem 1.25rem; white-space: nowrap; }
+
+@media (min-width: 768px) {
+  .gp-hero__media { padding-top: 62%; }
+  .gp-hero__content { padding-top: 4.5rem; padding-bottom: 5rem; }
+  .gp-hero__actions { flex-direction: row; justify-content: center; }
+}
+
+@media (min-width: 1024px) {
+  .gp-hero__image--desktop { display: block; }
+  .gp-hero__image--mobile { display: none; }
+}
+
+/* ---- Trust & Benefits Bar ------------------------------------------------- */
+.gp-trust-bar { padding: clamp(2rem, 4vw, 3.25rem) 0; }
+
+.gp-trust-bar__eyebrow { text-align: center; margin-bottom: 1.5rem; }
+
+.gp-trust-bar__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.gp-trust-bar__item { text-align: center; }
+
+.gp-trust-bar__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--color-cyan);
+  margin: 0 auto 0.85rem;
+}
+
+.gp-trust-bar__label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.35rem;
+}
+
+.gp-trust-bar__support {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .gp-trust-bar__grid { grid-template-columns: repeat(2, 1fr); row-gap: 2.5rem; }
+}
+
+@media (max-width: 767px) {
+  .gp-trust-bar__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    margin: 0 -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .gp-trust-bar__item { scroll-snap-align: start; }
+}

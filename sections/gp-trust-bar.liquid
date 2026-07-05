@@ -1,0 +1,82 @@
+{%- comment -%}
+  Trust & Benefits Bar
+  Repeatable "Benefit" blocks (up to 6) — owner can add/remove/reorder icon,
+  label, and support copy without touching code.
+{%- endcomment -%}
+
+<section class="gp-trust-bar gp-bg-secondary gp-hairline-top gp-hairline-bottom">
+  <div class="gp-container">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="gp-eyebrow gp-trust-bar__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="gp-trust-bar__grid">
+      {%- for block in section.blocks -%}
+        <div class="gp-trust-bar__item" {{ block.shopify_attributes }}>
+          {% render 'gp-icon', icon: block.settings.icon, class: 'gp-trust-bar__icon' %}
+          <p class="gp-trust-bar__label">{{ block.settings.label }}</p>
+          <p class="gp-trust-bar__support">{{ block.settings.support_text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust & Benefits Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Why Glass Pads"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "smooth-glide", "label": "Smooth Glide" },
+            { "value": "easy-clean", "label": "Easy Clean" },
+            { "value": "built-to-last", "label": "Built to Last" },
+            { "value": "premium-aesthetic", "label": "Premium Aesthetic" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "shipping-truck", "label": "Shipping Truck" }
+          ],
+          "default": "smooth-glide"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Smooth Glide"
+        },
+        {
+          "type": "text",
+          "id": "support_text",
+          "label": "Support text",
+          "default": "Consistent, frictionless tracking every time."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust & Benefits Bar",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "smooth-glide", "label": "Smooth Glide", "support_text": "Consistent, frictionless tracking every time." } },
+        { "type": "benefit", "settings": { "icon": "easy-clean", "label": "Easy Clean", "support_text": "Wipe it down in seconds. No stains, no odor." } },
+        { "type": "benefit", "settings": { "icon": "built-to-last", "label": "Built to Last", "support_text": "Scratch-resistant tempered glass, not fraying fabric." } },
+        { "type": "benefit", "settings": { "icon": "premium-aesthetic", "label": "Premium Aesthetic", "support_text": "A desk setup upgrade you can actually see." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

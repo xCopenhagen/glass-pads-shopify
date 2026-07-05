@@ -1,0 +1,190 @@
+{%- comment -%}
+  Hero Banner
+  Editable in theme editor: heading, subheading, button text/links, background
+  image/video, mobile image, overlay opacity, optional badge above headline.
+{%- endcomment -%}
+
+<section class="gp-hero" data-gp-hero style="--gp-hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+  <div class="gp-hero__media">
+    {%- if section.settings.background_video != blank and section.settings.disable_video_mobile -%}
+      <video
+        class="gp-hero__video gp-hero__video--desktop-only"
+        autoplay muted loop playsinline
+        poster="{{ section.settings.background_image | image_url: width: 1920 }}"
+      >
+        <source src="{{ section.settings.background_video.sources.last.url }}" type="video/mp4">
+      </video>
+    {%- elsif section.settings.background_video != blank -%}
+      <video
+        class="gp-hero__video"
+        autoplay muted loop playsinline
+        poster="{{ section.settings.background_image | image_url: width: 1920 }}"
+      >
+        <source src="{{ section.settings.background_video.sources.last.url }}" type="video/mp4">
+      </video>
+    {%- endif -%}
+
+    {%- if section.settings.background_image != blank -%}
+      <img
+        class="gp-hero__image gp-hero__image--desktop"
+        src="{{ section.settings.background_image | image_url: width: 1920 }}"
+        srcset="{{ section.settings.background_image | image_url: width: 960 }} 960w, {{ section.settings.background_image | image_url: width: 1920 }} 1920w"
+        sizes="100vw"
+        alt="{{ section.settings.background_image.alt | default: 'Glass Pads tempered glass mousepad hero shot' | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ section.settings.background_image.width }}"
+        height="{{ section.settings.background_image.height }}"
+      >
+    {%- else -%}
+      <img
+        class="gp-hero__image gp-hero__image--desktop"
+        src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}"
+        alt="Glass Pads tempered glass mousepad hero placeholder"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- endif -%}
+
+    {%- if section.settings.mobile_image != blank -%}
+      <img
+        class="gp-hero__image gp-hero__image--mobile"
+        src="{{ section.settings.mobile_image | image_url: width: 900 }}"
+        alt="{{ section.settings.mobile_image.alt | default: 'Glass Pads tempered glass mousepad hero shot' | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ section.settings.mobile_image.width }}"
+        height="{{ section.settings.mobile_image.height }}"
+      >
+    {%- endif -%}
+
+    <div class="gp-hero__overlay"></div>
+    <div class="gp-hero__glow" aria-hidden="true"></div>
+  </div>
+
+  <div class="gp-container gp-hero__content">
+    {%- if section.settings.show_badge and section.settings.badge_text != blank -%}
+      <span class="gp-hero__badge">{{ section.settings.badge_text }}</span>
+    {%- endif -%}
+
+    <h1 class="gp-h1 gp-hero__heading">{{ section.settings.heading }}</h1>
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="gp-hero__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="gp-hero__actions">
+      {%- if section.settings.primary_btn_text != blank -%}
+        {% render 'gp-button', text: section.settings.primary_btn_text, url: section.settings.primary_btn_link, style: 'primary' %}
+      {%- endif -%}
+      {%- if section.settings.secondary_btn_text != blank -%}
+        {% render 'gp-button', text: section.settings.secondary_btn_text, url: section.settings.secondary_btn_link, style: 'secondary', icon: 'chevron-right' %}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Optional mobile sticky "Shop Now" bar, toggled via section settings. {%- endcomment -%}
+{%- if section.settings.enable_sticky_bar -%}
+  <div class="gp-sticky-bar" data-gp-sticky-bar>
+    <span class="gp-sticky-bar__label">{{ section.settings.heading }}</span>
+    {% render 'gp-button', text: section.settings.primary_btn_text, url: section.settings.primary_btn_link, style: 'primary' %}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge above headline",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "New: Aurora Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Setup Deserves Glass."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tempered glass mousepads with artwork sealed underneath. Smoother than cloth. Cleaner than plastic. Built to outlast them both."
+    },
+    {
+      "type": "text",
+      "id": "primary_btn_text",
+      "label": "Primary button text",
+      "default": "Shop Glass Pads"
+    },
+    {
+      "type": "url",
+      "id": "primary_btn_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary button text",
+      "default": "See Why Glass"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Background image (mobile, optional crop)"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video (optional, replaces image on desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_video_mobile",
+      "label": "Disable video on mobile",
+      "info": "Falls back to the background image on mobile to protect load time.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_bar",
+      "label": "Show sticky 'Shop Now' bar on mobile scroll",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}
