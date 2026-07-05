@@ -7,7 +7,8 @@
   shopping-bag, envelope, lock, shipping-truck, shield,
   social-instagram, social-tiktok, social-youtube, social-x,
   upload, ruler, image, printer, palette, download,
-  camera, heart, instagram, qr-code, share, trending-up
+  camera, heart, instagram, qr-code, share, trending-up,
+  users, award, globe, file-text
 {%- endcomment -%}
 
 <span class="gp-icon gp-icon--{{ icon }} {{ class }}" aria-hidden="true">
@@ -111,6 +112,18 @@
 
   {%- when 'trending-up' -%}
     <svg viewBox="0 0 24 24" fill="none"><path d="M3 17L9.5 10.5L13.5 14.5L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7H21V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  {%- when 'users' -%}
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.5"/><path d="M3 20C3 16.5 5.7 14 9 14C12.3 14 15 16.5 15 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.5 14.2C18.2 14.7 20.3 16.9 20.3 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13.5 5.2C14.9 5.6 15.9 6.9 15.9 8.4C15.9 9.9 14.9 11.2 13.5 11.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+  {%- when 'award' -%}
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 13.5L7 21L12 18.5L17 21L15.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+  {%- when 'globe' -%}
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M3 12H21M12 3C14.5 5.7 15.8 9 15.8 12C15.8 15 14.5 18.3 12 21C9.5 18.3 8.2 15 8.2 12C8.2 9 9.5 5.7 12 3Z" stroke="currentColor" stroke-width="1.5"/></svg>
+
+  {%- when 'file-text' -%}
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 3H14L19 8V21H6V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3V8H19" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 13H16M9 17H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
 
 {%- endcase -%}
 </span>
