@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "gp-product": {
+      "type": "gp-product",
+      "settings": {
+        "enable_tabs": true,
+        "show_dynamic_checkout": true,
+        "show_related_products": true
+      }
+    }
+  },
+  "order": ["gp-product"]
+}

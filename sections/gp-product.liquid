@@ -1,0 +1,309 @@
+{%- comment -%}
+  Product Page
+  The primary conversion page. Variant matching (price/image/availability)
+  is done client-side against a JSON blob of product.variants — see
+  initProductVariantPicker in gp-theme.js. Works for 1-3 native options;
+  the first option renders as priced size pills, any further options render
+  as swatch circles (using that value's matching variant image as the swatch).
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign option_count = product.options_with_values.size
+-%}
+
+<section class="gp-product gp-bg-primary gp-section">
+  <div class="gp-container">
+    <div class="gp-product__layout">
+
+      <div class="gp-product__gallery" data-gp-product-gallery>
+        <div class="gp-product__main-image">
+          {%- if product.featured_image != blank -%}
+            <img
+              data-gp-gallery-main
+              src="{{ product.featured_image | image_url: width: 1000 }}"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- else -%}
+            <img data-gp-gallery-main src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="{{ product.title | escape }}" loading="eager">
+          {%- endif -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="gp-product__thumbs">
+            {%- for image in product.images -%}
+              <button
+                type="button"
+                class="gp-product__thumb{% if forloop.first %} is-active{% endif %}"
+                data-gp-gallery-thumb
+                data-image-id="{{ image.id }}"
+                data-full="{{ image | image_url: width: 1000 }}"
+                aria-label="Show image {{ forloop.index }} of {{ product.title | escape }}"
+              >
+                <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" loading="lazy" width="200" height="200">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="gp-product__info">
+        <h1 class="gp-h1 gp-product__title">{{ product.title }}</h1>
+
+        <div class="gp-product__rating">
+          {% render 'gp-star-rating', rating: 4.9 %}
+          <span class="gp-product__rating-text gp-mono-spec">4.9/5 — 120+ reviews</span>
+        </div>
+
+        <p class="gp-product__price">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <s class="gp-product__compare-price" data-gp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+          {%- endif -%}
+          <span data-gp-price-current>{{ current_variant.price | money }}</span>
+        </p>
+
+        {%- if product.description != blank -%}
+          <div class="gp-product__short-desc gp-body">{{ product.description | strip_html | truncatewords: 40 }}</div>
+        {%- endif -%}
+
+        {%- form 'product', product, data-gp-product-form: '', data-gp-option-count: option_count -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-gp-variant-id>
+
+          {%- for option in product.options_with_values -%}
+            {%- liquid
+              assign option_key = 'option' | append: option.position
+            -%}
+            <div class="gp-product__option" data-gp-option-position="{{ option.position }}">
+              <p class="gp-mono-spec gp-product__option-label">{{ option.name }}</p>
+
+              {%- if option.position == 1 -%}
+                <div class="gp-product__size-pills">
+                  {%- for value in option.values -%}
+                    {%- liquid
+                      assign matching_variant = product.variants | where: option_key, value | first
+                      assign is_checked = false
+                      if current_variant[option_key] == value
+                        assign is_checked = true
+                      endif
+                    -%}
+                    <label class="gp-product__size-pill{% if is_checked %} is-active{% endif %}">
+                      <input type="radio" name="option-1" value="{{ value | escape }}" {% if is_checked %}checked{% endif %} class="gp-visually-hidden" data-gp-option-input>
+                      <span class="gp-product__size-pill-name">{{ value }}</span>
+                      {%- if matching_variant -%}
+                        <span class="gp-product__size-pill-price">{{ matching_variant.price | money }}</span>
+                      {%- endif -%}
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- else -%}
+                <div class="gp-product__swatches">
+                  {%- for value in option.values -%}
+                    {%- liquid
+                      assign matching_variant = product.variants | where: option_key, value | first
+                      assign is_checked = false
+                      if current_variant[option_key] == value
+                        assign is_checked = true
+                      endif
+                    -%}
+                    <label class="gp-product__swatch{% if is_checked %} is-active{% endif %}" title="{{ value | escape }}">
+                      <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}" {% if is_checked %}checked{% endif %} class="gp-visually-hidden" data-gp-option-input>
+                      {%- if matching_variant.featured_image -%}
+                        <span class="gp-product__swatch-image" style="background-image: url('{{ matching_variant.featured_image | image_url: width: 100 }}');"></span>
+                      {%- else -%}
+                        <span class="gp-product__swatch-initial">{{ value | slice: 0 }}</span>
+                      {%- endif -%}
+                      <span class="gp-visually-hidden">{{ value }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+
+          <div class="gp-product__quantity">
+            <label for="GpQty-{{ section.id }}" class="gp-mono-spec">Quantity</label>
+            <div class="gp-product__qty-stepper" data-gp-qty-stepper>
+              <button type="button" class="gp-product__qty-btn" data-gp-qty-decrease aria-label="Decrease quantity">{% render 'gp-icon', icon: 'minus' %}</button>
+              <input type="number" name="quantity" id="GpQty-{{ section.id }}" value="1" min="1" inputmode="numeric" class="gp-product__qty-input" data-gp-qty-input>
+              <button type="button" class="gp-product__qty-btn" data-gp-qty-increase aria-label="Increase quantity">{% render 'gp-icon', icon: 'plus' %}</button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            name="add"
+            class="gp-btn gp-btn--primary gp-btn--full gp-product__add-to-cart"
+            {% unless current_variant.available %}disabled{% endunless %}
+            data-gp-add-to-cart
+          >
+            <span data-gp-add-to-cart-text>
+              {%- if current_variant.available -%}
+                Add to Cart — {{ current_variant.price | money }}
+              {%- else -%}
+                Sold Out
+              {%- endif -%}
+            </span>
+          </button>
+
+          {%- if section.settings.show_dynamic_checkout -%}
+            <div class="gp-product__dynamic-checkout" data-gp-dynamic-checkout>
+              {{ form | payment_button }}
+            </div>
+          {%- endif -%}
+
+          <script type="application/json" data-gp-product-variants>
+            {{ product.variants | json }}
+          </script>
+        {%- endform -%}
+
+        <p class="gp-product__trust">
+          <span>{% render 'gp-icon', icon: 'shipping-truck' %} Free Shipping</span>
+          <span>{% render 'gp-icon', icon: 'shield' %} 30-Day Glide Guarantee</span>
+          <span>{% render 'gp-icon', icon: 'lock' %} Secure Checkout</span>
+        </p>
+      </div>
+    </div>
+
+    {%- liquid
+      assign gp_specs_material = 'Material: 4mm Tempered Glass'
+      assign gp_specs_surface = 'Surface: Micro-etched'
+      assign gp_specs_base = 'Base: Silicone Anti-Slip'
+      assign gp_specs_sizes = 'Sizes: Standard 9×9″, XL Desk 2:1'
+    -%}
+
+    {%- if section.settings.enable_tabs -%}
+      <div class="gp-product__tabs" data-gp-product-tabs>
+        <div class="gp-product__tab-list" role="tablist">
+          <button type="button" class="gp-product__tab is-active" data-gp-tab-trigger="description" role="tab" aria-selected="true">Description</button>
+          <button type="button" class="gp-product__tab" data-gp-tab-trigger="specs" role="tab" aria-selected="false">Specs</button>
+          <button type="button" class="gp-product__tab" data-gp-tab-trigger="shipping" role="tab" aria-selected="false">Shipping</button>
+          <button type="button" class="gp-product__tab" data-gp-tab-trigger="reviews" role="tab" aria-selected="false">Reviews</button>
+        </div>
+
+        <div class="gp-product__tab-panel is-active" data-gp-tab-panel="description">
+          <div class="gp-body">{{ product.description }}</div>
+        </div>
+        <div class="gp-product__tab-panel" data-gp-tab-panel="specs">
+          <ul class="gp-product__specs-list gp-body">
+            <li>{{ gp_specs_material }}</li>
+            <li>{{ gp_specs_surface }}</li>
+            <li>{{ gp_specs_base }}</li>
+            <li>{{ gp_specs_sizes }}</li>
+          </ul>
+        </div>
+        <div class="gp-product__tab-panel" data-gp-tab-panel="shipping">
+          <p class="gp-body">Ships within 1-2 business days. Free shipping on all orders.</p>
+        </div>
+        <div class="gp-product__tab-panel" data-gp-tab-panel="reviews">
+          {%- comment -%} Structured for a future Judge.me/Loox app embed — swap this block for the app's review widget snippet. {%- endcomment -%}
+          <div class="gp-product__reviews-placeholder" data-gp-reviews-app-slot>
+            {% render 'gp-star-rating', rating: 4.9 %}
+            <p class="gp-body">4.9/5 average — 120+ verified reviews. Full reviews coming soon.</p>
+          </div>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="gp-product__stacked-sections">
+        <div class="gp-product__stacked-block">
+          <h3 class="gp-h3">Description</h3>
+          <div class="gp-body">{{ product.description }}</div>
+        </div>
+        <div class="gp-product__stacked-block">
+          <h3 class="gp-h3">Specs</h3>
+          <ul class="gp-product__specs-list gp-body">
+            <li>{{ gp_specs_material }}</li>
+            <li>{{ gp_specs_surface }}</li>
+            <li>{{ gp_specs_base }}</li>
+            <li>{{ gp_specs_sizes }}</li>
+          </ul>
+        </div>
+        <div class="gp-product__stacked-block">
+          <h3 class="gp-h3">Shipping</h3>
+          <p class="gp-body">Ships within 1-2 business days. Free shipping on all orders.</p>
+        </div>
+        <div class="gp-product__stacked-block">
+          <h3 class="gp-h3">Reviews</h3>
+          <div class="gp-product__reviews-placeholder" data-gp-reviews-app-slot>
+            {% render 'gp-star-rating', rating: 4.9 %}
+            <p class="gp-body">4.9/5 average — 120+ verified reviews. Full reviews coming soon.</p>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- if section.settings.show_related_products -%}
+  {%- liquid
+    assign related_collection = collections[section.settings.related_collection]
+  -%}
+  {%- if related_collection -%}
+    <section class="gp-product-showcase gp-bg-secondary gp-section">
+      <div class="gp-container">
+        {% render 'gp-section-header', eyebrow: 'Complete the Look', heading: 'Complete Your Setup', align: 'left' %}
+        <div class="gp-product-showcase__grid">
+          {%- for related_product in related_collection.products limit: 4 -%}
+            {%- unless related_product.handle == product.handle -%}
+              <div class="gp-product-card">
+                <a href="{{ related_product.url }}" class="gp-product-card__media">
+                  <img
+                    class="gp-product-card__image gp-product-card__image--primary"
+                    src="{{ related_product.featured_image | image_url: width: 600 }}"
+                    alt="{{ related_product.featured_image.alt | default: related_product.title | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="600"
+                  >
+                </a>
+                <div class="gp-product-card__info">
+                  <h3 class="gp-h3 gp-product-card__title">{{ related_product.title }}</h3>
+                  <p class="gp-product-card__price">{{ related_product.price | money }}</p>
+                </div>
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_tabs",
+      "label": "Show description/specs/shipping/reviews as tabs",
+      "info": "When off, these show as always-visible stacked sections.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button (Shop Pay, PayPal, etc.)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show 'Complete Your Setup' cross-sell",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "related_collection",
+      "label": "Cross-sell collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Page"
+    }
+  ]
+}
+{% endschema %}
