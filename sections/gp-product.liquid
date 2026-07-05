@@ -44,7 +44,7 @@
                 data-full="{{ image | image_url: width: 1000 }}"
                 aria-label="Show image {{ forloop.index }} of {{ product.title | escape }}"
               >
-                <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" loading="lazy" width="200" height="200">
+                <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="200" height="200">
               </button>
             {%- endfor -%}
           </div>
@@ -243,11 +243,11 @@
     {%- else -%}
       <div class="gp-product__stacked-sections">
         <div class="gp-product__stacked-block">
-          <h3 class="gp-h3">Description</h3>
+          <h2 class="gp-h3">Description</h2>
           <div class="gp-body">{{ product.description }}</div>
         </div>
         <div class="gp-product__stacked-block">
-          <h3 class="gp-h3">Specs</h3>
+          <h2 class="gp-h3">Specs</h2>
           <ul class="gp-product__specs-list gp-body">
             <li>{{ gp_specs_material }}</li>
             <li>{{ gp_specs_surface }}</li>
@@ -256,11 +256,11 @@
           </ul>
         </div>
         <div class="gp-product__stacked-block">
-          <h3 class="gp-h3">Shipping</h3>
+          <h2 class="gp-h3">Shipping</h2>
           <p class="gp-body">Ships within 1-2 business days. Free shipping on all orders.</p>
         </div>
         <div class="gp-product__stacked-block">
-          <h3 class="gp-h3">Reviews</h3>
+          <h2 class="gp-h3">Reviews</h2>
           <div class="gp-product__reviews-placeholder" data-gp-reviews-app-slot>
             {% render 'gp-star-rating', rating: 4.9 %}
             <p class="gp-body">4.9/5 average — 120+ verified reviews. Full reviews coming soon.</p>

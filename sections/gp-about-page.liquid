@@ -21,7 +21,7 @@
             <img
               class="gp-about-hero__image"
               src="{{ block.settings.background_image | image_url: width: 1920 }}"
-              alt=""
+              alt="{{ block.settings.background_image.alt | default: block.settings.heading | escape }}"
               loading="eager"
               fetchpriority="high"
               width="{{ block.settings.background_image.width }}"

@@ -11,9 +11,9 @@
     {%- for i in (1..16) -%}
       <div class="gp-gallery-hero__tile">
         {%- if section.settings.background_image != blank -%}
-          <img src="{{ section.settings.background_image | image_url: width: 400 }}" alt="" loading="lazy">
+          <img src="{{ section.settings.background_image | image_url: width: 400 }}" alt="" loading="{% if i <= 4 %}eager{% else %}lazy{% endif %}">
         {%- else -%}
-          <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="lazy">
+          <img src="{{ 'gp-placeholder-lifestyle.svg' | asset_url }}" alt="" loading="{% if i <= 4 %}eager{% else %}lazy{% endif %}">
         {%- endif -%}
       </div>
     {%- endfor -%}

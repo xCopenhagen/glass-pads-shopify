@@ -11,7 +11,7 @@
     <img
       class="gp-blog-hero__image"
       src="{{ section.settings.background_image | image_url: width: 1920 }}"
-      alt=""
+      alt="{{ section.settings.background_image.alt | default: section.settings.heading | escape }}"
       loading="eager"
       fetchpriority="high"
       width="{{ section.settings.background_image.width }}"
