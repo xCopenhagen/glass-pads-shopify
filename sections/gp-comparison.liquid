@@ -1,0 +1,106 @@
+{%- comment -%}
+  Glass vs Cloth Comparison
+  Repeatable "Comparison Row" blocks — owner can add/edit/reorder rows.
+  Frost White background option for a light-mode "proof/data" pacing beat.
+{%- endcomment -%}
+
+<section class="gp-comparison gp-section{% if section.settings.use_frost_bg %} gp-bg-frost{% else %} gp-bg-secondary{% endif %}">
+  <div class="gp-container">
+    {% render 'gp-section-header', eyebrow: section.settings.eyebrow, heading: section.settings.heading, subheading: section.settings.subheading %}
+
+    <div class="gp-comparison__table" role="table">
+      <div class="gp-comparison__row gp-comparison__row--header" role="row">
+        <span class="gp-comparison__cell gp-comparison__cell--label" role="columnheader"></span>
+        <span class="gp-comparison__cell gp-comparison__cell--cloth" role="columnheader">Cloth Pads</span>
+        <span class="gp-comparison__cell gp-comparison__cell--glass" role="columnheader">Glass Pads</span>
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div class="gp-comparison__row" role="row" {{ block.shopify_attributes }}>
+          <span class="gp-comparison__cell gp-comparison__cell--label" role="rowheader">{{ block.settings.label }}</span>
+          <span class="gp-comparison__cell gp-comparison__cell--cloth" role="cell">
+            {% render 'gp-icon', icon: 'cross', class: 'gp-comparison__mark gp-comparison__mark--cloth' %}
+            <span>{{ block.settings.cloth_value }}</span>
+          </span>
+          <span class="gp-comparison__cell gp-comparison__cell--glass" role="cell">
+            {% render 'gp-icon', icon: 'tick', class: 'gp-comparison__mark gp-comparison__mark--glass' %}
+            <span>{{ block.settings.glass_value }}</span>
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_text != blank -%}
+      <div class="gp-comparison__cta">
+        {% render 'gp-button', text: section.settings.button_text, url: section.settings.button_link, style: 'primary' %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Glass vs Cloth Comparison",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "The Proof"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "See the Difference for Yourself."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Same desk. Same mouse. A completely different experience."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_frost_bg",
+      "label": "Use Frost White background",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop the Upgrade"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Row label", "default": "Surface Feel" },
+        { "type": "text", "id": "cloth_value", "label": "Cloth Pads value", "default": "Inconsistent, drags over time" },
+        { "type": "text", "id": "glass_value", "label": "Glass Pads value", "default": "Consistent glide, every time" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Glass vs Cloth Comparison",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Surface Feel", "cloth_value": "Inconsistent, drags over time", "glass_value": "Consistent glide, every time" } },
+        { "type": "row", "settings": { "label": "Cleaning", "cloth_value": "Absorbs oils, sweat, dust", "glass_value": "Wipes clean in seconds" } },
+        { "type": "row", "settings": { "label": "Lifespan", "cloth_value": "Frays and flattens in months", "glass_value": "Scratch-resistant, built for years" } },
+        { "type": "row", "settings": { "label": "Artwork", "cloth_value": "Prints fade and rub off", "glass_value": "Sealed under glass — never fades" } },
+        { "type": "row", "settings": { "label": "Sound", "cloth_value": "Soft, sometimes noisy fabric drag", "glass_value": "Quiet, smooth tracking" } },
+        { "type": "row", "settings": { "label": "Aesthetic", "cloth_value": "Fabric look, dorm-room feel", "glass_value": "Glass finish, premium desk setup" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

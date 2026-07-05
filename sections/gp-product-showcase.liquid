@@ -1,0 +1,158 @@
+{%- comment -%}
+  Featured Products
+  Owner picks a collection in section settings; grid renders natively via
+  {% for product in collection.products %} with a max-count limit — no app
+  required. Filter pills are pulled from the collection's product tags.
+{%- endcomment -%}
+
+{%- liquid
+  assign featured_collection = collections[section.settings.collection]
+-%}
+
+<section class="gp-product-showcase gp-bg-secondary gp-section">
+  <div class="gp-container">
+    {% render 'gp-section-header', eyebrow: section.settings.eyebrow, heading: section.settings.heading, subheading: section.settings.subheading %}
+
+    {%- if section.settings.show_filter_pills and featured_collection -%}
+      <div class="gp-product-showcase__pills" data-gp-filter-group="#GpShowcaseGrid-{{ section.id }}">
+        <button type="button" class="gp-pill is-active" data-gp-filter="all">All</button>
+        {%- for tag in featured_collection.all_tags limit: 8 -%}
+          <button type="button" class="gp-pill" data-gp-filter="{{ tag | handle }}">{{ tag }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="gp-product-showcase__grid" id="GpShowcaseGrid-{{ section.id }}">
+      {%- if featured_collection -%}
+        {%- for product in featured_collection.products limit: section.settings.products_to_show -%}
+          <div class="gp-product-card" data-gp-tags="{{ product.tags | join: ',' | handleize }}">
+            <a href="{{ product.url }}" class="gp-product-card__media">
+              <img
+                class="gp-product-card__image gp-product-card__image--primary"
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                loading="lazy"
+                width="600"
+                height="600"
+              >
+              {%- if product.images[1] -%}
+                <img
+                  class="gp-product-card__image gp-product-card__image--secondary"
+                  src="{{ product.images[1] | image_url: width: 600 }}"
+                  alt=""
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                >
+              {%- endif -%}
+              {%- if product.tags contains 'Best Seller' -%}
+                <span class="gp-pill-badge">Best Seller</span>
+              {%- elsif product.tags contains 'New' -%}
+                <span class="gp-pill-badge">New</span>
+              {%- endif -%}
+              <span class="gp-product-card__shop-now">Shop Now</span>
+            </a>
+            <div class="gp-product-card__info">
+              <h3 class="gp-h3 gp-product-card__title">{{ product.title }}</h3>
+              <p class="gp-product-card__price">{{ product.price | money }}</p>
+            </div>
+          </div>
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="gp-product-card">
+              <div class="gp-product-card__media">
+                <img class="gp-product-card__image gp-product-card__image--primary" src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="Glass Pad placeholder" loading="lazy">
+                <span class="gp-product-card__shop-now">Shop Now</span>
+              </div>
+              <div class="gp-product-card__info">
+                <h3 class="gp-h3 gp-product-card__title">Sample Glass Pad</h3>
+                <p class="gp-product-card__price">$49.00</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="gp-product-card">
+            <div class="gp-product-card__media">
+              <img class="gp-product-card__image gp-product-card__image--primary" src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="Glass Pad placeholder" loading="lazy">
+              <span class="gp-product-card__shop-now">Shop Now</span>
+            </div>
+            <div class="gp-product-card__info">
+              <h3 class="gp-h3 gp-product-card__title">Sample Glass Pad</h3>
+              <p class="gp-product-card__price">$49.00</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.view_all_text != blank -%}
+      <div class="gp-product-showcase__cta">
+        {% render 'gp-button', text: section.settings.view_all_text, url: section.settings.view_all_link, style: 'secondary', icon: 'chevron-right' %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find Your Glass."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every design is sealed beneath 4mm tempered glass — sizes for every desk, every setup."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Featured collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_pills",
+      "label": "Show filter pills (from collection tags)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "'View all' button text",
+      "default": "View All Glass Pads"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "'View all' button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}
