@@ -40,7 +40,7 @@
         <div class="gp-product-showcase__grid gp-collection-grid__grid">
           {%- for item in search.results -%}
             {%- if item.object_type == 'product' -%}
-              <div class="gp-product-card">
+              <div class="gp-product-card gp-fade-in">
                 <a href="{{ item.url }}" class="gp-product-card__media">
                   <img
                     class="gp-product-card__image gp-product-card__image--primary"
@@ -63,7 +63,7 @@
                 </div>
               </div>
             {%- else -%}
-              <div class="gp-search-result-card">
+              <div class="gp-search-result-card gp-fade-in">
                 <a href="{{ item.url }}" class="gp-search-result-card__link">
                   <span class="gp-search-result-card__type">{{ item.object_type }}</span>
                   <h3 class="gp-h3 gp-search-result-card__title">{{ item.title }}</h3>

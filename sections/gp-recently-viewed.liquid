@@ -1,0 +1,21 @@
+{%- comment -%}
+  Recently Viewed Products (section wrapper)
+  Thin wrapper around snippets/gp-recently-viewed.liquid so it can be added
+  to a JSON template (e.g. templates/product.json) and toggled from the
+  theme editor. When placed on a product page, `product` is in scope so the
+  current product is excluded from its own recently-viewed row.
+{%- endcomment -%}
+
+{% render 'gp-recently-viewed', current_handle: product.handle %}
+
+{% schema %}
+{
+  "name": "Recently Viewed Products",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Recently Viewed Products"
+    }
+  ]
+}
+{% endschema %}

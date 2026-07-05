@@ -5,9 +5,14 @@
       "settings": {
         "enable_tabs": true,
         "show_dynamic_checkout": true,
-        "show_related_products": true
+        "show_related_products": true,
+        "enable_back_in_stock": true
       }
+    },
+    "gp-recently-viewed": {
+      "type": "gp-recently-viewed",
+      "settings": {}
     }
   },
-  "order": ["gp-product"]
+  "order": ["gp-product", "gp-recently-viewed"]
 }

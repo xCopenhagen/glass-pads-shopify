@@ -1,0 +1,20 @@
+{%- comment -%}
+  Recently Viewed Products
+  Render anywhere with {% render 'gp-recently-viewed' %} (or pass
+  current_handle so the current page's own product is excluded from its
+  own "recently viewed" row). Liquid has no access to localStorage, so this
+  renders an empty, hidden shell — initRecentlyViewed (gp-theme.js) reads
+  the stored handles, fetches each product's data via the native
+  `/products/{handle}.js` endpoint, and reveals the section only if there's
+  something to show.
+  Params: current_handle (optional)
+{%- endcomment -%}
+
+<section class="gp-recently-viewed gp-bg-secondary gp-section" data-gp-recently-viewed data-gp-current-handle="{{ current_handle }}" hidden>
+  <div class="gp-container">
+    <div class="gp-section-header gp-section-header--left">
+      <h2 class="gp-h2">Recently Viewed</h2>
+    </div>
+    <div class="gp-recently-viewed__row" data-gp-recently-viewed-row></div>
+  </div>
+</section>

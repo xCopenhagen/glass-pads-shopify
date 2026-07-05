@@ -25,7 +25,7 @@
     <div class="gp-product-showcase__grid" id="GpShowcaseGrid-{{ section.id }}">
       {%- if featured_collection -%}
         {%- for product in featured_collection.products limit: section.settings.products_to_show -%}
-          <div class="gp-product-card" data-gp-tags="{{ product.tags | join: ',' | handleize }}">
+          <div class="gp-product-card gp-fade-in" data-gp-tags="{{ product.tags | join: ',' | handleize }}">
             <a href="{{ product.url }}" class="gp-product-card__media">
               <img
                 class="gp-product-card__image gp-product-card__image--primary"
@@ -59,7 +59,7 @@
           </div>
         {%- else -%}
           {%- for i in (1..4) -%}
-            <div class="gp-product-card">
+            <div class="gp-product-card gp-fade-in">
               <div class="gp-product-card__media">
                 <img class="gp-product-card__image gp-product-card__image--primary" src="{{ 'gp-placeholder-product.svg' | asset_url }}" alt="Glass Pad placeholder" loading="lazy">
                 <span class="gp-product-card__shop-now">Shop Now</span>
