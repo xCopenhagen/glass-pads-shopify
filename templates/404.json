@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gp-404": {
+      "type": "gp-404",
+      "settings": {}
+    }
+  },
+  "order": ["gp-404"]
+}
