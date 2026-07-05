@@ -24,9 +24,22 @@
         class="gp-search-hero__input"
         value="{{ search.terms | escape }}"
         placeholder="Search Glass Pads..."
+        autocomplete="off"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="GpPredictiveSearchResults"
+        data-gp-predictive-search
       >
       <input type="hidden" name="type" value="product,page,article">
       <button type="submit" class="gp-btn gp-btn--primary">Search</button>
+
+      <div class="gp-predictive-search" id="GpPredictiveSearchResults" data-gp-predictive-search-results hidden>
+        <div class="gp-predictive-search__loading" data-gp-predictive-search-loading hidden>
+          <span class="gp-predictive-search__spinner"></span>
+          <span>Searching&hellip;</span>
+        </div>
+        <div class="gp-predictive-search__results" data-gp-predictive-search-list></div>
+      </div>
     </form>
   </div>
 </section>
