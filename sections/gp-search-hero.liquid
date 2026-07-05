@@ -1,0 +1,51 @@
+{%- comment -%}
+  Search Hero
+  Shows the query + result count and a field to refine the search.
+  Uses Shopify's native `search` object — no app required.
+{%- endcomment -%}
+
+<section class="gp-search-hero">
+  <div class="gp-container gp-search-hero__content">
+    <p class="gp-eyebrow">Search</p>
+    {%- if search.performed -%}
+      <h1 class="gp-h1">Results for &ldquo;{{ search.terms }}&rdquo;</h1>
+      <p class="gp-search-hero__count gp-mono-spec">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}</p>
+    {%- else -%}
+      <h1 class="gp-h1">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="gp-search-hero__form">
+      <label for="GpSearchRefine" class="gp-visually-hidden">Search</label>
+      {% render 'gp-icon', icon: 'search', class: 'gp-search-hero__form-icon' %}
+      <input
+        type="search"
+        name="q"
+        id="GpSearchRefine"
+        class="gp-search-hero__input"
+        value="{{ search.terms | escape }}"
+        placeholder="Search Glass Pads..."
+      >
+      <input type="hidden" name="type" value="product,page,article">
+      <button type="submit" class="gp-btn gp-btn--primary">Search</button>
+    </form>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (before a search is performed)",
+      "default": "Search Glass Pads"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Hero"
+    }
+  ]
+}
+{% endschema %}

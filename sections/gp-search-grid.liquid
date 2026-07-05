@@ -1,0 +1,139 @@
+{%- comment -%}
+  Search Results Grid
+  Paginates search.results (products first, then pages/articles), reusing
+  the gp-product-card markup for products so styling matches the
+  collection grid. Sort/pagination use Shopify's native query params.
+{%- endcomment -%}
+
+{%- liquid
+  assign per_page = section.settings.results_per_page | default: 24
+-%}
+
+<section class="gp-search-grid gp-bg-secondary gp-section">
+  <div class="gp-container">
+    {%- if search.performed and search.results.size == 0 -%}
+      <div class="gp-collection-grid__empty">
+        <p class="gp-h3">No results found for &ldquo;{{ search.terms }}&rdquo;</p>
+        <p class="gp-body">Try a different search term, or browse our full catalog.</p>
+        <div class="gp-collection-grid__empty-cta">
+          {% render 'gp-button', text: 'Browse All Products', url: '/collections/all', style: 'primary' %}
+        </div>
+      </div>
+    {%- elsif search.performed -%}
+      <div class="gp-collection-grid__toolbar">
+        <p class="gp-collection-grid__count gp-body">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}</p>
+        {%- if section.settings.show_sort_by -%}
+          <form method="get" class="gp-collection-grid__sort-form" data-gp-sort-form>
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="type" value="product,page,article">
+            <label for="GpSearchSort-{{ section.id }}" class="gp-visually-hidden">Sort by</label>
+            <select name="sort_by" id="GpSearchSort-{{ section.id }}" class="gp-collection-grid__sort-select" data-gp-sort-select>
+              <option value="relevance" {% if search.sort_by == 'relevance' or search.sort_by == blank %}selected{% endif %}>Relevance</option>
+              <option value="price-ascending" {% if search.sort_by == 'price-ascending' %}selected{% endif %}>Price, Low to High</option>
+              <option value="price-descending" {% if search.sort_by == 'price-descending' %}selected{% endif %}>Price, High to Low</option>
+            </select>
+          </form>
+        {%- endif -%}
+      </div>
+
+      {%- paginate search.results by per_page -%}
+        <div class="gp-product-showcase__grid gp-collection-grid__grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              <div class="gp-product-card">
+                <a href="{{ item.url }}" class="gp-product-card__media">
+                  <img
+                    class="gp-product-card__image gp-product-card__image--primary"
+                    src="{{ item.featured_image | image_url: width: 600 }}"
+                    alt="{{ item.featured_image.alt | default: item.title | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="600"
+                  >
+                </a>
+                <div class="gp-product-card__info">
+                  <h2 class="gp-h3 gp-product-card__title">{{ item.title }}</h2>
+                  <p class="gp-product-card__price">
+                    {%- if item.compare_at_price > item.price -%}
+                      <s>{{ item.compare_at_price | money }}</s> {{ item.price | money }}
+                    {%- else -%}
+                      {{ item.price | money }}
+                    {%- endif -%}
+                  </p>
+                </div>
+              </div>
+            {%- else -%}
+              <div class="gp-search-result-card">
+                <a href="{{ item.url }}" class="gp-search-result-card__link">
+                  <span class="gp-search-result-card__type">{{ item.object_type }}</span>
+                  <h3 class="gp-h3 gp-search-result-card__title">{{ item.title }}</h3>
+                  {%- if item.content -%}
+                    <p class="gp-search-result-card__excerpt gp-body">{{ item.content | strip_html | truncatewords: 24 }}</p>
+                  {%- endif -%}
+                </a>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="gp-collection-grid__pagination" role="navigation" aria-label="Pagination">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--prev">
+                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon gp-collection-grid__page-icon--prev' %}
+                <span>Previous</span>
+              </a>
+            {%- endif -%}
+
+            <div class="gp-collection-grid__page-numbers">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="gp-collection-grid__page-number">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="gp-collection-grid__page-number is-current">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="gp-collection-grid__page-number gp-collection-grid__page-number--gap">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="gp-collection-grid__page-link gp-collection-grid__page-link--next">
+                <span>Next</span>
+                {% render 'gp-icon', icon: 'chevron-right', class: 'gp-collection-grid__page-icon' %}
+              </a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search Results Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "Results per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort_by",
+      "label": "Show sort by dropdown",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Results Grid"
+    }
+  ]
+}
+{% endschema %}
