@@ -40,7 +40,7 @@
             {% render 'gp-section-header', heading: block.settings.heading %}
             <div class="gp-artist-benefits__grid">
               {%- for benefit in benefits -%}
-                <div class="gp-artist-benefit-card" {{ benefit.shopify_attributes }}>
+                <div class="gp-artist-benefit-card gp-fade-in" {{ benefit.shopify_attributes }}>
                   {% render 'gp-icon', icon: benefit.settings.icon, class: 'gp-artist-benefit-card__icon' %}
                   <h3 class="gp-h3">{{ benefit.settings.title }}</h3>
                   <p class="gp-body">{{ benefit.settings.description }}</p>
@@ -72,7 +72,7 @@
             {% render 'gp-section-header', heading: block.settings.heading %}
             <div class="gp-artist-drops__grid">
               {%- for drop in past_drops -%}
-                <div class="gp-artist-drop-card" {{ drop.shopify_attributes }}>
+                <div class="gp-artist-drop-card gp-fade-in" {{ drop.shopify_attributes }}>
                   {%- if drop.settings.image != blank -%}
                     <img
                       src="{{ drop.settings.image | image_url: width: 700 }}"

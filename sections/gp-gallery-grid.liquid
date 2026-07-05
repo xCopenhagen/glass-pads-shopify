@@ -21,7 +21,7 @@
 
     <div class="gp-gallery-grid" id="GpGalleryGrid-{{ section.id }}">
       {%- for block in section.blocks -%}
-        <div class="gp-gallery-card" data-gp-tags="{{ block.settings.category }}" {{ block.shopify_attributes }}>
+        <div class="gp-gallery-card gp-fade-in" data-gp-tags="{{ block.settings.category }}" {{ block.shopify_attributes }}>
           <div class="gp-gallery-card__image">
             {%- if block.settings.image != blank -%}
               <img

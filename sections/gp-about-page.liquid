@@ -69,7 +69,7 @@
             {% render 'gp-section-header', eyebrow: block.settings.eyebrow, heading: block.settings.heading %}
             <div class="gp-about-values__grid">
               {%- for card in value_cards -%}
-                <div class="gp-about-value-card" {{ card.shopify_attributes }}>
+                <div class="gp-about-value-card gp-fade-in" {{ card.shopify_attributes }}>
                   {% render 'gp-icon', icon: card.settings.icon, class: 'gp-about-value-card__icon' %}
                   <h3 class="gp-h3">{{ card.settings.title }}</h3>
                   <p class="gp-body">{{ card.settings.description }}</p>

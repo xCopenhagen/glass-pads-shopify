@@ -51,7 +51,7 @@
             {% render 'gp-section-header', heading: block.settings.heading %}
             <div class="gp-custom-specs__grid">
               {%- for card in spec_cards -%}
-                <div class="gp-custom-spec-card" {{ card.shopify_attributes }}>
+                <div class="gp-custom-spec-card gp-fade-in" {{ card.shopify_attributes }}>
                   {% render 'gp-icon', icon: card.settings.icon, class: 'gp-custom-spec-card__icon' %}
                   <h3 class="gp-h3">{{ card.settings.title }}</h3>
                   <p class="gp-body">{{ card.settings.description }}</p>
@@ -72,19 +72,19 @@
           <div class="gp-container">
             {% render 'gp-section-header', heading: block.settings.heading %}
             <div class="gp-custom-steps">
-              <div class="gp-custom-step">
+              <div class="gp-custom-step gp-fade-in">
                 <span class="gp-custom-step__number">01</span>
                 {% render 'gp-icon', icon: block.settings.step_1_icon, class: 'gp-custom-step__icon' %}
                 <h3 class="gp-h3">{{ block.settings.step_1_title }}</h3>
                 <p class="gp-body">{{ block.settings.step_1_body }}</p>
               </div>
-              <div class="gp-custom-step">
+              <div class="gp-custom-step gp-fade-in">
                 <span class="gp-custom-step__number">02</span>
                 {% render 'gp-icon', icon: block.settings.step_2_icon, class: 'gp-custom-step__icon' %}
                 <h3 class="gp-h3">{{ block.settings.step_2_title }}</h3>
                 <p class="gp-body">{{ block.settings.step_2_body }}</p>
               </div>
-              <div class="gp-custom-step">
+              <div class="gp-custom-step gp-fade-in">
                 <span class="gp-custom-step__number">03</span>
                 {% render 'gp-icon', icon: block.settings.step_3_icon, class: 'gp-custom-step__icon' %}
                 <h3 class="gp-h3">{{ block.settings.step_3_title }}</h3>
@@ -100,7 +100,7 @@
             {% render 'gp-section-header', heading: block.settings.heading %}
             <div class="gp-custom-gallery">
               {%- for example in gallery_examples -%}
-                <div class="gp-custom-gallery-card" {{ example.shopify_attributes }}>
+                <div class="gp-custom-gallery-card gp-fade-in" {{ example.shopify_attributes }}>
                   {%- if example.settings.image != blank -%}
                     <img
                       src="{{ example.settings.image | image_url: width: 800 }}"

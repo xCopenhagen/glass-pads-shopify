@@ -247,7 +247,7 @@
         <div class="gp-product-showcase__grid">
           {%- for related_product in related_collection.products limit: 4 -%}
             {%- unless related_product.handle == product.handle -%}
-              <div class="gp-product-card">
+              <div class="gp-product-card gp-fade-in">
                 <a href="{{ related_product.url }}" class="gp-product-card__media">
                   <img
                     class="gp-product-card__image gp-product-card__image--primary"
