@@ -140,12 +140,35 @@
     Brand typography: Space Grotesk (display), Inter (body/UI), IBM Plex Mono
     (spec/labels). Loaded async (media="print" swapped to "all" on load) so
     it never blocks the first paint; font-display=swap in the Google Fonts
-    URL itself avoids invisible text in the meantime.
+    URL itself avoids invisible text in the meantime. If the merchant picked
+    font overrides in Typography settings, swap in their family names;
+    otherwise keep the static brand URL.
   {%- endcomment -%}
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"></noscript>
+  {%- liquid
+    assign gp_custom_fonts = false
+    if settings.heading_font != blank or settings.body_font != blank or settings.mono_font != blank
+      assign gp_custom_fonts = true
+    endif
+  -%}
+  {%- if gp_custom_fonts -%}
+    {%- assign gp_heading_family = settings.heading_font.family | default: 'Space Grotesk' | replace: ' ', '+' -%}
+    {%- assign gp_body_family = settings.body_font.family | default: 'Inter' | replace: ' ', '+' -%}
+    {%- assign gp_mono_family = settings.mono_font.family | default: 'IBM Plex Mono' | replace: ' ', '+' -%}
+    {%- capture gp_fonts_url -%}https://fonts.googleapis.com/css2?family={{ gp_heading_family }}:wght@500;600;700&family={{ gp_body_family }}:wght@400;500;600&family={{ gp_mono_family }}:wght@500&display=swap{%- endcapture -%}
+  {%- else -%}
+    {%- assign gp_fonts_url = 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap' -%}
+  {%- endif -%}
+  <link rel="stylesheet" href="{{ gp_fonts_url | strip }}" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="{{ gp_fonts_url | strip }}"></noscript>
 
   {{ content_for_header }}
+
+  {%- comment -%}
+    Renders --font-display/--font-body/--font-mono from Typography settings
+    before gp-theme.css loads, so a merchant's font override always wins the
+    cascade tie once the async stylesheet applies.
+  {%- endcomment -%}
+  {% render 'gp-fonts' %}
 
   {%- comment -%} Full stylesheet loads async, same media-swap pattern, so it never blocks rendering. {%- endcomment -%}
   <link rel="stylesheet" href="{{ 'gp-theme.css' | asset_url }}" media="print" onload="this.media='all'">

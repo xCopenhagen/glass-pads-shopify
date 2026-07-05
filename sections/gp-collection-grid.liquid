@@ -77,6 +77,7 @@
       {%- endif -%}
 
       <div class="gp-collection-grid__main">
+        <h2 class="gp-visually-hidden">{{ collection.title }} products</h2>
         {%- if section.settings.show_sort_by and collection.products.size > 0 -%}
           <div class="gp-collection-grid__toolbar">
             <p class="gp-collection-grid__count gp-body">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</p>
@@ -141,7 +142,7 @@
                     <span class="gp-product-card__shop-now">Shop Now</span>
                   </a>
                   <div class="gp-product-card__info">
-                    <h2 class="gp-h3 gp-product-card__title">{{ product.title }}</h2>
+                    <h3 class="gp-h3 gp-product-card__title">{{ product.title }}</h3>
                     <p class="gp-product-card__price">
                       {%- if product.compare_at_price > product.price -%}
                         <s>{{ product.compare_at_price | money }}</s> {{ product.price | money }}

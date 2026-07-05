@@ -16,6 +16,7 @@
         <p class="gp-h3">No articles yet. Check back soon.</p>
       </div>
     {%- else -%}
+      <h2 class="gp-visually-hidden">{{ blog.title }} articles</h2>
       {%- paginate blog.articles by per_page -%}
         <div class="gp-blog-grid__grid">
           {%- for article in blog.articles -%}
@@ -35,7 +36,7 @@
                 {%- endif -%}
               </div>
               <div class="gp-blog-card__info">
-                <h2 class="gp-h3 gp-blog-card__title">{{ article.title }}</h2>
+                <h3 class="gp-h3 gp-blog-card__title">{{ article.title }}</h3>
                 <p class="gp-blog-card__excerpt gp-body">
                   {{ article.excerpt_or_content | strip_html | truncate: 150 }}
                 </p>

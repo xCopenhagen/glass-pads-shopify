@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop Glass Pads — Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--color-bg-primary:#0A0A0C;--color-bg-secondary:#141417;--color-surface:#1D1E22;--color-text-primary:#F5F6F7;--color-text-secondary:#9B9DA3;--color-cyan:#5EE6D9;--color-violet:#8B7CF6;--color-frost-white:#FAFAFA;--color-mint:#4ADE80;--color-border:#2A2B30;--color-text-on-cyan:#0A0A0C;--color-frost-text:#17181B;--font-display:"Space Grotesk",sans-serif;--font-body:"Inter",sans-serif;--font-mono:"IBM Plex Mono",monospace;--fs-h1:clamp(2.75rem,5vw,5rem);--fs-h2:clamp(2rem,3.4vw,3rem);--fs-h3:clamp(1.375rem,2vw,1.625rem);--fs-body:clamp(1rem,1.1vw,1.125rem);--fs-label:0.8125rem;--container-width:1280px;--section-padding-y:clamp(3.5rem,7vw,7rem);--radius-lg:16px;--radius-md:12px;--radius-sm:8px;--ease-out:cubic-bezier(0.16,1,0.3,1);--transition-fast:180ms var(--ease-out);--transition-med:320ms var(--ease-out)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--color-bg-primary);color:var(--color-text-primary);font-family:var(--font-body);font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.gp-h1{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h1);letter-spacing:-0.02em;line-height:1.05;margin:0}
+.gp-h2{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h2);letter-spacing:-0.01em;line-height:1.1;margin:0}
+.gp-h3{font-family:var(--font-display);font-weight:500;font-size:var(--fs-h3);line-height:1.25;margin:0}
+.gp-body{font-family:var(--font-body);font-size:var(--fs-body);color:var(--color-text-secondary)}
+.gp-eyebrow{font-family:var(--font-mono);font-size:var(--fs-label);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-cyan);margin:0 0 0.75rem}
+.gp-mono-spec{font-family:var(--font-mono);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-cyan)}
+.gp-container{width:100%;max-width:var(--container-width);margin:0 auto;padding:0 1.5rem}
+.gp-section{padding:var(--section-padding-y) 0}
+.gp-bg-primary{background:var(--color-bg-primary)}
+.gp-bg-secondary{background:var(--color-bg-secondary)}
+.gp-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.9rem 1.75rem;border-radius:var(--radius-sm);font-family:var(--font-body);font-weight:600;font-size:1rem;white-space:nowrap;transition:transform var(--transition-fast),background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast);border:none;cursor:pointer}
+.gp-btn--primary{background:var(--color-cyan);color:var(--color-text-on-cyan)}
+.gp-btn--primary:hover{transform:translateY(-2px);background:#7CEFE4}
+.gp-btn--secondary{background:transparent;color:var(--color-text-primary);border-bottom:1px solid var(--color-cyan);border-radius:0;padding:0.9rem 0.25rem}
+.gp-btn--secondary:hover{color:var(--color-cyan)}
+.gp-star-rating{display:inline-flex;gap:0.15rem;color:var(--color-cyan)}
+.gp-section-header{max-width:640px;margin-bottom:clamp(2rem,4vw,3.5rem)}
+.gp-section-header--center{margin-left:auto;margin-right:auto;text-align:center}
+
+/* Collection Hero */
+.gp-collection-hero{position:relative;overflow:hidden;background:var(--color-bg-primary);padding:clamp(4rem,8vw,7rem) 0 clamp(2.5rem,5vw,4rem)}
+.gp-collection-hero__content{position:relative;z-index:2;text-align:center}
+.gp-collection-hero__title{margin-bottom:0.75rem}
+.gp-collection-hero__desc{max-width:560px;margin:0 auto;color:var(--color-text-secondary);font-size:1.05rem}
+.gp-collection-hero__count{margin-top:1.5rem}
+
+/* Collection Grid */
+.gp-collection-grid__toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--color-border)}
+.gp-collection-grid__count{margin:0;font-size:0.95rem}
+.gp-collection-grid__sort-select{padding:0.5rem 1rem;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-primary);font-size:0.9rem;font-family:var(--font-body)}
+.gp-product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.gp-product-card{background:var(--color-surface);border-radius:var(--radius-md);border:1px solid var(--color-border);overflow:hidden;transition:transform var(--transition-med)}
+.gp-product-card:hover{transform:translateY(-4px)}
+.gp-product-card__image{aspect-ratio:1;background:var(--color-bg-primary);display:flex;align-items:center;justify-content:center;position:relative}
+.gp-product-card__image img{width:100%;height:100%;object-fit:contain}
+.gp-product-card__badge{position:absolute;top:0.6rem;left:0.6rem;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.05em;padding:0.25rem 0.55rem;border-radius:999px;font-weight:600}
+.gp-product-card__badge--best{background:var(--color-cyan);color:var(--color-text-on-cyan)}
+.gp-product-card__badge--limited{background:var(--color-violet);color:#fff}
+.gp-product-card__body{padding:1rem 1.25rem 1.25rem}
+.gp-product-card__title{font-family:var(--font-display);font-weight:500;margin:0}
+.gp-product-card__price{color:var(--color-text-secondary);font-size:0.9rem;margin:0.25rem 0 0}
+.gp-pagination{display:flex;justify-content:center;gap:0.5rem;margin-top:3rem}
+.gp-pagination__page{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);border:1px solid var(--color-border);font-size:0.9rem;cursor:pointer;transition:all var(--transition-fast)}
+.gp-pagination__page--active{background:var(--color-cyan);color:var(--color-text-on-cyan);border-color:var(--color-cyan)}
+@media(max-width:767px){.gp-product-grid{grid-template-columns:1fr 1fr;gap:1rem}}
+</style>
+</head>
+<body>
+<!-- Nav -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--color-bg-primary);border-bottom:1px solid var(--color-border);padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+  <span style="font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:1px;">GLASS PADS</span>
+  <div style="display:flex;gap:1.5rem;align-items:center;">
+    <span style="font-size:0.85rem;color:var(--color-cyan);border-bottom:1px solid var(--color-cyan);cursor:pointer;">Shop</span>
+    <span style="font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;">Artist Collection</span>
+    <span style="font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;">Gallery</span>
+    <span style="font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;">About</span>
+  </div>
+</div>
+
+<!-- Collection Hero -->
+<section class="gp-collection-hero">
+  <div class="gp-container gp-collection-hero__content">
+    <p class="gp-eyebrow">Browse</p>
+    <h1 class="gp-h1 gp-collection-hero__title">All Glass Pads</h1>
+    <p class="gp-collection-hero__desc">Every design is sealed beneath 4mm tempered glass. From bold artist collaborations to clean monochrome essentials.</p>
+    <p class="gp-collection-hero__count gp-mono-spec" style="margin-top:1.5rem;">8 Products</p>
+  </div>
+</section>
+
+<!-- Collection Grid -->
+<section class="gp-collection-grid gp-bg-secondary gp-section">
+  <div class="gp-container">
+    <!-- Toolbar -->
+    <div class="gp-collection-grid__toolbar">
+      <p class="gp-collection-grid__count gp-body">8 products</p>
+      <select class="gp-collection-grid__sort-select">
+        <option>Featured</option>
+        <option>Best Selling</option>
+        <option>Price, Low to High</option>
+        <option>Price, High to Low</option>
+        <option selected>Date, New to Old</option>
+      </select>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="gp-product-grid">
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">TORRENT</text></svg>
+          <span class="gp-product-card__badge gp-product-card__badge--best">Best Seller</span>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Torrent</p>
+          <p class="gp-product-card__price">$69 — XL Desk Pad</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="30" y="30" width="140" height="140" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">SUMMA</text></svg>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Summa</p>
+          <p class="gp-product-card__price">$49 — Standard</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#8B7CF6" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">ORIGIN</text></svg>
+          <span class="gp-product-card__badge gp-product-card__badge--limited">Limited</span>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Origin</p>
+          <p class="gp-product-card__price">$79 — XL Desk Pad</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="30" y="30" width="140" height="140" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">CIPHER</text></svg>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Cipher</p>
+          <p class="gp-product-card__price">$49 — Standard</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">AURORA</text></svg>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Aurora</p>
+          <p class="gp-product-card__price">$74 — XL Desk Pad</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="30" y="30" width="140" height="140" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">MONOLITH</text></svg>
+          <span class="gp-product-card__badge gp-product-card__badge--best">Best Seller</span>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Monolith</p>
+          <p class="gp-product-card__price">$49 — Standard</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#8B7CF6" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">NEBULA</text></svg>
+          <span class="gp-product-card__badge gp-product-card__badge--limited">Limited</span>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Nebula</p>
+          <p class="gp-product-card__price">$84 — XL Desk Pad</p>
+        </div>
+      </div>
+      <div class="gp-product-card">
+        <div class="gp-product-card__image">
+          <svg viewBox="0 0 200 200" width="140" height="140"><rect x="30" y="30" width="140" height="140" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="14" fill="#9B9DA3" text-anchor="middle">FLUX</text></svg>
+        </div>
+        <div class="gp-product-card__body">
+          <p class="gp-product-card__title">Flux</p>
+          <p class="gp-product-card__price">$54 — Standard</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="gp-pagination">
+      <span class="gp-pagination__page gp-pagination__page--active">1</span>
+      <span class="gp-pagination__page">2</span>
+      <span class="gp-pagination__page">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background:var(--color-bg-primary);border-top:1px solid var(--color-border);padding:3rem 1.5rem 2rem;">
+  <div class="gp-container" style="text-align:center;color:var(--color-text-secondary);font-size:0.85rem;">
+    <p style="margin:0;">© 2026 Glass Pads. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -20,6 +20,7 @@
         </div>
       </div>
     {%- elsif search.performed -%}
+      <h2 class="gp-visually-hidden">Search results</h2>
       <div class="gp-collection-grid__toolbar">
         <p class="gp-collection-grid__count gp-body">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}</p>
         {%- if section.settings.show_sort_by -%}
@@ -52,7 +53,7 @@
                   >
                 </a>
                 <div class="gp-product-card__info">
-                  <h2 class="gp-h3 gp-product-card__title">{{ item.title }}</h2>
+                  <h3 class="gp-h3 gp-product-card__title">{{ item.title }}</h3>
                   <p class="gp-product-card__price">
                     {%- if item.compare_at_price > item.price -%}
                       <s>{{ item.compare_at_price | money }}</s> {{ item.price | money }}

@@ -1,0 +1,13 @@
+{%- comment -%}
+  Typography settings override. Renders CSS custom properties from the
+  Typography theme settings so a merchant's font_picker choice overrides the
+  static defaults declared in gp-theme.css §1. Left blank in settings, these
+  resolve to the brand fonts and change nothing visually.
+{%- endcomment -%}
+<style>
+:root {
+  --font-display: {{ settings.heading_font.family | default: 'Space Grotesk' }}, sans-serif;
+  --font-body: {{ settings.body_font.family | default: 'Inter' }}, sans-serif;
+  --font-mono: {{ settings.mono_font.family | default: 'IBM Plex Mono' }}, monospace;
+}
+</style>

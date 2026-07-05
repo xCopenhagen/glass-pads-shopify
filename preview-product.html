@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Torrent XL — Glass Pads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--color-bg-primary:#0A0A0C;--color-bg-secondary:#141417;--color-surface:#1D1E22;--color-text-primary:#F5F6F7;--color-text-secondary:#9B9DA3;--color-cyan:#5EE6D9;--color-violet:#8B7CF6;--color-frost-white:#FAFAFA;--color-mint:#4ADE80;--color-border:#2A2B30;--color-text-on-cyan:#0A0A0C;--font-display:"Space Grotesk",sans-serif;--font-body:"Inter",sans-serif;--font-mono:"IBM Plex Mono",monospace;--fs-h1:clamp(2rem,3.5vw,3rem);--fs-h2:clamp(1.5rem,2.5vw,2.2rem);--fs-h3:clamp(1.2rem,1.5vw,1.4rem);--fs-body:clamp(0.95rem,1.1vw,1.05rem);--container-width:1280px;--section-padding-y:clamp(3rem,5vw,5rem);--radius-lg:16px;--radius-md:12px;--radius-sm:8px;--ease-out:cubic-bezier(0.16,1,0.3,1);--transition-fast:180ms var(--ease-out);--transition-med:320ms var(--ease-out)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--color-bg-primary);color:var(--color-text-primary);font-family:var(--font-body);font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.gp-h1{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h1);letter-spacing:-0.02em;line-height:1.05;margin:0}
+.gp-h2{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h2);letter-spacing:-0.01em;line-height:1.1;margin:0}
+.gp-h3{font-family:var(--font-display);font-weight:500;font-size:var(--fs-h3);line-height:1.25;margin:0}
+.gp-body{font-family:var(--font-body);color:var(--color-text-secondary);margin:0}
+.gp-mono-spec{font-family:var(--font-mono);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-cyan)}
+.gp-container{width:100%;max-width:var(--container-width);margin:0 auto;padding:0 1.5rem}
+.gp-section{padding:var(--section-padding-y) 0}
+.gp-bg-primary{background:var(--color-bg-primary)}
+.gp-bg-secondary{background:var(--color-bg-secondary)}
+.gp-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.9rem 1.75rem;border-radius:var(--radius-sm);font-family:var(--font-body);font-weight:600;font-size:1rem;white-space:nowrap;transition:transform var(--transition-fast),background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast);border:none;cursor:pointer}
+.gp-btn--primary{background:var(--color-cyan);color:var(--color-text-on-cyan)}
+.gp-btn--primary:hover{transform:translateY(-2px);background:#7CEFE4}
+.gp-btn--full{width:100%}
+.gp-star-rating{display:inline-flex;gap:0.15rem;color:var(--color-cyan);font-size:1rem}
+
+/* Product Page */
+.gp-product__layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,4rem);align-items:start}
+.gp-product__gallery{position:sticky;top:5rem}
+.gp-product__main-image{background:var(--color-surface);border-radius:var(--radius-lg);aspect-ratio:1;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border)}
+.gp-product__main-image img{width:100%;height:100%;object-fit:contain}
+.gp-product__thumbs{display:flex;gap:0.75rem;margin-top:1rem;overflow-x:auto}
+.gp-product__thumb{width:72px;height:72px;border-radius:var(--radius-sm);border:2px solid var(--color-border);overflow:hidden;cursor:pointer;background:var(--color-surface);padding:0;flex-shrink:0}
+.gp-product__thumb.is-active{border-color:var(--color-cyan)}
+.gp-product__thumb img{width:100%;height:100%;object-fit:cover}
+.gp-product__rating{display:flex;align-items:center;gap:0.5rem;margin:1rem 0}
+.gp-product__price{font-family:var(--font-display);font-weight:600;font-size:1.5rem;margin:0 0 1rem}
+.gp-product__compare-price{color:var(--color-text-secondary);font-weight:400;margin-right:0.75rem}
+.gp-product__short-desc{margin-bottom:1.5rem;line-height:1.5}
+.gp-product__option{margin-bottom:1.5rem}
+.gp-product__option-label{margin:0 0 0.75rem}
+.gp-product__size-pills{display:flex;gap:0.75rem;flex-wrap:wrap}
+.gp-product__size-pill{padding:0.85rem 1.25rem;border-radius:var(--radius-md);border:2px solid var(--color-border);background:var(--color-surface);cursor:pointer;text-align:left;min-width:180px;transition:all var(--transition-fast)}
+.gp-product__size-pill.is-active{border-color:var(--color-cyan);background:rgba(94,230,217,0.08)}
+.gp-product__size-pill-title{font-family:var(--font-display);font-weight:500;margin:0}
+.gp-product__size-pill-desc{font-size:0.85rem;color:var(--color-text-secondary);margin:0.15rem 0 0}
+.gp-product__quantity{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem}
+.gp-product__qty-btn{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-primary);font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gp-product__qty-input{width:56px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-primary);text-align:center;font-size:1rem;font-family:var(--font-body)}
+.gp-product__trust{display:flex;gap:0.6rem;justify-content:center;margin-top:1rem;color:var(--color-text-secondary);font-size:0.85rem;flex-wrap:wrap}
+.gp-product__tabs{margin-top:3rem;border-top:1px solid var(--color-border)}
+.gp-product__tab-header{display:flex;gap:2rem;border-bottom:1px solid var(--color-border)}
+.gp-product__tab-btn{padding:1rem 0;font-family:var(--font-display);font-weight:500;font-size:1rem;background:none;border:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent}
+.gp-product__tab-btn.is-active{color:var(--color-cyan);border-bottom-color:var(--color-cyan)}
+.gp-product__tab-panel{padding:1.5rem 0;display:none}
+.gp-product__tab-panel.is-active{display:block}
+.gp-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.gp-spec-item{padding:1rem;background:var(--color-surface);border-radius:var(--radius-sm);border:1px solid var(--color-border)}
+.gp-spec-item__label{font-family:var(--font-mono);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-cyan);margin:0 0 0.25rem}
+.gp-spec-item__value{font-size:0.95rem;margin:0}
+.gp-cross-sell{margin-top:3rem}
+.gp-cross-sell__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;margin-top:1.5rem}
+.gp-cross-card{background:var(--color-surface);border-radius:var(--radius-md);border:1px solid var(--color-border);overflow:hidden}
+
+@media(max-width:767px){
+.gp-product__layout{grid-template-columns:1fr}
+.gp-product__gallery{position:static}
+.gp-specs-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--color-bg-primary);border-bottom:1px solid var(--color-border);padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+  <span style="font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:1px;">GLASS PADS</span>
+  <div style="display:flex;gap:1.5rem;align-items:center;">
+    <span style="font-size:0.85rem;color:var(--color-cyan);cursor:pointer;">Shop</span>
+    <span style="font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;">Artist Collection</span>
+    <span style="font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;">Gallery</span>
+  </div>
+</div>
+
+<section class="gp-section gp-bg-primary" style="padding-top:5rem;">
+  <div class="gp-container">
+    <div class="gp-product__layout">
+      <!-- Gallery -->
+      <div class="gp-product__gallery">
+        <div class="gp-product__main-image">
+          <svg viewBox="0 0 400 400" width="320" height="320"><rect x="40" y="40" width="320" height="320" rx="20" fill="#1D1E22" stroke="#5EE6D9" stroke-width="2"/><line x1="40" y1="360" x2="360" y2="360" stroke="#5EE6D9" stroke-opacity="0.5" stroke-width="2"/><text x="200" y="210" font-family="Space Grotesk,sans-serif" font-size="32" fill="#F5F6F7" text-anchor="middle">TORRENT</text></svg>
+        </div>
+        <div class="gp-product__thumbs">
+          <button class="gp-product__thumb is-active"><svg viewBox="0 0 200 200"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="12" fill="#9B9DA3" text-anchor="middle">FULL</text></svg></button>
+          <button class="gp-product__thumb"><svg viewBox="0 0 200 200"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="12" fill="#9B9DA3" text-anchor="middle">SIDE</text></svg></button>
+          <button class="gp-product__thumb"><svg viewBox="0 0 200 200"><rect x="20" y="20" width="160" height="160" rx="12" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="100" y="108" font-family="Space Grotesk,sans-serif" font-size="12" fill="#9B9DA3" text-anchor="middle">DESK</text></svg></button>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="gp-product__info">
+        <h1 class="gp-h1" style="font-size:clamp(2rem,2.5vw,2.5rem);">Torrent</h1>
+        <div class="gp-product__rating">
+          <span class="gp-star-rating">⭐⭐⭐⭐⭐</span>
+          <span class="gp-mono-spec">4.9/5 — 120+ reviews</span>
+        </div>
+        <p class="gp-product__price">$69.00</p>
+        <p class="gp-product__short-desc gp-body">A bold cyan-and-black geometric flow design. Sealed under 4mm tempered glass with a micro-etched precision surface.</p>
+
+        <!-- Size selector -->
+        <div class="gp-product__option">
+          <p class="gp-mono-spec gp-product__option-label">Size</p>
+          <div class="gp-product__size-pills">
+            <div class="gp-product__size-pill">
+              <p class="gp-product__size-pill-title">Standard 9×9″</p>
+              <p class="gp-product__size-pill-desc">$49 — Mouse-only coverage</p>
+            </div>
+            <div class="gp-product__size-pill is-active">
+              <p class="gp-product__size-pill-title">XL Desk Pad 2:1</p>
+              <p class="gp-product__size-pill-desc">$69 — Full keyboard + mouse</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="gp-product__quantity">
+          <button class="gp-product__qty-btn">−</button>
+          <input class="gp-product__qty-input" type="number" value="1" min="1" readonly>
+          <button class="gp-product__qty-btn">+</button>
+        </div>
+
+        <!-- Add to Cart -->
+        <button class="gp-btn gp-btn--primary gp-btn--full" style="padding:1.1rem 1.75rem;font-size:1.1rem;">Add to Cart — $69</button>
+        <div style="margin-top:0.75rem;">
+          <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center;padding:0.75rem;border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text-secondary);font-size:0.9rem;">Buy with <span style="font-weight:600;">Shop Pay</span> <span style="font-size:0.8rem;">↗</span></div>
+        </div>
+        <div class="gp-product__trust">
+          <span>Free Shipping</span><span style="color:var(--color-border);">•</span><span>30-Day Guarantee</span><span style="color:var(--color-border);">•</span><span>Secure Checkout</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="gp-product__tabs">
+      <div class="gp-product__tab-header">
+        <button class="gp-product__tab-btn is-active">Description</button>
+        <button class="gp-product__tab-btn">Specifications</button>
+        <button class="gp-product__tab-btn">Shipping</button>
+        <button class="gp-product__tab-btn">Reviews</button>
+      </div>
+      <div class="gp-product__tab-panel is-active">
+        <p class="gp-body" style="max-width:640px;line-height:1.7;">Torrent is a bold, flowing design that captures the energy of shifting currents. Deep cyan gradients sweep across a Void Black field, creating a sense of motion that brings your desk to life. Every detail is sealed beneath 4mm tempered glass — the artwork will never fade, peel, or wear away.</p>
+      </div>
+      <div class="gp-product__tab-panel">
+        <div class="gp-specs-grid">
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Material</p><p class="gp-spec-item__value">4mm Tempered Glass</p></div>
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Surface</p><p class="gp-spec-item__value">Micro-etched Precision Glide</p></div>
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Base</p><p class="gp-spec-item__value">Silicone Anti-Slip</p></div>
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Sizes</p><p class="gp-spec-item__value">Standard 9×9″ / XL Desk 2:1</p></div>
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Artwork</p><p class="gp-spec-item__value">UV-Sealed Under Glass</p></div>
+          <div class="gp-spec-item"><p class="gp-spec-item__label">Weight</p><p class="gp-spec-item__value">~2.5 lbs (XL) / ~1.5 lbs (Standard)</p></div>
+        </div>
+      </div>
+      <div class="gp-product__tab-panel">
+        <p class="gp-body">Ships within 1-2 business days. Free shipping on all orders. Delivery timelines vary by location — full details on our Shipping page.</p>
+      </div>
+      <div class="gp-product__tab-panel">
+        <p class="gp-body" style="color:var(--color-text-secondary);">⭐⭐⭐⭐⭐ — "The glide is unreal. Looks incredible under my RGB setup."</p>
+        <p class="gp-mono-spec" style="margin-top:0.5rem;">Reviews section — ready for Judge.me / Loox integration</p>
+      </div>
+    </div>
+
+    <!-- Cross-sell -->
+    <div class="gp-cross-sell">
+      <h2 class="gp-h2">Complete Your Setup</h2>
+      <div class="gp-cross-sell__grid">
+        <div class="gp-cross-card">
+          <div style="aspect-ratio:1;background:var(--color-bg-primary);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 100 100" width="60" height="60"><rect x="10" y="10" width="80" height="80" rx="8" fill="#1D1E22" stroke="#8B7CF6" stroke-width="1.5"/><text x="50" y="55" font-family="Space Grotesk,sans-serif" font-size="8" fill="#9B9DA3" text-anchor="middle">ORIGIN</text></svg></div>
+          <div style="padding:0.75rem 1rem 1rem;"><p style="margin:0;font-weight:500;font-size:0.9rem;">Origin</p><p style="margin:0.2rem 0 0;color:var(--color-text-secondary);font-size:0.85rem;">$79</p></div>
+        </div>
+        <div class="gp-cross-card">
+          <div style="aspect-ratio:1;background:var(--color-bg-primary);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 100 100" width="60" height="60"><rect x="10" y="10" width="80" height="80" rx="8" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="50" y="55" font-family="Space Grotesk,sans-serif" font-size="8" fill="#9B9DA3" text-anchor="middle">SUMMA</text></svg></div>
+          <div style="padding:0.75rem 1rem 1rem;"><p style="margin:0;font-weight:500;font-size:0.9rem;">Summa</p><p style="margin:0.2rem 0 0;color:var(--color-text-secondary);font-size:0.85rem;">$49</p></div>
+        </div>
+        <div class="gp-cross-card">
+          <div style="aspect-ratio:1;background:var(--color-bg-primary);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 100 100" width="60" height="60"><rect x="10" y="10" width="80" height="80" rx="8" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="50" y="55" font-family="Space Grotesk,sans-serif" font-size="8" fill="#9B9DA3" text-anchor="middle">CIPHER</text></svg></div>
+          <div style="padding:0.75rem 1rem 1rem;"><p style="margin:0;font-weight:500;font-size:0.9rem;">Cipher</p><p style="margin:0.2rem 0 0;color:var(--color-text-secondary);font-size:0.85rem;">$49</p></div>
+        </div>
+        <div class="gp-cross-card">
+          <div style="aspect-ratio:1;background:var(--color-bg-primary);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 100 100" width="60" height="60"><rect x="10" y="10" width="80" height="80" rx="8" fill="#1D1E22" stroke="#5EE6D9" stroke-width="1.5"/><text x="50" y="55" font-family="Space Grotesk,sans-serif" font-size="8" fill="#9B9DA3" text-anchor="middle">AURORA</text></svg></div>
+          <div style="padding:0.75rem 1rem 1rem;"><p style="margin:0;font-weight:500;font-size:0.9rem;">Aurora</p><p style="margin:0.2rem 0 0;color:var(--color-text-secondary);font-size:0.85rem;">$74</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--color-bg-primary);border-top:1px solid var(--color-border);padding:3rem 1.5rem 2rem;">
+  <div class="gp-container" style="text-align:center;color:var(--color-text-secondary);font-size:0.85rem;">
+    <p style="margin:0;">© 2026 Glass Pads. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>
